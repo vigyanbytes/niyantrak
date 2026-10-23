@@ -57,6 +57,8 @@ Published as **github.com/vigyanbytes/niyantrak** on 23 Oct 2026. The public rep
 |---|---|
 | Unit suite, coverage, leak scan (tree + history) green; `tools/prove.py` evidence committed | ✅ |
 | Public repository created with description and topics | ✅ |
-| Tag `v0.1.0`, GitHub release with sdist + wheel | ✅ |
-| Enable private vulnerability reporting and branch protection on `main` | ⏳ see the release notes of this launch |
-| Required CI status check on `main` | ⏳ after the first CI run on GitHub |
+| Tag `v0.1.0` | ✅ |
+| GitHub release with sdist + wheel | 🔒 the founder publishes it (release notes and SHA-256 sums prepared) |
+| Private vulnerability reporting; branch protection on `main` (no force-push, no deletion, admins included) | ✅ |
+| CI green on GitHub (unit suite with pwsh + shellcheck, coverage, leak scan tree + history) | ✅ |
+| Required CI status check on `main` | ⏳ |
