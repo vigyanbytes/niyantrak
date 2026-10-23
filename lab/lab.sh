@@ -140,8 +140,8 @@ net_up() {
 }
 
 vm_create() {  # one VM from a vm_rows line
-  local name role os boot vcpus ram disk sb tpm start needs iso_env
-  IFS='|' read -r name role os boot vcpus ram disk sb tpm start needs iso_env <<<"$1"
+  local name _role os boot vcpus ram disk sb tpm _start needs iso_env     # role, start: not used when creating
+  IFS='|' read -r name _role os boot vcpus ram disk sb tpm _start needs iso_env <<<"$1"
   local dom="$PREFIX$name"
   if virsh dominfo "$dom" >/dev/null 2>&1; then say "ok   $dom exists"; return; fi
   if ! needs_met "$needs"; then say "skip $dom: needs '$needs' (not built yet; set NIYANTRAK_LAB_NEEDS when it is)"; return; fi

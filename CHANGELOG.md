@@ -5,6 +5,12 @@ versions follow [Semantic Versioning](https://semver.org/) — before 1.0, minor
 
 ## [Unreleased]
 
+### Fixed
+- `windows/join.ps1` can be loaded by PowerShell on Linux and macOS (the CI tests dot-source it): state paths are
+  plain strings instead of `Join-Path`, which needs the `C:` drive to exist. Behaviour on Windows is unchanged; the
+  published SHA-256 in `windows/join.ps1.sha256` changes.
+- `lab/lab.sh`: shellcheck clean (two fields read but not used are named `_role`, `_start`).
+
 ## [0.1.0] — 2026-10-23 — alpha
 
 First public release of the free edition (Apache-2.0).

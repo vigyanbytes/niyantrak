@@ -44,9 +44,10 @@ $ErrorActionPreference = 'Stop'
 
 $NykNamespace = 'niyantrak-node-card'
 $ProgramDataDir = $(if ($env:ProgramData) { $env:ProgramData } else { 'C:\ProgramData' })
-$SshDir = Join-Path $ProgramDataDir 'ssh'
-$HostKey = Join-Path $SshDir 'ssh_host_ed25519_key'
-$RoleFile = Join-Path $ProgramDataDir 'niyantrak\role'
+# plain strings, not Join-Path: Join-Path needs the drive to exist, and the tests dot-source this on Linux
+$SshDir = "$ProgramDataDir\ssh"
+$HostKey = "$SshDir\ssh_host_ed25519_key"
+$RoleFile = "$ProgramDataDir\niyantrak\role"
 $FirewallRuleName = 'Niyantrak-SSH-In'
 $SkipInterfaces = 'Loopback|vEthernet|Hyper-V|WSL|Docker|VMware|VirtualBox|Npcap|TAP-|Bluetooth'
 
