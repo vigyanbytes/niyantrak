@@ -5,7 +5,13 @@ versions follow [Semantic Versioning](https://semver.org/) — before 1.0, minor
 
 ## [Unreleased]
 
+### Added
+- `docs/compliance/`: how the features relate to the EU AI Act, GDPR, ISO/IEC 42001, ISO/IEC 27001, NIST AI RMF, India
+  (DPDP Act, DPDP Rules 2025, CERT-In) and other regions, with honest status per duty. Not legal advice.
+- Roadmap: configurable log retention (EU AI Act deployer logs at least 6 months, DPDP Rules 1 year, CERT-In 180 days).
+
 ### Fixed
+- `niyantrak/recognizers.py` docstring no longer refers to modules that are not in this repository.
 - `windows/join.ps1` can be loaded by PowerShell on Linux and macOS (the CI tests dot-source it): state paths are
   plain strings instead of `Join-Path`, which needs the `C:` drive to exist. Behaviour on Windows is unchanged; the
   published SHA-256 in `windows/join.ps1.sha256` changes.

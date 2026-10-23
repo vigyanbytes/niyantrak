@@ -83,7 +83,9 @@ tools/build-demo.py demo/demo.html --bundle demo/bundle.json`, then open `demo/d
 
 How the pieces fit: [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md). Common questions: [docs/FAQ.md](docs/FAQ.md).
 Event format: [docs/5W.md](docs/5W.md). Asking the record questions in SQL: [docs/QUERYING_5W.md](docs/QUERYING_5W.md).
-Security mapping to the OWASP LLM Top 10 (2025) and agentic AI threats: [docs/OWASP.md](docs/OWASP.md). Roadmap: [docs/ROADMAP.md](docs/ROADMAP.md). Launch status: [docs/LAUNCH_CHECKLIST.md](docs/LAUNCH_CHECKLIST.md).
+Security mapping to the OWASP LLM Top 10 (2025) and agentic AI threats: [docs/OWASP.md](docs/OWASP.md).
+How the features relate to the EU AI Act, GDPR, ISO/IEC 42001 and 27001, NIST AI RMF, India's DPDP Act and other
+regions (not legal advice): [docs/compliance/README.md](docs/compliance/README.md). Roadmap: [docs/ROADMAP.md](docs/ROADMAP.md). Launch status: [docs/LAUNCH_CHECKLIST.md](docs/LAUNCH_CHECKLIST.md).
 
 Optional extras: `pip install ".[discovery]"` (mDNS, zeroconf), `".[telemetry]"` / `".[decisions]"` (pyarrow + duckdb),
 `".[all]"`, `".[dev]"` (pytest, coverage, build).
@@ -108,6 +110,10 @@ Agentic AI threats (T1–T15)** with an honest *covered / partial / not yet* for
 version: no item is fully covered by the free edition; it gives hard limits and evidence for part of sensitive-data
 disclosure (LLM02), excessive agency (LLM06), tool misuse, privilege compromise, repudiation, identity spoofing and
 unexpected code execution (T2, T3, T8, T9, T11). Prompt-injection detection and resource limits are not there yet.
+
+Laws and standards: [docs/compliance/](docs/compliance/README.md) maps the same features to the EU AI Act, GDPR,
+ISO/IEC 42001 and 27001, the NIST AI RMF, India's DPDP Act and Rules with CERT-In, and the UK, US, Singapore and
+Brazil, with *helps / partial / commercial / roadmap / yours* for each duty. It is our own reading, not legal advice.
 
 ## Editions & licensing
 | | **Free** (this repo, Apache-2.0) | **Pro** | **Enterprise** | **Government / on-prem** |

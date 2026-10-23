@@ -11,4 +11,10 @@
 | 7. Windows | signed installer for developer laptops joining the governed fleet | PowerShell join (windows/join.ps1, docs/WINDOWS.md) done; signed installer planned |
 | 8. Cloud | ready-made images for Indian clouds (E2E Networks, Yotta, AWS/Azure India regions) | planned |
 
+Also planned, across stages:
+
+| Item | What | Status |
+|---|---|---|
+| Configurable log retention | keep 5W activity, gate logs and the decision log for a set period per law, then compact or delete on schedule: at least 6 months for EU AI Act deployer logs, 1 year under India's DPDP Rules, 180 days for CERT-In (minimums; your lawyer sets the actual period). Today the free stores grow until you remove them — see [compliance/README.md](compliance/README.md) | planned |
+
 Design rule for every stage: personal data never needs to leave your premises, and every change is approved and recorded.

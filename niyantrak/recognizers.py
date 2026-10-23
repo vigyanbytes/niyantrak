@@ -2,7 +2,8 @@
 sector pack `health` (health identifiers from every region). Every recognizer carries a region tag (REGIONS).
 
 Each recognizer: (entity, compiled regex, validator or None). A validator rejects look-alikes (e.g. any 12 digits is
-not an Aadhaar; the Verhoeff checksum must hold). Names/places come from Presidio NER (see detector.py), not here.
+not an Aadhaar; the Verhoeff checksum must hold). Patterns and checksums only: names, places and free-text
+details are not detected by this module.
 """
 import re
 
