@@ -11,6 +11,9 @@ versions follow [Semantic Versioning](https://semver.org/) — before 1.0, minor
 - Roadmap: configurable log retention (EU AI Act deployer logs at least 6 months, DPDP Rules 1 year, CERT-In 180 days).
 
 ### Fixed
+- 5W store: a segment changed after the query view was built went unnoticed by `activity()`, the panel and
+  `telemetry sql|ask` until the manifest changed (only `telemetry verify` saw it). The integrity check now runs on
+  every query, also when the cached view is reused. Reported by the dashboard build.
 - `tools/build-demo.py` and the proof reader use UTF-8 explicitly (Windows opens text as cp1252 by default).
 - **Windows:** `niyantrak telemetry`, `niyantrak decisions` and the panel failed to start on Windows (`No module
   named 'pwd'`): `niyantrak/identity.py` now takes the person from the Windows logon (USERNAME, and the account SID

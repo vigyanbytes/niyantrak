@@ -9,7 +9,8 @@
 
 Each writer (a sink process, an importer) appends only to its own manifest, so writers never contend.
 verify() reports: broken manifest chain, missing segment, sha256 or row-count mismatch, parquet files the manifest
-does not list. materialize() and compact() refuse to run on a store that fails verify() (IntegrityError).
+does not list. materialize() (so every query) and compact() refuse to run on a store that fails verify()
+(IntegrityError) — checked on every call, also when a cached view could be reused.
 compact() merges one writer's segments per month (by default every month before the current one) into a single
 segment, records it with the files it replaces, then deletes those files.
 Queries run in DuckDB over the view; activity() returns exactly what the panel's Activity (5W) screen draws.
@@ -209,13 +210,13 @@ class Store:
         live = self.segments()
         view, state = self._p("view", "events.parquet"), self._p("view", "state.json")
         digest = hashlib.sha256("".join(e["file"] + e["sha256"] for e in live).encode()).hexdigest()
-        try:
+        self._check()                    # every time, also before reusing the view: a segment edited after the view
+        try:                             # was built must not go unnoticed (the digest covers the manifest only)
             st = json.load(open(state))
             if st["digest"] == digest and os.path.isfile(view) and _sha(view) == st["sha256"]:
                 return view
         except (OSError, ValueError, KeyError):
             pass
-        self._check()
         if not live:
             for p in (view, state):
                 if os.path.exists(p):

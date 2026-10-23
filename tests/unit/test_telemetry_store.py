@@ -179,3 +179,17 @@ def test_cli_ingest_verify_compact_activity(tmp_path, capsys):
     with open(os.path.join(d, seg), "ab") as fh:
         fh.write(b"x")
     assert main(["telemetry", "--dir", d, "verify"]) == 1
+
+
+def test_cached_view_is_not_used_after_a_segment_is_changed(st):
+    """materialize() used to return the cached view while the manifest was unchanged, so a segment edited afterwards
+    went unnoticed by activity() and SQL queries (only `telemetry verify` saw it). Reported by the dashboard build."""
+    st.append([ev(20), ev(21)])
+    assert st.activity(days=7, now=NOW)["total"] == 2               # view built and cached
+    seg = st._p(st.segments()[0]["file"])
+    with open(seg, "ab") as f:
+        f.write(b"tampered")
+    with pytest.raises(T.IntegrityError):
+        st.materialize()
+    with pytest.raises(T.IntegrityError):
+        st.activity(days=7, now=NOW)
