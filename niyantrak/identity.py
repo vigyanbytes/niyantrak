@@ -11,12 +11,20 @@
   directory module on the passwd line of /etc/nsswitch.conf.
 * The stable id survives renames: the AD SID when SSSD can give it, else the directory-assigned uid (the same on
   every machine joined to that directory), else the local uid scoped to this machine.
+* Windows has no NSS: the person is the Windows logon (USERNAME / USERDOMAIN) and the stable id is the account's SID
+  from `whoami /user`; the directory is "local", "ad" (domain) or "entra" (AzureAD). See windows_current().
 Standard library only; the SID lookup uses SSSD's python binding when it is installed.
 """
+import getpass
 import os
-import pwd
 import re
+import subprocess
 from dataclasses import dataclass
+
+try:
+    import pwd
+except ImportError:              # Windows: no pwd module and no os.getuid; see windows_current()
+    pwd = None
 
 LOGINUID = "/proc/self/loginuid"
 UNSET_LOGINUID = 4294967295
@@ -31,11 +39,12 @@ class Identity:
     name: str
     uid: int
     directory: str
-    stable_id: str
+    stable_id: "str | None"            # None on Windows when the SID cannot be read
 
 
-def login_uid(proc_loginuid=LOGINUID, env=None, getuid=os.getuid):
+def login_uid(proc_loginuid=LOGINUID, env=None, getuid=None):
     env = os.environ if env is None else env
+    getuid = getuid or os.getuid
     try:
         with open(proc_loginuid, encoding="ascii") as f:
             uid = int(f.read().strip())
@@ -91,8 +100,34 @@ def sssd_sid(name):
         return None
 
 
-def current(getpwuid=pwd.getpwuid, env=None, getuid=os.getuid, proc_loginuid=LOGINUID, passwd_path="/etc/passwd",
+def windows_current(env=None, run=subprocess.run):
+    """The Windows logon: name from USERNAME, SID from `whoami /user` (stable_id None when it cannot be read)."""
+    env = os.environ if env is None else env
+    name = env.get("USERNAME") or getpass.getuser()
+    domain, computer = env.get("USERDOMAIN", ""), env.get("COMPUTERNAME", "")
+    if domain and domain.upper() == computer.upper():
+        directory = "local"
+    elif domain.lower() == "azuread":
+        directory = "entra"
+    else:
+        directory = "ad" if domain else "unknown"
+    sid = None
+    try:
+        out = run(["whoami", "/user", "/fo", "csv", "/nh"], capture_output=True, text=True, timeout=10).stdout or ""
+        m = re.search(r'"(S-1-[0-9-]+)"', out)
+        sid = m.group(1) if m and SID_RX.match("sid:" + m.group(1)) else None
+    except (OSError, subprocess.SubprocessError, ValueError):
+        pass
+    return Identity(name=name, uid=int(sid.rsplit("-", 1)[1]) if sid else -1, directory=directory,
+                    stable_id=f"sid:{sid}" if sid else None)
+
+
+def current(getpwuid=None, env=None, getuid=None, proc_loginuid=LOGINUID, passwd_path="/etc/passwd",
             nsswitch_path="/etc/nsswitch.conf", machine_id_path="/etc/machine-id", sid_lookup=sssd_sid):
+    if getpwuid is None:
+        if pwd is None:
+            return windows_current(env)
+        getpwuid = pwd.getpwuid
     uid = login_uid(proc_loginuid, env, getuid)
     try:
         name = getpwuid(uid).pw_name

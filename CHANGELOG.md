@@ -11,6 +11,10 @@ versions follow [Semantic Versioning](https://semver.org/) — before 1.0, minor
 - Roadmap: configurable log retention (EU AI Act deployer logs at least 6 months, DPDP Rules 1 year, CERT-In 180 days).
 
 ### Fixed
+- `tools/build-demo.py` and the proof reader use UTF-8 explicitly (Windows opens text as cp1252 by default).
+- **Windows:** `niyantrak telemetry`, `niyantrak decisions` and the panel failed to start on Windows (`No module
+  named 'pwd'`): `niyantrak/identity.py` now takes the person from the Windows logon (USERNAME, and the account SID
+  from `whoami /user` as the stable id) when there is no NSS.
 - `niyantrak/recognizers.py` docstring no longer refers to modules that are not in this repository.
 - `windows/join.ps1` can be loaded by PowerShell on Linux and macOS (the CI tests dot-source it): state paths are
   plain strings instead of `Join-Path`, which needs the `C:` drive to exist. Behaviour on Windows is unchanged; the

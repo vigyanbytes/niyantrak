@@ -41,7 +41,7 @@ Published as **github.com/vigyanbytes/niyantrak** on 23 Oct 2026. The public rep
 | Item | Status | Evidence / next step |
 |---|---|---|
 | Ubuntu 24.04 clean container: install wheel, `scan`, start `panel`, `GET /` and `POST /api/scan` | ✅ | `bash tools/fresh-machine-check.sh dist/niyantrak-0.1.0-py3-none-any.whl` |
-| Windows 11: panel + scan without WSL | ⏳ | run the README Windows quickstart on a real Windows 11 machine |
+| Windows: panel + scan without WSL | ⚠️ | a frozen build of this code on a Windows laptop (2026-10-23): `scan`, `telemetry ask`, `decisions write` (identity from the Windows logon, SID) and the panel API all work; found and fixed two Windows bugs. The README pip quickstart on Windows is still to be run |
 | Ubuntu 22.04 (Python 3.10) | ⏳ | same script with `ubuntu:22.04` |
 
 ## 5. Product honesty

@@ -35,11 +35,11 @@ def bundle_script(path):
 
 
 def build(out, proof_dir=None, bundle=None):
-    html = open(os.path.join(WEB, "index.html")).read()
-    css = open(os.path.join(WEB, "app.css")).read()
+    html = open(os.path.join(WEB, "index.html"), encoding="utf-8").read()
+    css = open(os.path.join(WEB, "app.css"), encoding="utf-8").read()
     shim = (proof_script(proof_dir or os.path.join(ROOT, "proof")) + (bundle_script(bundle) if bundle else "")
-            + open(os.path.join(WEB, "standalone-shim.js")).read())
-    app = open(os.path.join(WEB, "app.js")).read()
+            + open(os.path.join(WEB, "standalone-shim.js"), encoding="utf-8").read())
+    app = open(os.path.join(WEB, "app.js"), encoding="utf-8").read()
     # the demo always runs on sample data and calls the in-page API
     app = app.replace("const DEMO = /[?&]demo=1/.test(location.search);", "const DEMO = true;")
     app = app.replace("async function api(path, body) {", "async function api(path, body) {\n  if (window.niyantrakApi) return window.niyantrakApi(path, body);")
@@ -52,7 +52,7 @@ def build(out, proof_dir=None, bundle=None):
     html = html.replace('<span class="pill ok" id="gate">Running on this machine</span>',
                         '<span class="pill info" id="gate">Demo · runs in your browser</span>')
     os.makedirs(os.path.dirname(os.path.abspath(out)), exist_ok=True)
-    open(out, "w").write(html)
+    open(out, "w", encoding="utf-8").write(html)
     return html
 
 

@@ -79,3 +79,20 @@ def test_build_demo_embeds_the_bundle(tmp_path):
     assert "Sample data" in html and "laptop-asha" in html
     plain = bd.build(str(tmp_path / "plain.html"))
     assert "window.NIYANTRAK_DEMO_DATA = {" not in plain
+
+
+def test_demo_tools_do_not_depend_on_the_platform_encoding(tmp_path):
+    """Windows opens text as cp1252 by default; app.js and the page hold UTF-8 (found building the Windows exe)."""
+    import subprocess
+    import sys
+    env = dict(os.environ, LC_ALL="C", LANG="C", PYTHONCOERCECLOCALE="0", PYTHONUTF8="0", PYTHONIOENCODING="utf-8")
+    py = [sys.executable, "-X", "utf8=0"]
+    probe = subprocess.run(py + ["-c", "import locale; print(locale.getpreferredencoding(False))"], env=env,
+                           capture_output=True, text=True).stdout.strip().lower()
+    assert "utf" not in probe, probe                       # the test really runs without UTF-8 as the default
+    out = tmp_path / "d"
+    for args in (["tools/demo-data.py", "--out", str(out), "--end", "2026-10-23"],
+                 ["tools/build-demo.py", str(out / "demo.html"), "--bundle", str(out / "bundle.json")]):
+        r = subprocess.run(py + args, cwd=ROOT, env=env, capture_output=True, text=True, encoding="utf-8")
+        assert r.returncode == 0, r.stderr[-800:]
+    assert "Sample data" in (out / "demo.html").read_text(encoding="utf-8")

@@ -75,7 +75,7 @@ def parse_junit(path):
 def parse_coverage(path):
     """coverage.py JSON report -> {"total": pct, "files": {path: pct}} (one decimal)."""
     try:
-        d = json.load(open(path))
+        d = json.load(open(path, encoding="utf-8"))
         return {"total": round(d["totals"]["percent_covered"], 1),
                 "files": {k: round(v["summary"]["percent_covered"], 1) for k, v in sorted(d.get("files", {}).items())}}
     except (OSError, ValueError, KeyError, TypeError):
@@ -115,7 +115,7 @@ def history_entry(summary):
 def append_history(path, summary):
     os.makedirs(os.path.dirname(path) or ".", exist_ok=True)
     e = history_entry(summary)
-    with open(path, "a") as f:
+    with open(path, "a", encoding="utf-8") as f:
         f.write(json.dumps(e, sort_keys=False) + "\n")
     return e
 
@@ -123,7 +123,7 @@ def append_history(path, summary):
 def read_history(path, limit=None):
     out = []
     try:
-        lines = open(path).read().splitlines()
+        lines = open(path, encoding="utf-8").read().splitlines()
     except OSError:
         return out
     for line in lines:
@@ -139,7 +139,7 @@ def read_history(path, limit=None):
 def load_proof(proof_dir, limit=30):
     """What the panel shows: {"summary", "history"} or None when no proof run exists yet."""
     try:
-        summary = json.load(open(os.path.join(proof_dir, "latest", "summary.json")))
+        summary = json.load(open(os.path.join(proof_dir, "latest", "summary.json"), encoding="utf-8"))
     except (OSError, ValueError):
         return None
     return {"summary": summary, "history": read_history(os.path.join(proof_dir, "history.jsonl"), limit)}
