@@ -1,0 +1,94 @@
+{
+  "lab": {
+    "network": "nyklab",
+    "prefix": "nyklab-",
+    "ubuntu_release": "24.04",
+    "ubuntu_iso_pattern": "ubuntu-24.04*-live-server-amd64.iso",
+    "ubuntu_mirror": "https://releases.ubuntu.com/24.04/"
+  },
+  "vms": [
+    {
+      "name": "ctl",
+      "role": "control",
+      "os": "ubuntu",
+      "boot": "cloudimg",
+      "vcpus": 4,
+      "ram_gb": 8,
+      "disk_gb": 40,
+      "secure_boot": true,
+      "tpm": true,
+      "start": true,
+      "purpose": "first node, VPS-style (cloud image + cloud-init), then the bootstrap one-liner; vPanel, PXE, join later"
+    },
+    {
+      "name": "inst",
+      "role": "installer-test",
+      "os": "ubuntu",
+      "boot": "iso",
+      "vcpus": 2,
+      "ram_gb": 4,
+      "disk_gb": 30,
+      "secure_boot": true,
+      "tpm": true,
+      "start": false,
+      "purpose": "bare-metal path: stock ISO installer + autoinstall seed; answer the one prompt on the console"
+    },
+    {
+      "name": "node1",
+      "role": "node",
+      "os": "ubuntu",
+      "boot": "pxe",
+      "vcpus": 2,
+      "ram_gb": 4,
+      "disk_gb": 40,
+      "secure_boot": true,
+      "tpm": true,
+      "start": false,
+      "needs": "pxe-service",
+      "purpose": "bare-metal-like node installed by network boot from ctl (desktop-like, no GPU)"
+    },
+    {
+      "name": "node2",
+      "role": "node",
+      "os": "ubuntu",
+      "boot": "iso",
+      "vcpus": 2,
+      "ram_gb": 4,
+      "disk_gb": 40,
+      "secure_boot": true,
+      "tpm": true,
+      "start": false,
+      "needs": "join-endpoint",
+      "purpose": "already-installed Linux joined by the one-liner; carries the simulated-GPU capability fixture"
+    },
+    {
+      "name": "rogue",
+      "role": "attacker",
+      "os": "ubuntu",
+      "boot": "iso",
+      "vcpus": 1,
+      "ram_gb": 2,
+      "disk_gb": 20,
+      "secure_boot": false,
+      "tpm": false,
+      "start": false,
+      "needs": "join-endpoint",
+      "purpose": "fake control node / unknown PXE client / token replay (I-2, I-4, I-5)"
+    },
+    {
+      "name": "win11",
+      "role": "node",
+      "os": "windows",
+      "boot": "iso",
+      "vcpus": 4,
+      "ram_gb": 8,
+      "disk_gb": 80,
+      "secure_boot": true,
+      "tpm": true,
+      "start": false,
+      "needs": "join-endpoint",
+      "iso_env": "NIYANTRAK_LAB_WIN_ISO",
+      "purpose": "Windows 11 evaluation: PowerShell join, OpenSSH hardening, IPv4 preference (M1, I-10)"
+    }
+  ]
+}

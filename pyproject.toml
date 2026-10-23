@@ -1,0 +1,57 @@
+[project]
+name = "niyantrak"
+version = "0.1.0"
+description = "Governance-first AI for business bots and agents — free edition: web panel, identifier scan with checksums, agent gate, signed node cards, join flow, node bootstrap."
+readme = "README.md"
+license = "Apache-2.0"
+license-files = ["LICENSE", "NOTICE"]
+requires-python = ">=3.10"
+authors = [{name = "VigyanBytes Solutions Private Limited", email = "info@vigyanbytes.com"}]
+keywords = ["pii", "redaction", "dpdp", "gdpr", "aadhaar", "ai-governance", "llm", "ai-agents", "audit", "privacy"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Environment :: Console",
+    "Environment :: Web Environment",
+    "Intended Audience :: Developers",
+    "Intended Audience :: System Administrators",
+    "Intended Audience :: Information Technology",
+    "Operating System :: POSIX :: Linux",
+    "Operating System :: Microsoft :: Windows",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3 :: Only",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: Security",
+    "Topic :: System :: Systems Administration",
+    "Topic :: Text Processing :: Filters",
+]
+dependencies = []
+
+[project.urls]
+Homepage = "https://vigyanbytes.com"
+Source = "https://github.com/vigyanbytes/niyantrak"
+Issues = "https://github.com/vigyanbytes/niyantrak/issues"
+Changelog = "https://github.com/vigyanbytes/niyantrak/blob/main/CHANGELOG.md"
+Documentation = "https://github.com/vigyanbytes/niyantrak/blob/main/docs/QUICKSTART.md"
+
+[project.scripts]
+niyantrak = "niyantrak.cli:main"
+
+[project.optional-dependencies]
+discovery = ["zeroconf>=0.132"]
+telemetry = ["pyarrow>=15", "duckdb>=1.0"]
+decisions = ["pyarrow>=15", "duckdb>=1.0"]
+all = ["zeroconf>=0.132", "pyarrow>=15", "duckdb>=1.0"]
+dev = ["pytest>=8", "pytest-cov>=5", "build>=1.2"]
+
+[build-system]
+requires = ["setuptools>=77"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools]
+packages = ["niyantrak", "niyantrak.telemetry", "niyantrak.decisions", "niyantrak.docs", "niyantrak.gate"]
+
+[tool.setuptools.package-data]
+niyantrak = ["web/*"]

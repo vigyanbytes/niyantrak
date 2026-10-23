@@ -1,0 +1,47 @@
+{
+  "join": {
+    "alerts": [],
+    "tokens": {},
+    "nodes": {
+      "nyk-aaaaaaaaaaa1": {
+        "node_id": "nyk-aaaaaaaaaaa1", "state": "approved", "host_pubkey": "ssh-ed25519 FIXTUREKEYONE",
+        "card_sha256": "1111111111111111111111111111111111111111111111111111111111111111",
+        "requested_at": "2026-01-02T03:04:05Z", "token_sha256": "tokenhash-should-never-appear",
+        "decided_by": "operator@localhost", "decided_at": "2026-01-02T03:10:00Z",
+        "card": {"card_version": 1, "node_id": "nyk-aaaaaaaaaaa1", "hostname": "gpu-01", "role": "worker",
+                 "os": {"id": "ubuntu", "version": "24.04", "kernel": "6.8.0-40-generic", "arch": "x86_64"},
+                 "cpu": {"cores": 32}, "memory_gb": 125.6, "gpu": [{"name": "Example GPU 32GB", "vram_mb": 32768}],
+                 "addresses": {"ipv4": ["192.0.2.14"], "ipv6": ["2001:db8::14", "fe80::14%eth0"]}}
+      },
+      "nyk-aaaaaaaaaaa2": {
+        "node_id": "nyk-aaaaaaaaaaa2", "state": "pending", "host_pubkey": "ssh-ed25519 FIXTUREKEYTWO",
+        "card_sha256": "2222222222222222222222222222222222222222222222222222222222222222",
+        "requested_at": "2026-01-03T00:00:00Z", "token_sha256": "tokenhash-should-never-appear",
+        "decided_by": null, "decided_at": null,
+        "card": {"card_version": 1, "node_id": "nyk-aaaaaaaaaaa2", "hostname": "laptop-<b>7</b> | x", "role": null,
+                 "os": {"id": "windows", "version": "11", "kernel": "10.0.22631", "arch": "AMD64"},
+                 "cpu": {"cores": 8}, "memory_gb": 15.7, "gpu": [],
+                 "addresses": {"ipv4": [], "ipv6": ["fe80::c7%Ethernet"]}}
+      },
+      "nyk-aaaaaaaaaaa3": {
+        "node_id": "nyk-aaaaaaaaaaa3", "state": "rejected", "host_pubkey": "ssh-ed25519 FIXTUREKEYTHREE",
+        "card_sha256": "3333333333333333333333333333333333333333333333333333333333333333",
+        "requested_at": "2026-01-04T00:00:00Z", "token_sha256": "tokenhash-should-never-appear",
+        "decided_by": "operator@localhost", "decided_at": "2026-01-04T01:00:00Z",
+        "card": {"card_version": 1, "node_id": "nyk-aaaaaaaaaaa3", "hostname": "edge-01", "role": "edge",
+                 "os": {"id": "ubuntu", "version": "26.04", "kernel": "7.0.0-1-generic", "arch": "aarch64"},
+                 "cpu": {"cores": 4}, "memory_gb": 7.8, "gpu": [],
+                 "addresses": {"ipv4": ["198.51.100.20"], "ipv6": []}}
+      }
+    }
+  },
+  "local": {
+    "card": {"card_version": 1, "node_id": "nyk-aaaaaaaaaaa0", "hostname": "control-01", "role": "control",
+             "os": {"id": "ubuntu", "version": "24.04", "kernel": "6.8.0-40-generic", "arch": "x86_64"},
+             "cpu": {"cores": 16}, "memory_gb": 62.5, "gpu": [],
+             "addresses": {"ipv4": ["192.0.2.10"], "ipv6": ["2001:db8::10"]}},
+    "checks": [{"name": "Audit rules record sensitive changes", "ok": true},
+               {"name": "Remote login hardened (keys only, no root)", "ok": true},
+               {"name": "Secrets folder private", "ok": false}]
+  }
+}

@@ -1,0 +1,57 @@
+# Changelog
+
+All notable changes to the free edition. Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/);
+versions follow [Semantic Versioning](https://semver.org/) — before 1.0, minor versions may break interfaces.
+
+## [Unreleased]
+
+## [0.1.0] — 2026-10-23 — alpha
+
+First public release of the free edition (Apache-2.0).
+
+### Added
+- **Identifier scan** — `niyantrak scan`: India (Aadhaar, PAN, GSTIN, IFSC, UPI id, phone), EU (IBAN), UK (NI number),
+  US (SSN) and global (email, card, phone) packs, checksum-validated (Verhoeff, Luhn, mod-97, GSTIN check character);
+  prints placeholders and per-type counts, never values; `--json`, `--file`, `--packs`.
+- **Web panel** — `niyantrak panel` on 127.0.0.1:8770, standard library only: Try it, Overview (machine governance
+  checks), Fleet, Add machine, Activity (5W), Decisions, Docs, Proof; Pro screens shown as previews.
+- **Agent gate** — `niyantrak gate install|uninstall|status|check`: hard stops (destructive, secret, production) for
+  Claude Code, Codex, Gemini CLI / Antigravity and OpenCode via each CLI's own hook; shell-aware parsing (a mention
+  is not an execution); enforce / audit / off per machine; decisions logged as 5W events with command hashes.
+- **Join flow** — single-use, expiring tokens (only the hash stored), node cards signed with the machine's SSH host
+  key, operator approval, impersonation alerts on host-key change; TLS join-only listener with a self-signed
+  certificate pinned by SHA-256 (`--join-bind`).
+- **5W telemetry** — privacy-checked event schema (labels and counts only), OTLP/HTTP JSON and plain JSON sink,
+  append-only Parquet store with hash-chained manifest, DuckDB queries (`[telemetry]` extra).
+- **5W querying** — `niyantrak telemetry ask "<question>"` (ten plain-word questions mapped to SQL templates, no model;
+  the SQL is printed with the answer) and `niyantrak telemetry sql "<SELECT …>"` over tables `ev` and `decisions`;
+  read-only (in-memory copy, file and network access off, configuration locked); output as table, CSV, JSON,
+  Markdown or Parquet. See `docs/QUERYING_5W.md`.
+- **Sample team** — `tools/demo-data.py`: a deterministic, fictional team (Claude Code, Codex, Antigravity across six
+  machines, 14 days) written through the real stores; `tools/build-demo.py --bundle` and `tools/record-demo.py`
+  turn it into the demo page, screenshots and walkthrough video in `docs/media/`.
+- **OWASP mapping** — `docs/OWASP.md`: OWASP Top 10 for LLM Applications 2025 and the Agentic AI threats, with an
+  honest covered / partial / not yet status for each.
+- **Decision log** — append-only DECISION / WORK / THING events with derived status, open items, export, local-model
+  `ask` that refuses non-local endpoints.
+- **As-built docs** — deterministic Markdown/HTML pages and an SVG network map from node cards and the join store.
+- **Node bootstrap** — stock Ubuntu → hardened, audited node with lock-out guards, resume and `--dry-run`;
+  verify-and-run; isolated install lab with network/budget policy checks.
+- **Discovery** — dual-stack mDNS announce/browse (`[discovery]` extra); announcements are hints, cards are trust.
+- **Proof** — test evidence kept in `proof/` per run (junit, coverage, leak scan, screenshots, history).
+- **Leak scanner** — `tools/leak-scan.py` for the working tree; `--history` scans every blob of every commit on every
+  ref plus commit author/committer identities and messages; `NIYANTRAK_PRIVATE_TERMS` file support.
+- **Launch readiness** — `niyantrak --version`; complete package metadata and extras (`discovery`, `telemetry`,
+  `decisions`, `all`, `dev`); Windows-safe state folder (`%LOCALAPPDATA%\Niyantrak`); `tools/fresh-machine-check.sh`
+  (quickstart in a clean Ubuntu 24.04 container); README, quickstart, architecture, FAQ, security policy,
+  contributing guide, code of conduct, issue and PR templates.
+
+### Known limitations
+- Alpha: interfaces may change; no external security audit yet.
+- Windows: panel and scan only, not yet verified on a real Windows machine; bootstrap, gate installer and joining as a
+  node are Linux-only.
+- Free-edition panel is single-operator: approvals are accepted from loopback only.
+- Not yet published to PyPI; install from source.
+
+[Unreleased]: https://github.com/vigyanbytes/niyantrak/compare/v0.1.0...HEAD
+[0.1.0]: https://github.com/vigyanbytes/niyantrak/releases/tag/v0.1.0

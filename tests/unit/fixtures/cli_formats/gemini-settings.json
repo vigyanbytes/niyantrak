@@ -1,0 +1,16 @@
+{
+  "hooks": {
+    "BeforeTool": [
+      {
+        "matcher": ".*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "niyantrak gate check --cli gemini",
+            "timeout": 10000
+          }
+        ]
+      }
+    ]
+  }
+}

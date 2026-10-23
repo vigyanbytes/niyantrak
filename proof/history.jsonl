@@ -1,0 +1,13 @@
+{"date": "2026-10-23T07:32:35+05:30", "commit": "36d4ff8", "passed": 121, "failed": 0, "skipped": 1, "total": 122, "coverage_pct": 80.0, "leak_scan": "clean"}
+{"date": "2026-10-23T07:33:50+05:30", "commit": "d193246", "passed": 125, "failed": 0, "skipped": 1, "total": 126, "coverage_pct": 80.4, "leak_scan": "clean"}
+{"date": "2026-10-23T07:34:44+05:30", "commit": "702185d", "passed": 125, "failed": 0, "skipped": 1, "total": 126, "coverage_pct": 80.4, "leak_scan": "clean"}
+{"date": "2026-10-23T07:36:15+05:30", "commit": "afb5c7b", "passed": 126, "failed": 0, "skipped": 1, "total": 127, "coverage_pct": 80.5, "leak_scan": "clean"}
+{"date": "2026-10-23T08:47:16+05:30", "commit": "e1d8de2", "passed": 270, "failed": 0, "skipped": 1, "total": 271, "coverage_pct": 88.6, "leak_scan": "1 findings"}
+{"date": "2026-10-23T08:49:23+05:30", "commit": "3b024e4", "passed": 270, "failed": 0, "skipped": 1, "total": 271, "coverage_pct": 88.6, "leak_scan": "clean"}
+{"date": "2026-10-23T08:55:02+05:30", "commit": "2edf869", "passed": 485, "failed": 0, "skipped": 1, "total": 486, "coverage_pct": 87.8, "leak_scan": "clean"}
+{"date": "2026-10-23T10:08:26+05:30", "commit": "d85cd68", "passed": 502, "failed": 0, "skipped": 2, "total": 504, "coverage_pct": 87.8, "leak_scan": "clean"}
+{"date": "2026-10-23T10:21:26+05:30", "commit": "31a5b03", "passed": 550, "failed": 0, "skipped": 5, "total": 555, "coverage_pct": 88.3, "leak_scan": "clean"}
+{"date": "2026-10-23T17:12:10+05:30", "commit": "1703047", "passed": 729, "failed": 0, "skipped": 5, "total": 734, "coverage_pct": 88.7, "leak_scan": "clean"}
+{"date": "2026-10-23T20:18:36+05:30", "commit": "b3cced8", "passed": 746, "failed": 0, "skipped": 5, "total": 751, "coverage_pct": 89.0, "leak_scan": "clean"}
+{"date": "2026-10-23T20:20:34+05:30", "commit": "272686d", "passed": 747, "failed": 0, "skipped": 5, "total": 752, "coverage_pct": 89.0, "leak_scan": "clean"}
+{"date": "2026-10-23T22:10:16+05:30", "commit": "1035d2f", "passed": 747, "failed": 0, "skipped": 5, "total": 752, "coverage_pct": 89.0, "leak_scan": "clean"}

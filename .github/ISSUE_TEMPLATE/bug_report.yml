@@ -1,0 +1,28 @@
+name: Bug report
+description: Something does not work as documented
+labels: [bug]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        **Security vulnerability?** Do not file it here — see SECURITY.md.
+        **Never paste real personal data** (Aadhaar, PAN, card, phone numbers of real people). Use the test values from the README.
+  - type: input
+    id: version
+    attributes: {label: Version, description: "`niyantrak --version` or the commit", placeholder: niyantrak 0.1.0}
+    validations: {required: true}
+  - type: dropdown
+    id: os
+    attributes: {label: Operating system, options: [Ubuntu 24.04, Ubuntu 22.04, Other Linux, Windows 11, Windows 10, macOS, Other]}
+    validations: {required: true}
+  - type: dropdown
+    id: area
+    attributes: {label: Area, options: [scan, panel, agent gate, join / fleet, 5W telemetry, decisions, as-built docs, bootstrap, packaging / install, docs]}
+    validations: {required: true}
+  - type: textarea
+    id: what
+    attributes: {label: What happened, description: Steps to reproduce, what you expected and what you got}
+    validations: {required: true}
+  - type: textarea
+    id: logs
+    attributes: {label: Output, description: Command output or panel error (remove anything private), render: text}

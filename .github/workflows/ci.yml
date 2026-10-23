@@ -1,0 +1,25 @@
+name: ci
+on: [push, pull_request]
+permissions:
+  contents: read
+jobs:
+  unit:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0          # the history leak scan reads every commit
+      - run: sudo apt-get update && sudo apt-get install -y shellcheck
+      - run: python3 -m pip install --user pytest pytest-cov pyarrow duckdb   # pyarrow/duckdb: the optional [telemetry] extra, so the 5W store tests run
+      - run: python3 tools/leak-scan.py
+      - run: python3 tools/leak-scan.py --history
+      # unit suite + coverage + leak scan, evidence written to proof/latest (fails the job on any failure)
+      - run: python3 tools/prove.py --no-screens
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: proof-${{ github.sha }}
+          path: proof/latest
+          if-no-files-found: warn
+      - run: python3 lab/policy.py network lab/network.xml
+      - run: python3 lab/policy.py budget lab/vms.json

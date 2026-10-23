@@ -1,0 +1,15 @@
+<!-- niyantrak lab network: own NAT bridge, never bridged to a physical NIC.
+     libvirt's dnsmasq plays the "home router" (DHCP); the control VM later adds proxy-DHCP for network boot,
+     exactly like a real home. NAT gives the VMs outbound internet (apt, git) but nothing outside can reach them,
+     and their DHCP/PXE broadcasts stay on this bridge. -->
+<network>
+  <name>nyklab</name>
+  <forward mode="nat"/>
+  <bridge name="virbr-nyklab" stp="on" delay="0"/>
+  <domain name="lab.niyantrak.test" localOnly="yes"/>
+  <ip address="10.77.0.1" netmask="255.255.255.0">
+    <dhcp>
+      <range start="10.77.0.100" end="10.77.0.199"/>
+    </dhcp>
+  </ip>
+</network>

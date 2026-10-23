@@ -1,0 +1,56 @@
+{
+ "files": [
+  "index.html",
+  "index.md",
+  "manifest.json",
+  "network-map.svg",
+  "node-nyk-aaaaaaaaaaa0.html",
+  "node-nyk-aaaaaaaaaaa0.md",
+  "node-nyk-aaaaaaaaaaa1.html",
+  "node-nyk-aaaaaaaaaaa1.md",
+  "node-nyk-aaaaaaaaaaa2.html",
+  "node-nyk-aaaaaaaaaaa2.md",
+  "node-nyk-aaaaaaaaaaa3.html",
+  "node-nyk-aaaaaaaaaaa3.md"
+ ],
+ "generator": "niyantrak docs",
+ "pages": [
+  {
+   "file": "index.html",
+   "kind": "fleet",
+   "md": "index.md",
+   "title": "Fleet as built"
+  },
+  {
+   "file": "network-map.svg",
+   "kind": "map",
+   "md": null,
+   "title": "Network map"
+  },
+  {
+   "file": "node-nyk-aaaaaaaaaaa0.html",
+   "kind": "node",
+   "md": "node-nyk-aaaaaaaaaaa0.md",
+   "title": "control-01"
+  },
+  {
+   "file": "node-nyk-aaaaaaaaaaa1.html",
+   "kind": "node",
+   "md": "node-nyk-aaaaaaaaaaa1.md",
+   "title": "gpu-01"
+  },
+  {
+   "file": "node-nyk-aaaaaaaaaaa2.html",
+   "kind": "node",
+   "md": "node-nyk-aaaaaaaaaaa2.md",
+   "title": "laptop-<b>7</b> | x"
+  },
+  {
+   "file": "node-nyk-aaaaaaaaaaa3.html",
+   "kind": "node",
+   "md": "node-nyk-aaaaaaaaaaa3.md",
+   "title": "edge-01"
+  }
+ ],
+ "version": 1
+}

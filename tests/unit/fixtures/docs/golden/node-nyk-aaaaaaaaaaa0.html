@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>control-01</title>
+<style>
+:root{--bg:#faf6ee;--card:#fff;--ink:#1c1814;--body:#3a332b;--muted:#6b6357;--line:rgba(28,24,20,.14);--link:#9a4f08}
+@media (prefers-color-scheme:dark){:root{--bg:#020617;--card:#0f172a;--ink:#f8fafc;--body:#cbd5e1;--muted:#94a3b8;--line:rgba(255,255,255,.12);--link:#fbbf24}}
+body{margin:0;background:var(--bg);color:var(--body);font:14px/1.55 Inter,system-ui,sans-serif}
+main{max-width:980px;margin:0 auto;padding:24px 16px}h1{color:var(--ink);font-size:22px;margin:0 0 8px}
+h2{color:var(--ink);font-size:16px;margin:24px 0 8px}a{color:var(--link)}p.muted{color:var(--muted)}
+.wrap{overflow-x:auto}table{border-collapse:collapse;width:100%;background:var(--card);font-size:13px}
+th,td{text-align:left;padding:6px 8px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+code{font-family:"JetBrains Mono",ui-monospace,monospace;font-size:12.5px}svg{max-width:100%;height:auto}
+</style>
+</head>
+<body>
+<main>
+<p><a href="index.html">← Fleet as built</a></p>
+<h1>control-01</h1>
+<p>Node nyk-aaaaaaaaaaa0 · this machine.</p>
+<h2>Hardware</h2>
+<div class="wrap"><table><thead><tr><th>fact</th><th>value</th></tr></thead><tbody>
+<tr><td>cpu cores</td><td>16</td></tr>
+<tr><td>memory</td><td>62.5 GB</td></tr>
+<tr><td>gpu</td><td>none</td></tr>
+<tr><td>architecture</td><td>x86_64</td></tr>
+</tbody></table></div>
+<h2>Operating system</h2>
+<div class="wrap"><table><thead><tr><th>fact</th><th>value</th></tr></thead><tbody>
+<tr><td>operating system</td><td>ubuntu 24.04</td></tr>
+<tr><td>kernel</td><td>6.8.0-40-generic</td></tr>
+</tbody></table></div>
+<h2>Addresses</h2>
+<div class="wrap"><table><thead><tr><th>family</th><th>address</th></tr></thead><tbody>
+<tr><td>IPv4</td><td>192.0.2.10</td></tr>
+<tr><td>IPv6</td><td>2001:db8::10</td></tr>
+</tbody></table></div>
+<h2>Roles</h2>
+<div class="wrap"><table><thead><tr><th>role</th><th>source</th></tr></thead><tbody>
+<tr><td>control</td><td>node card</td></tr>
+</tbody></table></div>
+<h2>Governance checks</h2>
+<div class="wrap"><table><thead><tr><th>check</th><th>result</th></tr></thead><tbody>
+<tr><td>join state</td><td>this machine</td></tr>
+<tr><td>card sha256</td><td>3141c160fe27d92f16d7ff5887bce8e19675683a4f6d90c3a56fea104e3ab10f</td></tr>
+<tr><td>Audit rules record sensitive changes</td><td>PASS</td></tr>
+<tr><td>Remote login hardened (keys only, no root)</td><td>PASS</td></tr>
+<tr><td>Secrets folder private</td><td>FAIL</td></tr>
+</tbody></table></div>
+</main>
+</body>
+</html>

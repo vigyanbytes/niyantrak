@@ -1,0 +1,3 @@
+# Reviewed false positives (gitleaks fingerprints: commit:file:rule:line). Re-check after any history rewrite.
+# test fixture: the decision-log writer must refuse a secret-shaped string ("token = abcdefgh...")
+c17c4ac154e913772dc89268c918dee5afda42db:tests/unit/test_decisions.py:generic-api-key:302

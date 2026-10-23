@@ -1,0 +1,17 @@
+{
+  "niyantrak": {
+    "enabled": true,
+    "PreToolUse": [
+      {
+        "matcher": ".*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "niyantrak gate check --cli antigravity",
+            "timeout": 10
+          }
+        ]
+      }
+    ]
+  }
+}

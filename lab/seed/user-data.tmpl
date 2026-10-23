@@ -1,0 +1,31 @@
+#cloud-config
+# niyantrak-lab-only
+# niyantrak lab autoinstall seed (rendered by lab/seed/render-seed.sh; policy-checked before use).
+# Mirrors the real first-node install: stock Ubuntu Server, admin with SSH key only, root locked, no passwords.
+autoinstall:
+  version: 1
+  locale: en_US.UTF-8
+  keyboard: {layout: us}
+  identity:
+    hostname: @HOSTNAME@
+    username: labadmin
+    password: "!"
+  ssh:
+    install-server: true
+    allow-pw: false
+    authorized-keys:
+      - "@PUBKEY@"
+  storage:
+    layout: {name: direct}
+  packages: [git, curl, ca-certificates, openssh-server]
+  late-commands:
+    # LAB ONLY: the lab admin has no password (SSH key only), so tests need sudo without one. Real installs: the
+    # admin types a password in the installer (used for sudo, never for SSH); nyk-provision gets sudo for the
+    # reconciler command only. policy.py refuses this line unless the seed is marked niyantrak-lab-only.
+    - curtin in-target --target=/target -- sh -c 'echo "labadmin ALL=(ALL) NOPASSWD:ALL" > /etc/sudoers.d/90-niyantrak-lab && chmod 0440 /etc/sudoers.d/90-niyantrak-lab'
+    - curtin in-target --target=/target -- sh -c 'printf "%s\n" "PermitRootLogin no" "PasswordAuthentication no" "KbdInteractiveAuthentication no" > /etc/ssh/sshd_config.d/10-niyantrak-lab.conf'
+  user-data:
+    disable_root: true
+    ssh_pwauth: false
+    timezone: Etc/UTC
+  shutdown: reboot

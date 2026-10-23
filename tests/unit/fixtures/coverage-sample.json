@@ -1,0 +1,5 @@
+{"meta": {"format": 3, "version": "7.17.0"},
+ "files": {
+  "niyantrak/cli.py": {"summary": {"covered_lines": 90, "num_statements": 100, "percent_covered": 90.0}},
+  "niyantrak/panel.py": {"summary": {"covered_lines": 67, "num_statements": 80, "percent_covered": 83.75}}},
+ "totals": {"covered_lines": 157, "num_statements": 180, "percent_covered": 87.22222222222223}}

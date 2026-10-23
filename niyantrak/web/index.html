@@ -1,0 +1,316 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Niyantrak Panel</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600&display=swap">
+<link rel="stylesheet" href="static/app.css">
+<script src="https://cdn.jsdelivr.net/npm/echarts@5.5.1/dist/echarts.min.js" defer></script>
+<script src="static/app.js" defer></script>
+</head>
+<body>
+<div class="shell">
+  <nav class="rail" aria-label="Panel">
+    <div class="brand"><span class="mark" aria-hidden="true"></span>Niyantrak<small>Governance-first AI</small></div>
+    <div class="navgroup">Operate</div>
+    <button data-p="overview" aria-current="page">Overview</button>
+    <button data-p="fleet">Fleet <span class="n" id="n-fleet">–</span></button>
+    <button data-p="add">Add machine</button>
+    <button data-p="proof">Proof</button>
+    <button data-p="docs">Docs</button>
+    <div class="navgroup">Protect data</div>
+    <button data-p="try">Try it</button>
+    <button data-p="compliance">Compliance <span class="lock">Pro</span></button>
+    <div class="navgroup">Govern AI</div>
+    <button data-p="activity">Activity (5W)</button>
+    <button data-p="decisions">Decisions</button>
+    <button data-p="access">AI access <span class="lock">Pro</span></button>
+    <button data-p="approvals">Approvals <span class="lock">Pro</span></button>
+    <button data-p="rules">Rule book <span class="lock">Pro</span></button>
+    <button data-p="people">People &amp; roles <span class="lock">Pro</span></button>
+    <button data-p="playbook">Officer playbook</button>
+    <button data-p="audit">Audit &amp; evidence <span class="lock">Pro</span></button>
+    <div class="spacer"></div>
+    <div class="edition">Free edition · <a href="https://vigyanbytes.com" target="_blank" rel="noopener">Upgrade</a></div>
+  </nav>
+
+  <header class="bar"><h1 id="title">Overview</h1><span class="pill warn" id="demo-badge" hidden>Sample data</span><span class="pill ok" id="gate">Running on this machine</span><span class="who muted" id="host"></span>
+    <label class="viewas" for="viewas">View as
+      <select id="viewas"><option value="owner">Owner (super user)</option><option value="officer" selected>Governance officer</option>
+        <option value="approver">Approver</option><option value="operator">Operator / DevOps</option><option value="developer">Developer</option>
+        <option value="auditor">Auditor</option></select></label></header>
+
+  <main>
+    <!-- OVERVIEW -->
+    <section id="overview">
+      <p class="lead">Your bots and AI agents can use any model; personal data is swapped for placeholders first, kept on your own
+        machines when it must be, and every step is recorded.</p>
+      <div class="tiles">
+        <div class="card tile"><div class="label">Machines found</div><div class="metric" id="t-nodes">–</div><div class="muted" id="t-nodes-s">on this network</div></div>
+        <div class="card tile"><div class="label">Verified by signed card</div><div class="metric" id="t-verified">–</div><div class="muted">trust needs a valid signature</div></div>
+        <div class="card tile"><div class="label">Governance checks passing</div><div class="metric" id="t-checks">–</div><div class="muted">on this machine</div></div>
+        <div class="card tile"><div class="label">Identifiers caught this session</div><div class="metric" id="t-found">0</div><div class="muted">values are never stored</div></div>
+      </div>
+      <div class="two">
+        <div class="card"><div class="card-h"><h2>Identifiers caught, by type</h2><span class="muted">this session</span></div><div class="chart" id="c-types"></div>
+          <p class="muted empty" id="c-types-empty">Nothing yet — open <b>Try it</b> and check a message.</p></div>
+        <div class="card"><div class="card-h"><h2>Your network</h2><span class="muted">discovered machines</span></div><div class="chart" id="c-net"></div></div>
+      </div>
+      <div class="card risk">
+        <h2>What keeps leaders up at night — and the screen that answers it</h2>
+        <div class="risks">
+          <div><b>Regulators fining AI data leaks</b><span>GDPR up to €20 million or 4% of global turnover; the EU AI Act; US state privacy laws and HIPAA; India's DPDP Act up to ₹250 crore.</span><button class="link" data-go="compliance">Compliance →</button></div>
+          <div><b>Customer data pasted into public chatbots</b><span>National IDs, bank and card numbers, phone numbers — leaving your company inside prompts.</span><button class="link" data-go="try">Try it →</button></div>
+          <div><b>An AI agent changes something and nobody can prove what</b><span>Deleted files, opened ports, leaked keys — with no trail.</span><button class="link" data-go="audit">Audit &amp; evidence →</button></div>
+          <div><b>Unknown machines on your network</b><span>A device claiming to be your server.</span><button class="link" data-go="fleet">Fleet →</button></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FLEET -->
+    <section id="fleet" hidden>
+      <div class="row between"><p class="lead">Machines announce themselves on your network. A machine is trusted only after its signed card checks out.</p>
+        <div class="row"><button class="btn ghost" id="invite">Invite a machine</button>
+        <button class="btn" id="discover">Look for machines</button></div></div>
+      <p class="muted" id="disc-status"></p>
+      <div class="card" id="invite-out" hidden>
+        <h2>Run this on the new machine</h2>
+        <p class="muted">Works once and expires in 24 hours. It is shown only now — copy it before leaving this screen.</p>
+        <p class="muted" id="join-note" hidden></p>
+        <div id="join-by-addr"><p class="muted">By address (works on any network, including a tailnet):</p>
+        <pre class="code"><span id="cmd-join"></span></pre>
+        <button class="btn ghost small" data-copy="cmd-join">Copy</button></div>
+        <div id="join-by-name"><p class="muted">By name (needs mDNS on the new machine):</p>
+        <pre class="code"><span id="cmd-join-mdns"></span></pre>
+        <button class="btn ghost small" data-copy="cmd-join-mdns">Copy</button></div>
+        <div id="join-win" hidden><p class="muted">Windows 10 / 11 / Server — in PowerShell opened with <b>Run as Administrator</b>.
+          It shows the plan first; run it again with <code>-Apply</code> added at the end to make the changes:</p>
+        <pre class="code"><span id="cmd-join-win"></span></pre>
+        <button class="btn ghost small" data-copy="cmd-join-win">Copy</button>
+        <p class="muted">When it asks for the join token, paste this (it is not saved on the laptop):</p>
+        <pre class="code"><span id="join-token"></span></pre>
+        <button class="btn ghost small" data-copy="join-token">Copy</button></div>
+        <p class="muted">The new machine checks this panel's certificate before sending anything. Fingerprint:
+          <span class="mono" id="join-fp">—</span></p>
+      </div>
+      <div id="join-requests"></div>
+      <div class="nodes" id="nodes"></div>
+    </section>
+
+    <!-- ADD MACHINE -->
+    <section id="add" hidden>
+      <p class="lead">Bring a machine under governance. It works with IPv6 switched on — nothing to disable.</p>
+      <div class="seg" role="tablist" aria-label="Operating system">
+        <button role="tab" data-os="linux" aria-selected="true">Ubuntu Linux</button>
+        <button role="tab" data-os="windows" aria-selected="false">Windows 10 / 11</button>
+      </div>
+      <div class="card" id="os-linux">
+        <h2>Ubuntu Server 24.04 or 26.04</h2>
+        <ol class="steps">
+          <li>Install Ubuntu with your admin user and your SSH key (the installer offers "import SSH key from GitHub").</li>
+          <li>On that machine, as the admin, run one command. It shows every change first if you add <code>--dry-run</code>.
+            <pre class="code"><span id="cmd-linux">curl -fsSLo niyantrak-bootstrap.sh &lt;release URL&gt; &amp;&amp; echo "&lt;sha256&gt;  niyantrak-bootstrap.sh" | sha256sum -c &amp;&amp; sudo bash niyantrak-bootstrap.sh</span></pre>
+            <button class="btn ghost small" data-copy="cmd-linux">Copy</button></li>
+          <li>It hardens remote login, locks root, turns on the firewall and audit rules, and refuses to lock you out.</li>
+          <li>The machine appears under <b>Fleet</b>. Approve it there.</li>
+        </ol>
+      </div>
+      <div class="card" id="os-windows" hidden>
+        <h2>Windows 10 / 11 (developer laptops)</h2>
+        <ol class="steps">
+          <li>Open <b>PowerShell as Administrator</b>.</li>
+          <li>On the control machine, open <b>Fleet</b> and press <b>Invite a machine</b>. Copy the Windows line.</li>
+          <li>Paste it into the laptop's PowerShell. It checks this panel's certificate and the script's fingerprint, then
+            shows what it would change — nothing is changed yet.</li>
+          <li>Run the same line again with <code>-Apply</code> at the end. It turns on OpenSSH Server (keys only), lets
+            only the control machine connect, and asks for the join token.</li>
+          <li>Keep IPv6 on. The laptop appears under <b>Fleet</b>; approve it there. Step-by-step and how to undo: docs/WINDOWS.md.</li>
+        </ol>
+      </div>
+    </section>
+
+    <!-- PROOF -->
+    <section id="proof" hidden>
+      <p class="lead">Evidence, not promises: every run of <code>tools/prove.py</code> keeps the test results, line coverage and the leak
+        scan in the repository, so anyone can check what was tested at which commit.</p>
+      <p class="muted" id="proof-source"></p>
+      <div class="card" id="proof-empty" hidden><h2>No proof yet</h2><p id="proof-empty-msg">No proof run yet — run tools/prove.py</p>
+        <pre class="code">python3 tools/prove.py</pre></div>
+      <div class="stack" id="proof-body" hidden>
+        <div class="tiles">
+          <div class="card tile"><div class="label">Tests passed</div><div class="metric" id="pf-tests">–</div><div class="muted" id="pf-tests-s"></div></div>
+          <div class="card tile"><div class="label">Line coverage</div><div class="metric" id="pf-cov">–</div><div class="muted">package niyantrak</div></div>
+          <div class="card tile"><div class="label">Leak scan</div><div class="metric" id="pf-leak">–</div><div class="muted">keys, tokens, private addresses</div></div>
+          <div class="card tile"><div class="label">Last run</div><div class="metric mono pf-commit" id="pf-commit">–</div><div class="muted" id="pf-date"></div></div>
+        </div>
+        <div class="two">
+          <div class="card"><div class="card-h"><h2>Tests and coverage over runs</h2><span class="muted" id="pf-runs"></span></div><div class="chart" id="c-proof"></div>
+            <p class="muted empty" id="c-proof-empty" hidden>The trend chart needs the chart library (internet connection).</p></div>
+          <div class="card"><h2>Evidence files</h2>
+            <ul class="pf-links" id="pf-links"><li><a href="proof/coverage/index.html" target="_blank" rel="noopener">Coverage report (HTML)</a></li>
+              <li><a href="proof/junit.xml" target="_blank" rel="noopener">junit.xml — every test by name</a></li>
+              <li><a href="proof/index.html" target="_blank" rel="noopener">Proof dashboard</a></li></ul>
+            <p class="muted" id="pf-links-note" hidden>In the repository under <code>proof/latest/</code>: the coverage report, junit.xml and the proof dashboard.</p>
+            <p class="muted">Re-run: <code>python3 tools/prove.py</code> at the same commit gives the same counts.</p></div>
+        </div>
+        <div class="card"><h2>Tests by file</h2><div class="tablewrap"><table class="rules" id="pf-files"><thead><tr><th>File</th><th>Passed</th><th>Failed</th><th>Skipped</th><th>Time</th><th>Status</th></tr></thead><tbody></tbody></table></div></div>
+      </div>
+    </section>
+
+    <!-- DOCS -->
+    <section id="docs" hidden>
+      <div class="row between"><p class="lead">As-built documents written from facts — each machine's signed card and the join
+        record — not from memory. The same facts always give the same files.</p>
+        <button class="btn" id="docs-regen">Regenerate</button></div>
+      <p class="muted" id="docs-status"></p>
+      <div class="card" id="docs-empty" hidden><h2>No documents yet</h2>
+        <p>Press <b>Regenerate</b> on this machine to write a fleet overview, one page per machine and a network map.</p></div>
+      <div class="docgrid" id="docs-body" hidden>
+        <div class="card"><div class="label">Documents</div><ul class="doclist" id="docs-list"></ul>
+          <p class="muted">Also saved as Markdown next to each page, for your wiki or repository.</p></div>
+        <div class="card docview"><iframe id="docs-frame" title="Generated document" sandbox="" referrerpolicy="no-referrer"></iframe></div>
+      </div>
+    </section>
+
+    <!-- TRY IT -->
+    <section id="try" hidden>
+      <p class="lead">Paste any customer message. See what an AI model would receive. Nothing is stored.</p>
+      <div class="card">
+        <div class="row between"><label class="label" for="msg">Customer message</label>
+        <div class="seg small" role="group" aria-label="Sample message"><button type="button" data-sample="in" aria-selected="true">India</button><button type="button" data-sample="eu" aria-selected="false">EU / UK</button><button type="button" data-sample="us" aria-selected="false">US</button></div></div>
+        <textarea id="msg">Hi, I am Ramesh. My Aadhaar is 2345 6789 0124 and PAN ABCPE1234F. Please refund Rs 1,200 to ramesh@okhdfc and confirm on +91 98450 12345. Card 4111 1111 1111 1111.</textarea>
+        <div class="row"><button class="btn" id="go">Show what the model receives</button><span class="muted" id="status"></span></div>
+      </div>
+      <div class="three">
+        <div class="card"><div class="label">Customer sent</div><div class="pane" id="sent"></div></div>
+        <div class="card"><div class="label">Model receives</div><div class="pane" id="masked" aria-live="polite"></div><div class="row chips" id="found"></div></div>
+        <div class="card upsell"><div class="label">Customer gets back <span class="lock">Pro</span></div>
+          <div class="pane">"Your refund to ramesh@okhdfc has started; we will confirm on +91 98450 12345."</div>
+          <p class="muted">The paid gateway puts the real values back into the reply inside your system, keeps card and health details on your own GPU, and records every turn.</p></div>
+      </div>
+    </section>
+
+    <!-- ACTIVITY 5W -->
+    <section id="activity" hidden>
+      <div class="row between"><p class="lead">Who did what, through which AI agent, where the data went, and why it was allowed. Click any part of a chart to filter the others.</p>
+        <button class="btn ghost small" id="act-reset">Clear filter</button></div>
+      <p class="muted" id="act-note"></p>
+      <div class="card"><div class="card-h"><h2>Who → agent → action → where</h2><span class="muted" id="act-filter">all activity</span></div><div class="chart tall" id="c-flow"></div></div>
+      <div class="two">
+        <div class="card"><div class="card-h"><h2>Activity over the week</h2><span class="muted">by outcome</span></div><div class="chart" id="c-time"></div></div>
+        <div class="card"><div class="card-h"><h2>Why it was allowed or stopped</h2><span class="muted">by rule</span></div><div class="chart" id="c-why"></div></div>
+      </div>
+      <div class="card"><div class="card-h"><h2>Infrastructure governance</h2><span class="muted">changes, drift and approvals per machine</span></div><div class="chart" id="c-infra"></div></div>
+    </section>
+
+    <!-- DECISIONS -->
+    <section id="decisions" hidden>
+      <p class="lead">What was decided, what replaced it, and what work is still open — read from an append-only decision
+        log that people and AI agents add to. Nothing here is edited; a status is worked out from the record.</p>
+      <div class="card" id="dg-empty" hidden><h2>No decisions recorded yet</h2><p id="dg-empty-msg"></p>
+        <pre class="code">niyantrak decisions write events.jsonl</pre></div>
+      <div class="stack" id="dg-body" hidden>
+        <div class="row between"><input id="dg-search" class="search" type="search" placeholder="Find an id or words in a title" aria-label="Search decisions">
+          <span class="muted" id="dg-meta"></span></div>
+        <div class="dg-chips" id="dg-chips" role="group" aria-label="Show or hide by status"></div>
+        <div class="dg-grid">
+          <div class="card"><div class="chart dg-chart" id="c-dg" role="img" aria-label="Graph of decisions, work items and what they are about"></div>
+            <p class="muted empty" id="c-dg-empty" hidden>The graph needs the chart library (internet connection); the open items list still works.</p>
+            <p class="muted">Diamonds are decisions, circles are work, squares are things they are about. A thick line means "replaced by".</p></div>
+          <aside class="card dg-side" id="dg-side" aria-live="polite"><h2>Open items</h2><div id="dg-open"></div></aside>
+        </div>
+      </div>
+    </section>
+
+    <!-- PRO SCREENS -->
+    <section id="compliance" hidden>
+      <div id="live-compliance" class="livebox" hidden aria-live="polite"></div>
+      <p class="lead">Pick the laws that apply where you operate. The rule book and the evidence follow.</p>
+      <div class="cards4">
+        <div class="card"><h2>GDPR (EU / UK)</h2><p>IBAN, national IDs and special-category data routed by rule; storage limited by expiry; erasure requests handled.</p><span class="pill info">Pro</span></div>
+        <div class="card"><h2>US privacy · HIPAA</h2><p>State privacy laws and health data: SSNs, card numbers and patient details masked or kept on your machines.</p><span class="pill info">Pro</span></div>
+        <div class="card"><h2>DPDP Act (India)</h2><p>Aadhaar, PAN, UPI masked or kept local; consent and erasure; breach evidence ready.</p><span class="pill info">Pro</span></div>
+        <div class="card"><h2>ISO/IEC 42001</h2><p>AI management controls mapped to what the system actually records.</p><span class="pill info">Enterprise</span></div>
+        <div class="card"><h2>EU AI Act · OWASP LLM</h2><p>Transparency, human oversight and prompt-injection controls with evidence.</p><span class="pill info">Enterprise</span></div>
+      </div>
+      <p class="muted">The product helps you meet your obligations; it does not by itself make you compliant with any law.</p>
+    </section>
+    <section id="access" hidden>
+      <div id="live-access" class="livebox" hidden aria-live="polite"></div>
+      <p class="lead">Choose how your people pay for AI. Both go through the same protection and the same record.</p>
+      <div class="two">
+        <div class="card"><h2>Subscription</h2><p>Each person signs in to Claude, ChatGPT or Gemini on their own machine. The panel checks every machine is signed in by a person and that logins are never copied between machines.</p><span class="pill info">Pro</span></div>
+        <div class="card"><h2>Pay as you go</h2><p>API keys go into an encrypted vault (SOPS + age) on your control machine. Teams get budgets and spend alerts. Keys are never shown again.</p><span class="pill info">Pro</span></div>
+        <div class="card"><h2>Indie developer</h2><p>One person, one machine, your own keys or subscription, the same protection. Free while you build.</p><span class="pill ok">Free</span></div>
+        <div class="card"><h2>Enterprise</h2><p>Teams, roles, a governance officer who approves rule changes, single sign-on, budgets per team.</p><span class="pill info">Enterprise</span></div>
+      </div>
+    </section>
+    <section id="approvals" hidden>
+      <div id="live-approvals" class="livebox" hidden aria-live="polite"></div>
+      <p class="lead">Changes wait for a person. The approval is bound to the exact plan; if the plan changes, it must be approved again. Nobody approves their own request.</p>
+      <div id="approval-list"></div>
+    </section>
+
+    <section id="rules" hidden>
+      <div id="live-rules" class="livebox" hidden aria-live="polite"></div>
+      <div class="row between"><p class="lead">The rule book in plain words. The governance officer edits and tests a rule; a second person approves it before it is enforced. Every version is kept.</p>
+        <button class="btn" id="rule-new">New rule</button></div>
+      <div class="rulegrid">
+        <div class="card"><table class="rules" id="rule-table"><thead><tr><th>Rule</th><th>Says</th><th>Action</th><th>Status</th></tr></thead><tbody></tbody></table></div>
+        <div class="card" id="rule-editor"><p class="muted">Pick a rule to read, edit or test it.</p></div>
+      </div>
+    </section>
+
+    <section id="people" hidden>
+      <div id="live-people" class="livebox" hidden aria-live="polite"></div>
+      <div class="row between"><p class="lead">Who can do what. The owner assigns roles; no one can approve their own change; auditors can see everything and change nothing.</p>
+        <button class="btn" id="invite">Invite someone</button></div>
+      <div class="card"><table class="people" id="people-table"><thead><tr><th>Person</th><th>Role</th><th>Signs in with</th><th>Last active</th><th></th></tr></thead><tbody></tbody></table></div>
+      <div class="card"><h2>What each role can do</h2><div class="tablewrap"><table class="matrix" id="role-matrix"></table></div>
+        <p class="muted">Separation of duties: requester ≠ approver; the rule book needs officer + one more person; the owner cannot be the only approver of their own changes. One-person companies run in solo mode, flagged in every evidence pack.</p></div>
+      <div class="card" id="invite-box" hidden><h2>Invite someone</h2>
+        <div class="formgrid"><label>Name<input id="inv-name" value="Kavya (Compliance)"></label><label>Email<input id="inv-email" value="kavya@example.com"></label>
+          <label>Role<select id="inv-role"><option value="officer">Governance officer</option><option value="approver">Approver</option><option value="operator">Operator / DevOps</option><option value="developer">Developer</option><option value="auditor">Auditor</option></select></label></div>
+        <div class="row"><button class="btn" id="inv-send">Create invite</button><button class="btn ghost" id="inv-cancel">Cancel</button><span class="muted" id="inv-msg"></span></div></div>
+    </section>
+
+    <section id="playbook" hidden>
+      <p class="lead">A governance officer's routine, step by step. Each step names the screen that does it.</p>
+      <div class="play">
+        <div class="card"><div class="label">Day 1 · set up (about an hour)</div><ol>
+          <li>The <b>owner</b> claims the panel with the one-time code shown on the control machine and sets a password (passkey optional).</li>
+          <li>Owner invites the <b>governance officer</b>, an <b>approver</b> and an <b>auditor</b> — <button class="link" data-go="people">People &amp; roles</button>.</li>
+          <li>Officer picks the laws that apply where you operate — <button class="link" data-go="compliance">Compliance</button>. Starter rules appear.</li>
+          <li>Officer reads each starter rule, tests it on a sample, adjusts the wording — <button class="link" data-go="rules">Rule book</button>.</li>
+          <li>Approver approves the first rule book version; it starts being enforced on bots and AI agents.</li>
+          <li>Operators add machines — <button class="link" data-go="add">Add machine</button>; developers register their laptops.</li></ol></div>
+        <div class="card"><div class="label">Every week (30 minutes)</div><ol>
+          <li>Clear the approvals queue; reject anything without a reason — <button class="link" data-go="approvals">Approvals</button>.</li>
+          <li>Look at what was blocked and why; a rule that blocks good work gets a proposed change — <button class="link" data-go="activity">Activity (5W)</button>.</li>
+          <li>Check drift caught on machines and that each was reverted or approved.</li></ol></div>
+        <div class="card"><div class="label">Every month</div><ol>
+          <li>Export the evidence pack (masked identifiers, routes, approvals, blocks, chain check) for leadership or your auditor — <button class="link" data-go="audit">Audit &amp; evidence</button>.</li>
+          <li>Review roles: remove leavers, check no one holds conflicting roles.</li>
+          <li>Review rule hits: rules never used, rules hit too often.</li></ol></div>
+        <div class="card"><div class="label">When something goes wrong</div><ol>
+          <li>Switch the affected bot or agent to <b>block</b> in one click; personal data stops flowing.</li>
+          <li>Use Activity (5W) to see who, which agent, what, where and why — the chain shows nothing was edited afterwards.</li>
+          <li>Export the incident evidence and follow your breach-notification duty (timelines differ by law — your legal adviser sets them).</li>
+          <li>Fix the rule, test it, have it approved, re-enable.</li></ol></div>
+      </div>
+    </section>
+
+    <section id="audit" hidden>
+      <div id="live-audit" class="livebox" hidden aria-live="polite"></div>
+      <p class="lead">Every bot turn and agent action, chained so that any edit or deletion is detected. Export an evidence pack for your auditor.</p>
+      <div class="card sample">
+        <div class="arow"><code>10:42</code><span class="ring"></span><div><b>WhatsApp bot</b> answered a refund query · masked Aadhaar 1, UPI 1</div><span class="route cloud">Cloud · masked</span></div>
+        <div class="arow"><code>10:31</code><span class="ring"></span><div><b>AI agent</b> tried to read a secrets folder</div><span class="route block">Blocked</span></div>
+        <div class="arow"><code>10:12</code><span class="ring bad"></span><div><b>Chain check</b> found a gap after record 18,204</div><span class="pill crit">Broken</span></div>
+        <p class="muted">Example · Pro</p>
+      </div>
+    </section>
+  </main>
+</div>
+</body>
+</html>

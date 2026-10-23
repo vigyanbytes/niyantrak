@@ -1,0 +1,26 @@
+#cloud-config
+# niyantrak-lab-only
+# niyantrak lab cloud-image seed (VPS-style start: official Ubuntu cloud image + cloud-init NoCloud).
+# Same rules as a real cloud node: admin with SSH key only, root locked, no password logins.
+hostname: @HOSTNAME@
+disable_root: true
+ssh_pwauth: false
+users:
+  - name: labadmin
+    groups: [adm, sudo]
+    shell: /bin/bash
+    lock_passwd: true
+    # LAB ONLY: tests need sudo without a password; policy.py refuses this outside lab seeds.
+    sudo: "ALL=(ALL) NOPASSWD:ALL"
+    ssh_authorized_keys:
+      - "@PUBKEY@"
+write_files:
+  - path: /etc/ssh/sshd_config.d/10-niyantrak-lab.conf
+    permissions: "0644"
+    content: |
+      PermitRootLogin no
+      PasswordAuthentication no
+      KbdInteractiveAuthentication no
+timezone: Etc/UTC
+runcmd:
+  - [systemctl, reload, ssh]
