@@ -21,6 +21,11 @@ before a model sees it, stops dangerous agent actions, and records every decisio
   tamper-evident store, answerable in plain words with the exact SQL shown. This release: 801 tests passed,
   89.2% line coverage, leak scan clean ([proof/latest](proof/latest/index.html)).
 
+> **Who this edition is for.** The free edition is for individual developers and self-managed machines. Its agent
+> gate installs at user level — a seatbelt, not a sandbox: on a machine you don't administer, a user could remove it.
+> Organisation-wide enforcement uses admin-managed settings deployed by IT (Intune, Jamf, Group Policy, Fleet) and is
+> part of the commercial editions, currently in lab validation.
+
 > **Status: alpha (v0.1.1).** The free tools in this repository work and are tested on every commit, but interfaces
 > may change before 1.0. Lab-tested and ready for a first pilot; there is no pilot customer yet. Do not rely on it as
 > your only control for regulated data yet. See [CHANGELOG.md](CHANGELOG.md).
