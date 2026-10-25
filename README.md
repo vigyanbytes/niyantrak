@@ -15,7 +15,8 @@ before a model sees it, stops dangerous agent actions, and records every decisio
 - **Expose no one**: checksum-validated detection of identifiers from India, the EU, the UK, the US and global
   formats; a model receives placeholders, never the values.
 - **Stop what should not run**: one agent gate with hard stops for Claude Code, Codex, Gemini CLI, OpenCode and
-  Antigravity (destructive commands, credential files, production changes).
+  Antigravity (destructive commands, credential files, production changes). In the free edition it installs into
+  the user's own agent settings: for individual developers and self-managed machines, a seatbelt, not a sandbox.
 - **Prove everything**: every action becomes a **6W (who, whom, what, where, why, which) + when** event in a
   tamper-evident store, answerable in plain words with the exact SQL shown. This release: 801 tests passed,
   89.2% line coverage, leak scan clean ([proof/latest](proof/latest/index.html)).
@@ -71,14 +72,16 @@ What the **free edition in this repository** works with today:
 
 | | |
 |---|---|
-| **AI coding agents** (agent gate) | Claude Code, Codex, Gemini CLI, OpenCode, Antigravity — `niyantrak gate install --cli all` |
+| **AI coding agents** (agent gate) | Claude Code, Codex, Gemini CLI, OpenCode, Antigravity — `niyantrak gate install --cli all`. Installs into user-level settings and hooks, which that user can remove: for individual developers and self-managed machines, not organisation-wide enforcement |
 | **Activity ingest** (6W sink) | OpenTelemetry: OTLP/HTTP logs in **JSON** encoding (`POST /v1/logs`); plain JSON 6W events (`POST /v1/events`, or a file with `niyantrak telemetry ingest`) — see [docs/6W.md](docs/6W.md) |
 | **Operating systems** | Linux: everything. Windows 10/11: scan, panel, 6W questions and decisions, without WSL (the gate installer, node bootstrap and joining as a node are Linux today; see [FAQ](docs/FAQ.md)). macOS: not tested |
 | **Python** | 3.10 – 3.13; the core uses the standard library only |
 | **Storage** | local files only: Parquet + DuckDB for 6W (`[telemetry]` extra); append-only JSONL segments with a manifest for decisions |
 
 Commercial editions add: a redact-and-reclaim gateway, a rule book that compiles to policy engines (for example the
-Microsoft Agent Governance Toolkit), approvals, evidence packs and a fleet console. They are not in this repository;
+Microsoft Agent Governance Toolkit), approvals, evidence packs and a fleet console. Organisation-wide enforcement,
+where the agent controls are admin-managed settings deployed by IT (Intune, Jamf, Group Policy, Fleet) that a user
+cannot remove, is part of the commercial editions and is in lab validation, not yet shipped. They are not in this repository;
 see [Editions & licensing](#editions--licensing).
 
 ## Screenshots
@@ -152,7 +155,8 @@ Brazil, with *helps / partial / commercial / roadmap / yours* for each duty. It 
 |---|---|---|---|---|
 | `niyantrak scan` — identifier detection with checksums (India, EU, UK, US, global) | ✅ | ✅ | ✅ | ✅ |
 | Panel: try-it, machine checks, fleet join + approval, activity, decisions, docs, proof | ✅ (single operator, local) | hosted | self-hosted | air-gapped |
-| Agent gate: hard stops for AI coding agents | ✅ | ✅ | ✅ | ✅ |
+| Agent gate: hard stops for AI coding agents | ✅ (user-level install: a seatbelt, not a sandbox) | ✅ | ✅ | ✅ |
+| Organisation-wide enforcement: admin-managed agent settings deployed by IT (Intune, Jamf, Group Policy, Fleet) | — | — | in lab validation | in lab validation |
 | Node bootstrap: stock Ubuntu → hardened, audited node | ✅ | ✅ | ✅ | ✅ |
 | Redact-and-reclaim gateway (multi-turn, encrypted map with expiry and erasure) | — | ✅ | ✅ | ✅ |
 | Jurisdiction profiles (DPDP, GDPR, more) and local-only routing | — | DPDP | all | all |
