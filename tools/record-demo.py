@@ -79,7 +79,7 @@ def walkthrough(pw, url, tmp):
     for step, text, wait in (
             ("overview", "Overview: this machine's governance checks and what was found", 7000),
             ("fleet", "Fleet: machines join with a signed card over pinned TLS; the operator approves", 7000),
-            ("activity", "Activity (5W): who · which agent · what · where · why — labels and counts only", 8000)):
+            ("activity", "Activity (6W): who · which agent · which project · what · where · why — labels and counts only", 8000)):
         go(step)
         page.wait_for_timeout(600)
         cap(text)
@@ -99,7 +99,7 @@ def walkthrough(pw, url, tmp):
         page.wait_for_timeout(600)
         cap(text)
         page.wait_for_timeout(wait)
-    cap("Ask the 5W store in SQL: niyantrak telemetry ask \"who ran destructive commands this week\"")
+    cap("Ask the 6W store in SQL: niyantrak telemetry ask \"who ran destructive commands this week\"")
     page.wait_for_timeout(5000)
     cap("Apache-2.0 · github.com/vigyanbytes/niyantrak")
     page.wait_for_timeout(3500)

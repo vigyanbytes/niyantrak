@@ -1,14 +1,17 @@
-"""5W sink: OTLP/HTTP JSON logs and plain JSON events in, validated 5W events out (to a Store).
+"""6W sink: OTLP/HTTP JSON logs and plain JSON events in, validated 6W events out (to a Store).
 
     niyantrak telemetry sink [--bind 127.0.0.1] [--port 4318] [--dir <store>] [--writer <name>]
 
     POST /v1/logs     OTLP/HTTP with Content-Type application/json (protobuf: 415 — set the exporter to json)
-    POST /v1/events   one 5W event, a list of them, or {"events": [...]}; strict: an event with any field outside
-                      the 5W allow-list is rejected (400 when nothing was accepted)
+    POST /v1/events   one 6W event, a list of them, or {"events": [...]}; strict: an event with any field outside
+                      the 6W allow-list is rejected (400 when nothing was accepted)
 
 OTLP mapping (ALLOW below). Everything else — the log body, gen_ai.prompt / completion / message content, any
 attribute not listed — is dropped before validation and only counted. user and session ids are pseudonymised with
 a per-store salt; a record whose allowed attributes still hold an identifier value is rejected, not stored.
+`which` (the project): niyantrak.which, else the OpenTelemetry VCS attributes vcs.repository.url.full (reduced to
+owner/repo by repo_label: credentials, host, query and .git dropped) and vcs.repository.name (no owner, by the
+convention), else the deprecated code.namespace that older instrumentations still send.
 Keep the sink on loopback or a private address: it has no authentication of its own.
 """
 import json
@@ -17,11 +20,12 @@ from datetime import datetime, timezone
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 
 from . import schema as S
+from .schema import repo_label  # noqa: F401  (re-exported)
 
 MAX_BODY = 5 * 1024 * 1024
 ENTITY_PREFIX = "niyantrak.entity."
 
-# 5W field <- OTLP attribute keys, first non-empty wins (record attributes before resource attributes)
+# 6W field <- OTLP attribute keys, first non-empty wins (record attributes before resource attributes)
 ALLOW = {
     "who": ["niyantrak.who", "enduser.role", "user.role"],
     "who_id": ["enduser.id", "user.id"],                                  # pseudonymised into who
@@ -29,6 +33,7 @@ ALLOW = {
     "what": ["niyantrak.what", "gen_ai.operation.name", "event.name"],
     "where": ["niyantrak.where", "gen_ai.provider.name", "gen_ai.system", "server.address"],
     "why": ["niyantrak.why"],
+    "which": ["niyantrak.which", "vcs.repository.url.full", "vcs.repository.name", "code.namespace"],
     "agent": ["niyantrak.agent", "gen_ai.agent.name", "service.name"],
     "route": ["niyantrak.route", "gen_ai.request.model"],
     "machine": ["niyantrak.machine", "host.name"],
@@ -63,7 +68,7 @@ def _any(v):
                 return None
     if "arrayValue" in v:
         return [_any(x) for x in (v["arrayValue"] or {}).get("values", [])]
-    return None                      # kvlist / bytes: never part of a 5W event
+    return None                      # kvlist / bytes: never part of a 6W event
 
 
 def _attrs(lst):
@@ -81,7 +86,7 @@ def _ts(nanos):
 
 
 def map_record(attrs, resource, ts, salt):
-    """One OTLP log record (raw attribute dicts) -> (candidate 5W event, dropped count)."""
+    """One OTLP log record (raw attribute dicts) -> (candidate 6W event, dropped count)."""
     merged = {**resource, **attrs}
     dropped = sum(1 for k in merged if k not in ALLOWED_KEYS and not k.startswith(ENTITY_PREFIX))
     pick = lambda f: next((v for v in (_any(merged.get(k)) for k in ALLOW[f]) if v not in (None, "", [])), None)
@@ -90,6 +95,11 @@ def map_record(attrs, resource, ts, salt):
         v = pick(f)
         if v is not None:
             ev[f] = [str(x) for x in v] if f == "rule_ids" and isinstance(v, list) else (v if f == "rule_ids" else str(v))
+    for k in ALLOW["which"]:                                        # first one present wins; a URL loses its
+        v = _any(merged.get(k))                                     # credentials before anything looks at it
+        if v not in (None, ""):
+            ev["which"] = S.repo_label(str(v)) if k == "vcs.repository.url.full" else str(v)
+            break
     if "who" not in ev and pick("who_id") is not None:
         ev["who"] = S.pseudonym(pick("who_id"), salt)
     if pick("session_id") is not None:
@@ -130,7 +140,7 @@ def from_otlp(doc, salt):
 
 
 def from_json(payload, actor=None, agent=None):
-    """Plain 5W events. With actor (niyantrak.identity.Identity) an event without `who` is stamped with that person,
+    """Plain 6W (or 5W) events. With actor (niyantrak.identity.Identity) an event without `who` is stamped with that person,
     their directory id and the agent acting for them; whatever the caller set is kept."""
     items = payload.get("events") if isinstance(payload, dict) and "events" in payload else payload
     items = items if isinstance(items, list) else [items]
@@ -204,5 +214,5 @@ def make_server(store, bind="127.0.0.1", port=4318):
 
 def serve(store, bind="127.0.0.1", port=4318):
     srv = make_server(store, bind, port)
-    print(f"Niyantrak 5W sink: http://{bind}:{srv.server_address[1]}/v1/logs (OTLP JSON) and /v1/events -> {store.root}")
+    print(f"Niyantrak 6W sink: http://{bind}:{srv.server_address[1]}/v1/logs (OTLP JSON) and /v1/events -> {store.root}")
     srv.serve_forever()

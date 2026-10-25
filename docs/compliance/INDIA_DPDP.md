@@ -55,11 +55,11 @@ Status: **Helps** (free edition, code here) · **Partial** · **Commercial** (no
 
 | Provision | What it asks (short) | Niyantrak | Status |
 |---|---|---|---|
-| s. 4–7 Lawful processing, notice, consent | Process only for a lawful purpose with notice and consent or a legitimate use | `why` on every 5W event records the purpose of each flow. Notice and consent are yours. | Partial |
+| s. 4–7 Lawful processing, notice, consent | Process only for a lawful purpose with notice and consent or a legitimate use | `why` on every 6W event records the purpose of each flow. Notice and consent are yours. | Partial |
 | s. 8(4) Technical and organisational measures | Measures to ensure effective observance | Agent gate, node hardening, records. | Partial |
 | **s. 8(5) + Rule 6(1)(a)** | Reasonable security safeguards, "at the minimum" including **"encryption, obfuscation, masking or the use of virtual tokens mapped to that personal data"** | Free: `niyantrak scan` finds identifiers and shows placeholders. Commercial: the redact-and-reclaim gateway replaces identifiers with placeholders mapped to the real values (virtual tokens) before a model call. | Detection: Helps. Masking in the live path: Commercial (in pilots) |
 | Rule 6(1)(b) | Control access to computer resources | Agent gate denies credential-file reads and production changes by AI agents; panel on loopback; signed join. | Partial |
-| **Rule 6(1)(c)** | **"Visibility on the accessing of such personal data, through appropriate logs, monitoring and review"** | 5W events (who, whom, what, where, why, counts of identifier types) and the Activity view; tamper-evident store. | Partial — covers flows that send events to Niyantrak |
+| **Rule 6(1)(c)** | **"Visibility on the accessing of such personal data, through appropriate logs, monitoring and review"** | 6W events (who, whom, what, where, why, which, counts of identifier types) and the Activity view; tamper-evident store. | Partial — covers flows that send events to Niyantrak |
 | Rule 6(1)(e) | Keep such logs and personal data for **one year** for detection and investigation, unless another law requires otherwise | Logs stay on your machines; no retention setting. | Partial — set one-year retention yourself |
 | Rule 6(1)(f) | Security clauses in contracts with Data Processors | `where` / `route` record which processor (model provider) got each request. Contracts are yours. | Partial |
 | **s. 8(6) + Rule 7** | Intimate each affected person and the Board without delay; detailed report to the Board **within 72 hours** | Records to reconstruct what data went where. Intimation is yours. | Partial |
@@ -79,8 +79,8 @@ up to ₹200 crore for failing to give breach notice (s. 8(6)); up to ₹200 cro
 | Direction | What it asks | Niyantrak | Status |
 |---|---|---|---|
 | (i) Clock sync | Sync ICT clocks to NIC/NPL NTP or traceable sources | Events stored in UTC. NTP setup is yours. | Yours |
-| (ii) Incident reporting | Report listed cyber incidents to CERT-In **within 6 hours** of noticing them | Gate and 5W records help answer "what happened, on which machine, by which agent". Reporting is yours. | Partial |
-| (iv) Logs | Enable logs of all ICT systems; keep them securely for a **rolling 180 days**, **within Indian jurisdiction**; give them to CERT-In on request | Gate logs, 5W store and bootstrap auditd rules are kept on your own machines, so you control where they are. No retention setting. | Partial — keep 180 days (CERT-In) and one year (DPDP Rule 6(1)(e)), whichever is longer for your case |
+| (ii) Incident reporting | Report listed cyber incidents to CERT-In **within 6 hours** of noticing them | Gate and 6W records help answer "what happened, on which machine, by which agent". Reporting is yours. | Partial |
+| (iv) Logs | Enable logs of all ICT systems; keep them securely for a **rolling 180 days**, **within Indian jurisdiction**; give them to CERT-In on request | Gate logs, 6W store and bootstrap auditd rules are kept on your own machines, so you control where they are. No retention setting. | Partial — keep 180 days (CERT-In) and one year (DPDP Rule 6(1)(e)), whichever is longer for your case |
 
 ## Indian identifiers Niyantrak detects
 

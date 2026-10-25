@@ -5,13 +5,35 @@ versions follow [Semantic Versioning](https://semver.org/) — before 1.0, minor
 
 ## [Unreleased]
 
+## [0.1.1] — 2026-10-25 — alpha
+
 ### Added
+- **6W activity** — the 5W event becomes **6W (who, whom, what, where, why, which) + when**. The new optional field
+  `which` is the project / repository / workspace the action touched (`acme/payments-api`, `ws-01:~/projects/app`),
+  checked like every other label (recognizers, digit runs, length, one line). Schema id `niyantrak.6w/1`; events with
+  `niyantrak.5w/1` are still accepted and segments written by v0.1.0 are read as they are, with `which` = null (no
+  migration; `telemetry verify` and `compact` are unchanged). See `docs/6W.md` (was `docs/5W.md`; the old name is a
+  stub that points to the new one, likewise `docs/QUERYING_5W.md` → `docs/QUERYING_6W.md`).
+- The **agent gate** fills `which` on every decision from the folder the agent works in (the hook payload's `cwd`):
+  the git remote as `owner/repo` with credentials and host dropped (the config file is read; git is never run), else
+  the repository's or the folder's name; never the home folder or the filesystem root.
+- **OTLP**: `which` ← `niyantrak.which`, else `vcs.repository.url.full` (reduced to `owner/repo`, credentials
+  stripped), else `vcs.repository.name`, else the deprecated `code.namespace` (OpenTelemetry semantic conventions).
+- `niyantrak telemetry settings --pseudonymise-which on|off`: store `which` as a salted pseudonym (HMAC with the
+  store salt, like `session`) for teams that keep project names out of logs. Off by default.
+- Panel and `GET /api/activity`: `k=which` filter, a **By project** chart (`by.which`), and the Sankey runs
+  who → agent → which → what → where (events without `which` skip that column).
+- `niyantrak telemetry ask`: three project questions — blocked actions per project, top projects by personal data
+  found, agents per project (thirteen templates in all).
+- Sample team: fictional projects acme/payments-api, acme/clinic-portal, acme/infra, acme/data-pipeline,
+  acme/support-bot and acme/clinic-bot; every other field of the generated events is unchanged.
 - `docs/compliance/`: how the features relate to the EU AI Act, GDPR, ISO/IEC 42001, ISO/IEC 27001, NIST AI RMF, India
   (DPDP Act, DPDP Rules 2025, CERT-In) and other regions, with honest status per duty. Not legal advice.
+- Compliance docs mention the `which` pseudonymisation setting (GDPR data minimisation).
 - Roadmap: configurable log retention (EU AI Act deployer logs at least 6 months, DPDP Rules 1 year, CERT-In 180 days).
 
 ### Fixed
-- 5W store: a segment changed after the query view was built went unnoticed by `activity()`, the panel and
+- Store integrity check on every load: a segment changed after the query view was built went unnoticed by `activity()`, the panel and
   `telemetry sql|ask` until the manifest changed (only `telemetry verify` saw it). The integrity check now runs on
   every query, also when the cached view is reused. Reported by the dashboard build.
 - `tools/build-demo.py` and the proof reader use UTF-8 explicitly (Windows opens text as cp1252 by default).
@@ -72,5 +94,6 @@ First public release of the free edition (Apache-2.0).
 - Free-edition panel is single-operator: approvals are accepted from loopback only.
 - Not yet published to PyPI; install from source.
 
-[Unreleased]: https://github.com/vigyanbytes/niyantrak/compare/v0.1.0...HEAD
+[Unreleased]: https://github.com/vigyanbytes/niyantrak/compare/v0.1.1...HEAD
+[0.1.1]: https://github.com/vigyanbytes/niyantrak/compare/v0.1.0...v0.1.1
 [0.1.0]: https://github.com/vigyanbytes/niyantrak/releases/tag/v0.1.0

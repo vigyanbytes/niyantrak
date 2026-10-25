@@ -1,8 +1,9 @@
 # Architecture
 
 Niyantrak sits between the things that act (customer-facing bots, AI coding agents, operators) and the things that
-can do damage (AI models, production machines, personal data). Every decision it makes is recorded as a 5W event:
-**who** acted, on **whom**'s behalf, **what** they did, **where** the data went and **why** it was allowed or stopped.
+can do damage (AI models, production machines, personal data). Every decision it makes is recorded as a 6W event:
+**who** acted, on **whom**'s behalf, **what** they did, **where** the data went, **why** it was allowed or stopped and
+**which** project, repository or workspace it touched — 6W (who, whom, what, where, why, which) + when.
 
 ## The whole picture
 ```mermaid
@@ -15,9 +16,9 @@ flowchart LR
     GW -->|placeholders only| CLOUD[(Cloud model)]
     LOCAL --> RC[Reclaim<br/>real values back]
     CLOUD --> RC
-    GATE --> EV5[(5W events<br/>labels + counts, never values)]
-    RC --> EV5
-    EV5 --> PANEL
+    GATE --> EV6[(6W events<br/>labels + counts, never values)]
+    RC --> EV6
+    EV6 --> PANEL
     DEC[(Decision log<br/>append-only)] --> PANEL
     PANEL[Panel<br/>try-it · fleet · activity · decisions · docs · proof]
     NODES[Machines<br/>bootstrap → signed card → join over pinned TLS → approval] --> PANEL
@@ -25,7 +26,7 @@ flowchart LR
   end
   RC --> B
 ```
-Free edition (this repository): identifier detection, panel, agent gate, 5W events and store, decision log, as-built
+Free edition (this repository): identifier detection, panel, agent gate, 6W events and store, decision log, as-built
 docs, signed node cards, join flow, discovery, bootstrap. Commercial: the gateway (mask → route → reclaim), the rule
 book compiler, roles and approvals, evidence packs.
 
@@ -35,7 +36,7 @@ book compiler, roles and approvals, evidence packs.
 | Identifier scan | `niyantrak/recognizers.py`, `cli.py` | regex + checksum (Verhoeff, Luhn, mod-97, GSTIN, NHS mod-11, NPI, KVNR) per pack, region tag per recognizer; placeholders `<TYPE_n>` | never prints or stores values |
 | Panel | `niyantrak/panel.py`, `web/` | standard-library HTTP server; static UI + JSON API | binds 127.0.0.1; join/approve accepted only from loopback |
 | Agent gate | `niyantrak/gate/` | `engine` decides allow/deny with a rule id; `shell` parses what would actually execute; `adapters` speak each CLI's hook format; `installers` merge hooks without clobbering; `mode` enforce/audit/off | file contents written by an editor are data, never commands |
-| 5W events | `niyantrak/telemetry/` | `schema` allow-lists fields and rejects free text and identifier values; `sink` accepts OTLP/HTTP JSON and plain JSON; `store` writes Parquet segments with a hash-chained manifest, DuckDB views | counts per type only; tamper-evident manifest |
+| 6W events | `niyantrak/telemetry/` | `schema` allow-lists fields and rejects free text and identifier values; `sink` accepts OTLP/HTTP JSON and plain JSON; `store` writes Parquet segments with a hash-chained manifest, DuckDB views | counts per type only; tamper-evident manifest |
 | Decision log | `niyantrak/decisions/` | DECISION / WORK / THING events, append-only; status (open, superseded, closed) is derived, never stored | writer refuses secret-shaped text |
 | As-built docs | `niyantrak/docs/` | Markdown + HTML + SVG network map from node cards and the join store; deterministic output | card text is untrusted and escaped; host keys only as sha256 |
 | Node card | `niyantrak/card.py` | hardware, OS, addresses; signed with the machine's SSH host key (`ssh-keygen -Y`) | an announcement is a hint; the signature is the trust |
@@ -50,7 +51,7 @@ sequenceDiagram
   participant Agent as AI coding agent (CLI)
   participant Hook as CLI hook → `niyantrak gate check`
   participant Engine as gate.engine
-  participant Log as 5W JSONL log
+  participant Log as 6W JSONL log
   Agent->>Hook: tool call payload (stdin)
   Hook->>Engine: ToolCall (shell command / file path)
   Engine->>Engine: shell.parse → what actually executes
@@ -80,8 +81,8 @@ sequenceDiagram
 
 ## Data that is never kept
 Message text, prompts, replies and identifier values are never written by the free tools. The scan returns
-placeholders and counts; 5W events hold labels and counts; the gate logs a command's sha256; the join store holds token
-hashes and public keys. See [5W.md](5W.md) for the exact event schema.
+placeholders and counts; 6W events hold labels and counts; the gate logs a command's sha256; the join store holds token
+hashes and public keys. See [6W.md](6W.md) for the exact event schema.
 
 ## Running it
 Today: bare-metal or VM nodes, Python (standard library) + shell, systemd, nginx; no Kubernetes needed. The panel and

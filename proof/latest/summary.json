@@ -1,22 +1,22 @@
 {
- "date": "2026-10-23T22:55:55+05:30",
- "commit": "d9ddd3f",
+ "date": "2026-10-25T09:29:06+05:30",
+ "commit": "14f6857",
  "branch": "launch/v0.1.0",
  "tree_clean": true,
  "result": "pass",
  "tests": {
-  "passed": 758,
+  "passed": 800,
   "failed": 0,
   "skipped": 1,
   "errors": 0,
-  "total": 759
+  "total": 801
  },
- "coverage_pct": 89.1,
+ "coverage_pct": 89.2,
  "leak_scan": "clean",
  "timings": {
-  "unit_tests": 68.72,
-  "leak_scan": 1.63,
-  "screens": 9.85
+  "unit_tests": 76.4,
+  "leak_scan": 0.36,
+  "screens": 9.72
  },
  "files": [
   {
@@ -26,42 +26,42 @@
    "skipped": 0,
    "errors": 0,
    "total": 18,
-   "time": 2.725,
+   "time": 2.766,
    "tests": [
     {
      "name": "test_full_run_writes_expected_files",
      "outcome": "passed",
-     "time": 0.281
+     "time": 0.26
     },
     {
      "name": "test_node_id_is_stable_and_case_insensitive",
      "outcome": "passed",
-     "time": 0.421
+     "time": 0.416
     },
     {
      "name": "test_setup_code_only_hash_stored",
      "outcome": "passed",
-     "time": 0.242
+     "time": 0.246
     },
     {
      "name": "test_rerun_is_idempotent",
      "outcome": "passed",
-     "time": 0.299
+     "time": 0.314
     },
     {
      "name": "test_resume_after_failure",
      "outcome": "passed",
-     "time": 0.283
+     "time": 0.284
     },
     {
      "name": "test_os_detection_refuses[debian-12-x86_64-unsupported OS 'debian']",
      "outcome": "passed",
-     "time": 0.02
+     "time": 0.017
     },
     {
      "name": "test_os_detection_refuses[fedora-40-x86_64-unsupported OS 'fedora']",
      "outcome": "passed",
-     "time": 0.02
+     "time": 0.017
     },
     {
      "name": "test_os_detection_refuses[ubuntu-22.04-x86_64-not a supported LTS]",
@@ -76,12 +76,12 @@
     {
      "name": "test_ubuntu_2604_accepted",
      "outcome": "passed",
-     "time": 0.22
+     "time": 0.246
     },
     {
      "name": "test_not_root_refused",
      "outcome": "passed",
-     "time": 0.016
+     "time": 0.015
     },
     {
      "name": "test_root_login_without_sudo_refused",
@@ -91,32 +91,32 @@
     {
      "name": "test_ssh_guard_without_key",
      "outcome": "passed",
-     "time": 0.073
+     "time": 0.076
     },
     {
      "name": "test_firewall_guard_public_ssh_session",
      "outcome": "passed",
-     "time": 0.126
+     "time": 0.136
     },
     {
      "name": "test_firewall_allows_tailnet_session",
      "outcome": "passed",
-     "time": 0.283
+     "time": 0.295
     },
     {
      "name": "test_dry_run_writes_nothing",
      "outcome": "passed",
-     "time": 0.14
+     "time": 0.148
     },
     {
      "name": "test_node_role_has_no_setup_code",
      "outcome": "passed",
-     "time": 0.235
+     "time": 0.232
     },
     {
      "name": "test_bad_option",
      "outcome": "passed",
-     "time": 0.013
+     "time": 0.011
     }
    ]
   },
@@ -127,12 +127,12 @@
    "skipped": 0,
    "errors": 0,
    "total": 10,
-   "time": 0.069,
+   "time": 0.073,
    "tests": [
     {
      "name": "test_genuine_card_verifies",
      "outcome": "passed",
-     "time": 0.018
+     "time": 0.017
     },
     {
      "name": "test_edited_card_fails",
@@ -142,7 +142,7 @@
     {
      "name": "test_other_nodes_key_fails",
      "outcome": "passed",
-     "time": 0.022
+     "time": 0.025
     },
     {
      "name": "test_card_hash_is_canonical",
@@ -152,7 +152,7 @@
     {
      "name": "test_collect_has_no_secrets_and_stable_id",
      "outcome": "passed",
-     "time": 0.006
+     "time": 0.007
     },
     {
      "name": "test_txt_and_parse_roundtrip",
@@ -177,7 +177,7 @@
     {
      "name": "test_save_peers_atomic",
      "outcome": "passed",
-     "time": 0.001
+     "time": 0.002
     }
    ]
   },
@@ -188,12 +188,12 @@
    "skipped": 0,
    "errors": 0,
    "total": 4,
-   "time": 0.179,
+   "time": 0.205,
    "tests": [
     {
      "name": "test_scan_masks_and_hides_values",
      "outcome": "passed",
-     "time": 0.035
+     "time": 0.049
     },
     {
      "name": "test_scan_ignores_invalid_checksum",
@@ -203,12 +203,12 @@
     {
      "name": "test_scan_json",
      "outcome": "passed",
-     "time": 0.037
+     "time": 0.036
     },
     {
      "name": "test_node_after_bootstrap",
      "outcome": "passed",
-     "time": 0.071
+     "time": 0.084
     }
    ]
   },
@@ -219,7 +219,7 @@
    "skipped": 0,
    "errors": 0,
    "total": 42,
-   "time": 0.36,
+   "time": 0.4,
    "tests": [
     {
      "name": "test_schema_has_actor_fields",
@@ -234,32 +234,32 @@
     {
      "name": "test_normalize_rejects_bad_events",
      "outcome": "passed",
-     "time": 0.001
+     "time": 0.005
     },
     {
      "name": "test_secrets_are_refused_and_nothing_written",
      "outcome": "passed",
-     "time": 0.002
+     "time": 0.003
     },
     {
      "name": "test_personal_identifiers_are_refused",
      "outcome": "passed",
-     "time": 0.002
+     "time": 0.003
     },
     {
      "name": "test_append_only_segments_and_manifest",
      "outcome": "passed",
-     "time": 0.079
+     "time": 0.133
     },
     {
      "name": "test_verify_detects_tampering",
      "outcome": "passed",
-     "time": 0.004
+     "time": 0.005
     },
     {
      "name": "test_parquet_segments_when_pyarrow_present",
      "outcome": "passed",
-     "time": 0.006
+     "time": 0.007
     },
     {
      "name": "test_works_without_pyarrow",
@@ -279,17 +279,17 @@
     {
      "name": "test_work_statuses_latest_status_wins",
      "outcome": "passed",
-     "time": 0.007
+     "time": 0.006
     },
     {
      "name": "test_retracting_supersession_restores_in_force",
      "outcome": "passed",
-     "time": 0.017
+     "time": 0.013
     },
     {
      "name": "test_pending_decision_closed_by_done_status",
      "outcome": "passed",
-     "time": 0.012
+     "time": 0.009
     },
     {
      "name": "test_bucket_maps_raw_ledger_words",
@@ -299,17 +299,17 @@
     {
      "name": "test_open_items_exact_lists",
      "outcome": "passed",
-     "time": 0.009
+     "time": 0.006
     },
     {
      "name": "test_materialize_is_idempotent",
      "outcome": "passed",
-     "time": 0.021
+     "time": 0.016
     },
     {
      "name": "test_export_graph_shape",
      "outcome": "passed",
-     "time": 0.009
+     "time": 0.008
     },
     {
      "name": "test_export_empty",
@@ -319,7 +319,7 @@
     {
      "name": "test_duckdb_views_agree_when_available",
      "outcome": "passed",
-     "time": 0.101
+     "time": 0.092
     },
     {
      "name": "test_local_endpoints_accepted[http://127.0.0.1:8000/v1]",
@@ -414,17 +414,17 @@
     {
      "name": "test_ask_sends_exact_rows_to_local_model",
      "outcome": "passed",
-     "time": 0.006
+     "time": 0.007
     },
     {
      "name": "test_ask_list_only_and_no_rows_send_nothing",
      "outcome": "passed",
-     "time": 0.006
+     "time": 0.007
     },
     {
      "name": "test_cli_write_open_export_verify",
      "outcome": "passed",
-     "time": 0.028
+     "time": 0.03
     },
     {
      "name": "test_cli_write_refuses_secrets",
@@ -440,12 +440,12 @@
    "skipped": 0,
    "errors": 0,
    "total": 7,
-   "time": 2.55,
+   "time": 2.552,
    "tests": [
     {
      "name": "test_api_decisions_empty",
      "outcome": "passed",
-     "time": 0.505
+     "time": 0.506
     },
     {
      "name": "test_api_decisions_populated",
@@ -455,12 +455,12 @@
     {
      "name": "test_api_docs_empty_then_regenerate",
      "outcome": "passed",
-     "time": 0.528
+     "time": 0.524
     },
     {
      "name": "test_docs_files_confined",
      "outcome": "passed",
-     "time": 0.508
+     "time": 0.51
     },
     {
      "name": "test_regenerate_refused_off_localhost",
@@ -470,12 +470,12 @@
     {
      "name": "test_join_listener_does_not_expose_new_routes",
      "outcome": "passed",
-     "time": 0.001
+     "time": 0.002
     },
     {
      "name": "test_panel_has_decisions_and_docs_screens",
      "outcome": "passed",
-     "time": 0.001
+     "time": 0.003
     }
    ]
   },
@@ -486,37 +486,37 @@
    "skipped": 0,
    "errors": 0,
    "total": 6,
-   "time": 20.26,
+   "time": 26.311,
    "tests": [
     {
      "name": "test_same_seed_same_bytes",
      "outcome": "passed",
-     "time": 7.449
+     "time": 9.691
     },
     {
      "name": "test_events_are_valid_and_inside_the_window",
      "outcome": "passed",
-     "time": 2.744
+     "time": 3.556
     },
     {
      "name": "test_only_fictional_people_machines_and_documentation_addresses",
      "outcome": "passed",
-     "time": 2.548
+     "time": 3.219
     },
     {
      "name": "test_stores_verify_and_bundle_is_labelled",
      "outcome": "passed",
-     "time": 2.463
+     "time": 3.111
     },
     {
      "name": "test_build_demo_embeds_the_bundle",
      "outcome": "passed",
-     "time": 2.539
+     "time": 3.638
     },
     {
      "name": "test_demo_tools_do_not_depend_on_the_platform_encoding",
      "outcome": "passed",
-     "time": 2.517
+     "time": 3.096
     }
    ]
   },
@@ -527,7 +527,7 @@
    "skipped": 0,
    "errors": 0,
    "total": 11,
-   "time": 0.131,
+   "time": 0.122,
    "tests": [
     {
      "name": "test_collect_merges_local_and_joined_nodes",
@@ -537,17 +537,17 @@
     {
      "name": "test_render_page_set",
      "outcome": "passed",
-     "time": 0.014
+     "time": 0.01
     },
     {
      "name": "test_no_keys_or_token_hashes_in_output",
      "outcome": "passed",
-     "time": 0.013
+     "time": 0.008
     },
     {
      "name": "test_untrusted_card_text_is_escaped",
      "outcome": "passed",
-     "time": 0.008
+     "time": 0.007
     },
     {
      "name": "test_svg_is_wellformed",
@@ -557,7 +557,7 @@
     {
      "name": "test_deterministic_regardless_of_input_order",
      "outcome": "passed",
-     "time": 0.017
+     "time": 0.014
     },
     {
      "name": "test_golden_output",
@@ -567,12 +567,12 @@
     {
      "name": "test_write_is_byte_identical_and_removes_stale",
      "outcome": "passed",
-     "time": 0.022
+     "time": 0.023
     },
     {
      "name": "test_list_pages",
      "outcome": "passed",
-     "time": 0.008
+     "time": 0.009
     },
     {
      "name": "test_empty_fleet_renders",
@@ -582,7 +582,7 @@
     {
      "name": "test_cli_docs_generate",
      "outcome": "passed",
-     "time": 0.023
+     "time": 0.025
     }
    ]
   },
@@ -593,7 +593,7 @@
    "skipped": 0,
    "errors": 0,
    "total": 18,
-   "time": 0.034,
+   "time": 0.041,
    "tests": [
     {
      "name": "test_claude_deny_uses_permission_decision",
@@ -608,37 +608,37 @@
     {
      "name": "test_claude_file_tool",
      "outcome": "passed",
-     "time": 0.001
+     "time": 0.002
     },
     {
      "name": "test_codex_deny_is_exit_2_with_reason_on_stderr",
      "outcome": "passed",
-     "time": 0.002
+     "time": 0.003
     },
     {
      "name": "test_gemini_cli_before_tool",
      "outcome": "passed",
-     "time": 0.002
+     "time": 0.003
     },
     {
      "name": "test_antigravity_tool_call_shape",
      "outcome": "passed",
-     "time": 0.002
+     "time": 0.003
     },
     {
      "name": "test_opencode_shape",
      "outcome": "passed",
-     "time": 0.002
+     "time": 0.003
     },
     {
      "name": "test_malformed_payload_fails_closed[claude]",
      "outcome": "passed",
-     "time": 0.002
+     "time": 0.003
     },
     {
      "name": "test_malformed_payload_fails_closed[codex]",
      "outcome": "passed",
-     "time": 0.002
+     "time": 0.003
     },
     {
      "name": "test_malformed_payload_fails_closed[gemini]",
@@ -694,22 +694,22 @@
    "skipped": 0,
    "errors": 0,
    "total": 5,
-   "time": 0.513,
+   "time": 0.557,
    "tests": [
     {
      "name": "test_check_claude_deny_and_allow",
      "outcome": "passed",
-     "time": 0.106
+     "time": 0.123
     },
     {
      "name": "test_check_respects_machine_switch",
      "outcome": "passed",
-     "time": 0.05
+     "time": 0.059
     },
     {
      "name": "test_install_status_uninstall",
      "outcome": "passed",
-     "time": 0.258
+     "time": 0.272
     },
     {
      "name": "test_install_bad_json_exits_nonzero",
@@ -719,7 +719,7 @@
     {
      "name": "test_unknown_cli_name",
      "outcome": "passed",
-     "time": 0.049
+     "time": 0.053
     }
    ]
   },
@@ -730,7 +730,7 @@
    "skipped": 0,
    "errors": 0,
    "total": 26,
-   "time": 12.945,
+   "time": 13.868,
    "tests": [
     {
      "name": "test_golden_file[claude]",
@@ -740,12 +740,12 @@
     {
      "name": "test_golden_file[codex]",
      "outcome": "passed",
-     "time": 0.001
+     "time": 0.002
     },
     {
      "name": "test_golden_file[gemini]",
      "outcome": "passed",
-     "time": 0.001
+     "time": 0.002
     },
     {
      "name": "test_golden_file[antigravity]",
@@ -755,7 +755,7 @@
     {
      "name": "test_golden_file[opencode]",
      "outcome": "passed",
-     "time": 0.001
+     "time": 0.003
     },
     {
      "name": "test_documented_locations[claude-.claude/settings.json]",
@@ -765,37 +765,37 @@
     {
      "name": "test_documented_locations[codex-.codex/hooks.json]",
      "outcome": "passed",
-     "time": 0.001
+     "time": 0.002
     },
     {
      "name": "test_documented_locations[gemini-.gemini/settings.json]",
      "outcome": "passed",
-     "time": 0.003
+     "time": 0.002
     },
     {
      "name": "test_documented_locations[antigravity-.gemini/antigravity-cli/hooks.json]",
      "outcome": "passed",
-     "time": 0.001
+     "time": 0.002
     },
     {
      "name": "test_documented_locations[opencode-.config/opencode/plugin/niyantrak-gate.js]",
      "outcome": "passed",
-     "time": 0.001
+     "time": 0.002
     },
     {
      "name": "test_claude_structure",
      "outcome": "passed",
-     "time": 0.001
+     "time": 0.002
     },
     {
      "name": "test_codex_structure",
      "outcome": "passed",
-     "time": 0.001
+     "time": 0.002
     },
     {
      "name": "test_gemini_structure",
      "outcome": "passed",
-     "time": 0.001
+     "time": 0.002
     },
     {
      "name": "test_timeouts_mean_the_same_wall_time_everywhere",
@@ -805,7 +805,7 @@
     {
      "name": "test_antigravity_structure",
      "outcome": "passed",
-     "time": 0.001
+     "time": 0.002
     },
     {
      "name": "test_opencode_structure",
@@ -815,52 +815,52 @@
     {
      "name": "test_claude_doctor_accepts_our_settings",
      "outcome": "passed",
-     "time": 0.723
+     "time": 0.69
     },
     {
      "name": "test_claude_doctor_really_rejects_a_bad_hook",
      "outcome": "passed",
-     "time": 0.721
+     "time": 0.724
     },
     {
      "name": "test_gemini_loads_our_settings_without_errors",
      "outcome": "passed",
-     "time": 0.907
+     "time": 0.882
     },
     {
      "name": "test_gemini_really_rejects_a_bad_hook",
      "outcome": "passed",
-     "time": 0.865
+     "time": 0.889
     },
     {
      "name": "test_gemini_own_migration_of_our_claude_hook_matches_our_gemini_hook",
      "outcome": "passed",
-     "time": 0.816
+     "time": 0.865
     },
     {
      "name": "test_codex_parses_our_hook",
      "outcome": "passed",
-     "time": 0.205
+     "time": 0.181
     },
     {
      "name": "test_codex_really_rejects_a_bad_hook",
      "outcome": "passed",
-     "time": 0.205
+     "time": 0.207
     },
     {
      "name": "test_opencode_discovers_our_plugin",
      "outcome": "passed",
-     "time": 7.516
+     "time": 8.391
     },
     {
      "name": "test_opencode_does_not_discover_a_misplaced_plugin",
      "outcome": "passed",
-     "time": 0.963
+     "time": 1.003
     },
     {
      "name": "test_codex_install_says_the_hook_needs_the_operators_trust",
      "outcome": "passed",
-     "time": 0.001
+     "time": 0.003
     }
    ]
   },
@@ -871,37 +871,37 @@
    "skipped": 0,
    "errors": 0,
    "total": 163,
-   "time": 0.33,
+   "time": 0.354,
    "tests": [
     {
      "name": "test_hard_stops_deny_with_rule_id[rm -rf /-fs.rm_protected]",
      "outcome": "passed",
-     "time": 0.002
+     "time": 0.003
     },
     {
      "name": "test_hard_stops_deny_with_rule_id[rm -rf /etc-fs.rm_protected]",
      "outcome": "passed",
-     "time": 0.002
+     "time": 0.003
     },
     {
      "name": "test_hard_stops_deny_with_rule_id[sudo rm -r /var/lib/postgresql-fs.rm_protected]",
      "outcome": "passed",
-     "time": 0.002
+     "time": 0.004
     },
     {
      "name": "test_hard_stops_deny_with_rule_id[rm -fr ~-fs.rm_protected]",
      "outcome": "passed",
-     "time": 0.002
+     "time": 0.003
     },
     {
      "name": "test_hard_stops_deny_with_rule_id[rm -rf $HOME-fs.rm_protected]",
      "outcome": "passed",
-     "time": 0.002
+     "time": 0.003
     },
     {
      "name": "test_hard_stops_deny_with_rule_id[rm --recursive --force /usr/local-fs.rm_protected]",
      "outcome": "passed",
-     "time": 0.002
+     "time": 0.003
     },
     {
      "name": "test_hard_stops_deny_with_rule_id[rm -rf --no-preserve-root /-fs.rm_no_preserve_root]",
@@ -941,7 +941,7 @@
     {
      "name": "test_hard_stops_deny_with_rule_id[env FOO=1 nohup rm -rf /boot-fs.rm_protected]",
      "outcome": "passed",
-     "time": 0.002
+     "time": 0.003
     },
     {
      "name": "test_hard_stops_deny_with_rule_id[find /etc -name '*.conf' -delete-fs.find_delete_protected]",
@@ -1021,7 +1021,7 @@
     {
      "name": "test_hard_stops_deny_with_rule_id[git clean -fdx-git.clean_force]",
      "outcome": "passed",
-     "time": 0.002
+     "time": 0.003
     },
     {
      "name": "test_hard_stops_deny_with_rule_id[cat /etc/niyantrak/secret.d/db.env-secret.path]",
@@ -1051,22 +1051,22 @@
     {
      "name": "test_hard_stops_deny_with_rule_id[python3 app.py < .env-secret.path]",
      "outcome": "passed",
-     "time": 0.002
+     "time": 0.003
     },
     {
      "name": "test_hard_stops_deny_with_rule_id[sudo systemctl restart nginx-prod.service]",
      "outcome": "passed",
-     "time": 0.002
+     "time": 0.003
     },
     {
      "name": "test_hard_stops_deny_with_rule_id[service postgresql stop-prod.service]",
      "outcome": "passed",
-     "time": 0.002
+     "time": 0.003
     },
     {
      "name": "test_hard_stops_deny_with_rule_id[sudo ufw disable-prod.firewall]",
      "outcome": "passed",
-     "time": 0.002
+     "time": 0.003
     },
     {
      "name": "test_hard_stops_deny_with_rule_id[iptables -F-prod.firewall]",
@@ -1091,7 +1091,7 @@
     {
      "name": "test_hard_stops_deny_with_rule_id[kubectl apply -f k8s/-prod.deploy]",
      "outcome": "passed",
-     "time": 0.002
+     "time": 0.003
     },
     {
      "name": "test_hard_stops_deny_with_rule_id[terraform destroy -auto-approve-prod.deploy]",
@@ -1116,7 +1116,7 @@
     {
      "name": "test_hard_stops_deny_with_rule_id[sh -c \"rm -rf /etc\"-fs.rm_protected]",
      "outcome": "passed",
-     "time": 0.002
+     "time": 0.003
     },
     {
      "name": "test_hard_stops_deny_with_rule_id[sudo -u root bash -lc 'rm -rf /srv'-fs.rm_protected]",
@@ -1131,17 +1131,17 @@
     {
      "name": "test_hard_stops_deny_with_rule_id[echo 'rm -rf /' | sh-fs.rm_protected]",
      "outcome": "passed",
-     "time": 0.002
+     "time": 0.003
     },
     {
      "name": "test_hard_stops_deny_with_rule_id[printf 'rm -rf /etc\\\\n' | bash-fs.rm_protected]",
      "outcome": "passed",
-     "time": 0.002
+     "time": 0.003
     },
     {
      "name": "test_hard_stops_deny_with_rule_id[bash <<'EOF'\\nrm -rf /\\nEOF-fs.rm_protected]",
      "outcome": "passed",
-     "time": 0.002
+     "time": 0.003
     },
     {
      "name": "test_hard_stops_deny_with_rule_id[sh <<< 'rm -rf /'-fs.rm_protected]",
@@ -1161,7 +1161,7 @@
     {
      "name": "test_hard_stops_deny_with_rule_id[cat <<EOF\\n$(rm -rf /)\\nEOF-fs.rm_protected]",
      "outcome": "passed",
-     "time": 0.002
+     "time": 0.003
     },
     {
      "name": "test_hard_stops_deny_with_rule_id[diff <(rm -rf /etc) x-fs.rm_protected]",
@@ -1171,7 +1171,7 @@
     {
      "name": "test_hard_stops_deny_with_rule_id[(cd / && rm -rf /opt)-fs.rm_protected]",
      "outcome": "passed",
-     "time": 0.002
+     "time": 0.003
     },
     {
      "name": "test_hard_stops_deny_with_rule_id[true && { rm -rf /etc; }-fs.rm_protected]",
@@ -1181,12 +1181,12 @@
     {
      "name": "test_hard_stops_deny_with_rule_id[if true; then rm -rf /; fi-fs.rm_protected]",
      "outcome": "passed",
-     "time": 0.002
+     "time": 0.003
     },
     {
      "name": "test_hard_stops_deny_with_rule_id[bash -c \"bash -c 'git push --force'\"-git.force_push]",
      "outcome": "passed",
-     "time": 0.002
+     "time": 0.003
     },
     {
      "name": "test_hard_stops_deny_with_rule_id[bash -c 'cat .env'-secret.path]",
@@ -1236,7 +1236,7 @@
     {
      "name": "test_hard_stops_deny_with_rule_id[su -c 'rm -rf /etc' root-fs.rm_protected]",
      "outcome": "passed",
-     "time": 0.003
+     "time": 0.002
     },
     {
      "name": "test_hard_stops_deny_with_rule_id[watch 'sudo systemctl restart nginx'-prod.service]",
@@ -1276,12 +1276,12 @@
     {
      "name": "test_everything_else_is_allowed[echo 'rm -rf /']",
      "outcome": "passed",
-     "time": 0.001
+     "time": 0.002
     },
     {
      "name": "test_everything_else_is_allowed[echo rm -rf /]",
      "outcome": "passed",
-     "time": 0.001
+     "time": 0.002
     },
     {
      "name": "test_everything_else_is_allowed[printf '%s\\\\n' 'sudo systemctl restart nginx']",
@@ -1341,7 +1341,7 @@
     {
      "name": "test_everything_else_is_allowed[echo 'cat ~/.ssh/id_rsa']",
      "outcome": "passed",
-     "time": 0.001
+     "time": 0.002
     },
     {
      "name": "test_everything_else_is_allowed[echo $(date) 'rm -rf /']",
@@ -1456,22 +1456,22 @@
     {
      "name": "test_everything_else_is_allowed[iptables -L -n]",
      "outcome": "passed",
-     "time": 0.002
+     "time": 0.003
     },
     {
      "name": "test_everything_else_is_allowed[nft list ruleset]",
      "outcome": "passed",
-     "time": 0.002
+     "time": 0.003
     },
     {
      "name": "test_everything_else_is_allowed[kubectl get pods]",
      "outcome": "passed",
-     "time": 0.002
+     "time": 0.003
     },
     {
      "name": "test_everything_else_is_allowed[terraform plan]",
      "outcome": "passed",
-     "time": 0.002
+     "time": 0.003
     },
     {
      "name": "test_everything_else_is_allowed[vercel deploy]",
@@ -1561,12 +1561,12 @@
     {
      "name": "test_everything_else_is_allowed[kubectl rollout status deploy/x]",
      "outcome": "passed",
-     "time": 0.003
+     "time": 0.002
     },
     {
      "name": "test_everything_else_is_allowed[systemctl --user restart pipewire]",
      "outcome": "passed",
-     "time": 0.003
+     "time": 0.002
     },
     {
      "name": "test_everything_else_is_allowed[git checkout main -- src/a.py]",
@@ -1586,7 +1586,7 @@
     {
      "name": "test_table_is_large_enough",
      "outcome": "passed",
-     "time": 0.002
+     "time": 0.001
     },
     {
      "name": "test_command_class_follows_rule_family",
@@ -1611,7 +1611,7 @@
     {
      "name": "test_file_tools_on_secret_paths_deny[Read-inp3-secret.path]",
      "outcome": "passed",
-     "time": 0.003
+     "time": 0.002
     },
     {
      "name": "test_file_tools_on_secret_paths_deny[Glob-inp4-secret.path]",
@@ -1641,7 +1641,7 @@
     {
      "name": "test_file_tools_otherwise_allowed[Grep-inp2]",
      "outcome": "passed",
-     "time": 0.002
+     "time": 0.003
     },
     {
      "name": "test_file_tools_otherwise_allowed[Write-inp3]",
@@ -1676,7 +1676,7 @@
     {
      "name": "test_unterminated_quote_is_still_checked",
      "outcome": "passed",
-     "time": 0.002
+     "time": 0.001
     },
     {
      "name": "test_deeply_nested_execution_fails_closed",
@@ -1697,7 +1697,7 @@
    "skipped": 0,
    "errors": 0,
    "total": 8,
-   "time": 0.161,
+   "time": 0.187,
    "tests": [
     {
      "name": "test_install_all_merges_and_preserves_existing",
@@ -1707,7 +1707,7 @@
     {
      "name": "test_install_is_idempotent",
      "outcome": "passed",
-     "time": 0.008
+     "time": 0.007
     },
     {
      "name": "test_reinstall_replaces_stale_entry_in_place",
@@ -1737,7 +1737,7 @@
     {
      "name": "test_opencode_plugin_blocks_and_allows_through_node",
      "outcome": "passed",
-     "time": 0.131
+     "time": 0.158
     }
    ]
   },
@@ -1748,7 +1748,7 @@
    "skipped": 0,
    "errors": 0,
    "total": 14,
-   "time": 0.027,
+   "time": 0.028,
    "tests": [
     {
      "name": "test_mode_file_path_per_os",
@@ -1808,7 +1808,7 @@
     {
      "name": "test_event_is_5w_and_never_contains_the_command",
      "outcome": "passed",
-     "time": 0.002
+     "time": 0.003
     },
     {
      "name": "test_host_role_from_env",
@@ -1875,12 +1875,12 @@
    "skipped": 0,
    "errors": 0,
    "total": 59,
-   "time": 0.063,
+   "time": 0.066,
    "tests": [
     {
      "name": "test_health_pack_exists_with_every_recognizer",
      "outcome": "passed",
-     "time": 0.001
+     "time": 0.0
     },
     {
      "name": "test_region_tags[ABHA_NUMBER-IN]",
@@ -1935,7 +1935,7 @@
     {
      "name": "test_mbi_format",
      "outcome": "passed",
-     "time": 0.001
+     "time": 0.0
     },
     {
      "name": "test_detected_in_text[ABHA_ADDRESS-priya.sharma@abdm]",
@@ -2020,7 +2020,7 @@
     {
      "name": "test_scan_cli_default_packs_include_health",
      "outcome": "passed",
-     "time": 0.006
+     "time": 0.011
     },
     {
      "name": "test_health_identifiers_rejected_in_labels[who-1234567893]",
@@ -2181,7 +2181,7 @@
    "skipped": 0,
    "errors": 0,
    "total": 15,
-   "time": 0.027,
+   "time": 0.023,
    "tests": [
     {
      "name": "test_login_uid_comes_from_the_kernel_login_record",
@@ -2226,7 +2226,7 @@
     {
      "name": "test_unknown_when_no_directory_module",
      "outcome": "passed",
-     "time": 0.002
+     "time": 0.001
     },
     {
      "name": "test_local_id_is_scoped_to_this_machine",
@@ -2246,17 +2246,17 @@
     {
      "name": "test_unresolvable_uid_still_identifies_without_a_name",
      "outcome": "passed",
-     "time": 0.002
+     "time": 0.001
     },
     {
      "name": "test_agent_from_explicit_setting_or_known_cli",
      "outcome": "passed",
-     "time": 0.001
+     "time": 0.0
     },
     {
      "name": "test_stable_id_format_check",
      "outcome": "passed",
-     "time": 0.001
+     "time": 0.0
     }
    ]
   },
@@ -2267,7 +2267,7 @@
    "skipped": 0,
    "errors": 0,
    "total": 14,
-   "time": 0.017,
+   "time": 0.014,
    "tests": [
     {
      "name": "test_who_id_accepts_directory_ids_with_long_digit_runs",
@@ -2297,7 +2297,7 @@
     {
      "name": "test_who_id_is_a_stored_column",
      "outcome": "passed",
-     "time": 0.001
+     "time": 0.0
     },
     {
      "name": "test_ingest_fills_the_actor_from_the_system",
@@ -2312,7 +2312,7 @@
     {
      "name": "test_ingest_without_actor_behaves_as_before",
      "outcome": "passed",
-     "time": 0.001
+     "time": 0.0
     },
     {
      "name": "test_old_segments_without_who_id_still_read",
@@ -2327,7 +2327,7 @@
     {
      "name": "test_explicit_settings_still_win",
      "outcome": "passed",
-     "time": 0.001
+     "time": 0.0
     },
     {
      "name": "test_decision_privacy_check_allows_directory_ids",
@@ -2348,12 +2348,12 @@
    "skipped": 0,
    "errors": 0,
    "total": 5,
-   "time": 0.047,
+   "time": 0.048,
    "tests": [
     {
      "name": "test_imports_without_pwd_and_getuid",
      "outcome": "passed",
-     "time": 0.045
+     "time": 0.046
     },
     {
      "name": "test_windows_local_account_uses_the_sid",
@@ -2384,7 +2384,7 @@
    "skipped": 0,
    "errors": 0,
    "total": 20,
-   "time": 3.351,
+   "time": 3.35,
    "tests": [
     {
      "name": "test_happy_path_pending_then_approved",
@@ -2394,12 +2394,12 @@
     {
      "name": "test_auto_approve_token",
      "outcome": "passed",
-     "time": 0.018
+     "time": 0.017
     },
     {
      "name": "test_replay_refused",
      "outcome": "passed",
-     "time": 0.017
+     "time": 0.018
     },
     {
      "name": "test_unknown_token_refused",
@@ -2409,7 +2409,7 @@
     {
      "name": "test_expired_token_refused",
      "outcome": "passed",
-     "time": 0.012
+     "time": 0.011
     },
     {
      "name": "test_edited_card_refused",
@@ -2419,47 +2419,47 @@
     {
      "name": "test_wrong_key_refused",
      "outcome": "passed",
-     "time": 0.02
+     "time": 0.024
     },
     {
      "name": "test_impersonation_refused_and_alerted",
      "outcome": "passed",
-     "time": 0.033
+     "time": 0.039
     },
     {
      "name": "test_same_key_rejoin_allowed",
      "outcome": "passed",
-     "time": 0.029
+     "time": 0.032
     },
     {
      "name": "test_reject_and_unknown_node",
      "outcome": "passed",
-     "time": 0.019
+     "time": 0.02
     },
     {
      "name": "test_token_value_never_stored",
      "outcome": "passed",
-     "time": 0.017
+     "time": 0.02
     },
     {
      "name": "test_store_has_no_private_material",
      "outcome": "passed",
-     "time": 0.017
+     "time": 0.019
     },
     {
      "name": "test_panel_token_join_list_approve",
      "outcome": "passed",
-     "time": 0.536
+     "time": 0.538
     },
     {
      "name": "test_panel_join_bad_input",
      "outcome": "passed",
-     "time": 0.512
+     "time": 0.503
     },
     {
      "name": "test_panel_decisions_refused_off_localhost",
      "outcome": "passed",
-     "time": 0.528
+     "time": 0.523
     },
     {
      "name": "test_is_local",
@@ -2469,17 +2469,17 @@
     {
      "name": "test_client_join_end_to_end",
      "outcome": "passed",
-     "time": 0.534
+     "time": 0.53
     },
     {
      "name": "test_no_join_listener_says_how_to_enable_it",
      "outcome": "passed",
-     "time": 0.504
+     "time": 0.503
     },
     {
      "name": "test_fleet_screen_wires_join_requests",
      "outcome": "passed",
-     "time": 0.506
+     "time": 0.504
     },
     {
      "name": "test_demo_shim_answers_nodes",
@@ -2495,12 +2495,12 @@
    "skipped": 0,
    "errors": 0,
    "total": 16,
-   "time": 6.329,
+   "time": 6.383,
    "tests": [
     {
      "name": "test_cert_created_once_key_private",
      "outcome": "passed",
-     "time": 0.016
+     "time": 0.014
     },
     {
      "name": "test_pin_normalisation",
@@ -2510,7 +2510,7 @@
     {
      "name": "test_admin_endpoints_unreachable_via_join_listener",
      "outcome": "passed",
-     "time": 0.546
+     "time": 0.539
     },
     {
      "name": "test_join_listener_serves_public_fingerprint_page",
@@ -2520,12 +2520,12 @@
     {
      "name": "test_plain_http_to_join_listener_refused",
      "outcome": "passed",
-     "time": 0.519
+     "time": 0.561
     },
     {
      "name": "test_admin_shows_fingerprint_and_both_one_liners",
      "outcome": "passed",
-     "time": 1.044
+     "time": 1.045
     },
     {
      "name": "test_join_with_correct_pin",
@@ -2535,17 +2535,17 @@
     {
      "name": "test_wrong_pin_refused_before_sending",
      "outcome": "passed",
-     "time": 0.54
+     "time": 0.538
     },
     {
      "name": "test_https_without_pin_refused",
      "outcome": "passed",
-     "time": 0.515
+     "time": 0.518
     },
     {
      "name": "test_cli_has_join_bind",
      "outcome": "passed",
-     "time": 0.032
+     "time": 0.035
     },
     {
      "name": "test_gitignore_coverage",
@@ -2555,22 +2555,22 @@
     {
      "name": "test_plain_http_to_remote_refused_by_client",
      "outcome": "passed",
-     "time": 0.007
+     "time": 0.005
     },
     {
      "name": "test_windows_one_liner_pins_cert_checks_script_hash_and_has_no_token",
      "outcome": "passed",
-     "time": 1.015
+     "time": 1.016
     },
     {
      "name": "test_join_listener_serves_the_windows_script",
      "outcome": "passed",
-     "time": 0.518
+     "time": 0.539
     },
     {
      "name": "test_windows_one_liner_absent_when_script_missing",
      "outcome": "passed",
-     "time": 0.527
+     "time": 0.523
     },
     {
      "name": "test_panel_page_shows_windows_command_and_token_separately",
@@ -2586,17 +2586,17 @@
    "skipped": 0,
    "errors": 0,
    "total": 5,
-   "time": 0.364,
+   "time": 0.375,
    "tests": [
     {
      "name": "test_scripts_parse",
      "outcome": "passed",
-     "time": 0.015
+     "time": 0.016
     },
     {
      "name": "test_shellcheck",
      "outcome": "passed",
-     "time": 0.287
+     "time": 0.298
     },
     {
      "name": "test_changing_virsh_calls_go_through_run",
@@ -2611,7 +2611,7 @@
     {
      "name": "test_help_runs_without_libvirt",
      "outcome": "passed",
-     "time": 0.059
+     "time": 0.058
     }
    ]
   },
@@ -2622,52 +2622,52 @@
    "skipped": 0,
    "errors": 0,
    "total": 9,
-   "time": 1.457,
+   "time": 1.479,
    "tests": [
     {
      "name": "test_secret_added_then_deleted_is_found",
      "outcome": "passed",
-     "time": 0.239
+     "time": 0.254
     },
     {
      "name": "test_head_only_scan_misses_it_history_does_not",
      "outcome": "passed",
-     "time": 0.193
+     "time": 0.199
     },
     {
      "name": "test_same_blob_reported_once_at_first_commit",
      "outcome": "passed",
-     "time": 0.175
+     "time": 0.174
     },
     {
      "name": "test_other_branches_are_scanned",
      "outcome": "passed",
-     "time": 0.176
+     "time": 0.172
     },
     {
      "name": "test_private_terms_in_history",
      "outcome": "passed",
-     "time": 0.161
+     "time": 0.164
     },
     {
      "name": "test_test_paths_keep_their_allowances",
      "outcome": "passed",
-     "time": 0.091
+     "time": 0.094
     },
     {
      "name": "test_cli_history_never_prints_the_value",
      "outcome": "passed",
-     "time": 0.196
+     "time": 0.202
     },
     {
      "name": "test_cli_history_clean_repo",
      "outcome": "passed",
-     "time": 0.116
+     "time": 0.114
     },
     {
      "name": "test_commit_metadata_author_email_and_message",
      "outcome": "passed",
-     "time": 0.11
+     "time": 0.106
     }
    ]
   },
@@ -2678,7 +2678,7 @@
    "skipped": 1,
    "errors": 0,
    "total": 7,
-   "time": 0.008,
+   "time": 0.01,
    "tests": [
     {
      "name": "test_every_package_is_listed",
@@ -2688,12 +2688,12 @@
     {
      "name": "test_web_assets_are_package_data",
      "outcome": "passed",
-     "time": 0.0
+     "time": 0.001
     },
     {
      "name": "test_metadata_complete",
      "outcome": "passed",
-     "time": 0.0
+     "time": 0.001
     },
     {
      "name": "test_extras",
@@ -2724,12 +2724,12 @@
    "skipped": 0,
    "errors": 0,
    "total": 1,
-   "time": 0.508,
+   "time": 0.505,
    "tests": [
     {
      "name": "test_page_and_scan",
      "outcome": "passed",
-     "time": 0.508
+     "time": 0.505
     }
    ]
   },
@@ -2740,37 +2740,37 @@
    "skipped": 0,
    "errors": 0,
    "total": 6,
-   "time": 0.024,
+   "time": 0.009,
    "tests": [
     {
      "name": "test_env_override",
      "outcome": "passed",
-     "time": 0.007
+     "time": 0.001
     },
     {
      "name": "test_user_folder_when_system_path_not_writable",
      "outcome": "passed",
-     "time": 0.005
+     "time": 0.002
     },
     {
      "name": "test_system_folder_for_root",
      "outcome": "passed",
-     "time": 0.002
+     "time": 0.001
     },
     {
      "name": "test_modules_use_it",
      "outcome": "passed",
-     "time": 0.006
+     "time": 0.003
     },
     {
      "name": "test_windows_uses_localappdata_without_geteuid",
      "outcome": "passed",
-     "time": 0.002
+     "time": 0.001
     },
     {
      "name": "test_windows_without_localappdata_falls_back_to_home",
      "outcome": "passed",
-     "time": 0.002
+     "time": 0.001
     }
    ]
   },
@@ -2781,7 +2781,7 @@
    "skipped": 0,
    "errors": 0,
    "total": 6,
-   "time": 0.006,
+   "time": 0.004,
    "tests": [
     {
      "name": "test_aadhaar_verhoeff",
@@ -2791,12 +2791,12 @@
     {
      "name": "test_pan_holder_type",
      "outcome": "passed",
-     "time": 0.001
+     "time": 0.0
     },
     {
      "name": "test_gstin_checksum",
      "outcome": "passed",
-     "time": 0.001
+     "time": 0.0
     },
     {
      "name": "test_cards_iban_ssn",
@@ -2822,7 +2822,7 @@
    "skipped": 0,
    "errors": 0,
    "total": 27,
-   "time": 5.99,
+   "time": 6.021,
    "tests": [
     {
      "name": "test_env_spec_loads_plugin",
@@ -2897,7 +2897,7 @@
     {
      "name": "test_capabilities_without_host_attribute_uses_env",
      "outcome": "passed",
-     "time": 0.503
+     "time": 0.505
     },
     {
      "name": "test_get_route_with_query",
@@ -2907,22 +2907,22 @@
     {
      "name": "test_post_route_gets_body_and_context",
      "outcome": "passed",
-     "time": 0.502
+     "time": 0.501
     },
     {
      "name": "test_unknown_pro_route_is_404",
      "outcome": "passed",
-     "time": 0.502
+     "time": 0.503
     },
     {
      "name": "test_plugin_enforces_its_own_roles",
      "outcome": "passed",
-     "time": 0.502
+     "time": 0.504
     },
     {
      "name": "test_headers_and_cookies_pass_through",
      "outcome": "passed",
-     "time": 0.501
+     "time": 0.502
     },
     {
      "name": "test_mutations_are_localhost_only_in_the_free_host",
@@ -2932,7 +2932,7 @@
     {
      "name": "test_plugin_exception_is_isolated_and_logged",
      "outcome": "passed",
-     "time": 0.511
+     "time": 0.507
     },
     {
      "name": "test_bad_return_value_is_a_500",
@@ -2942,17 +2942,17 @@
     {
      "name": "test_bad_json_body_is_400",
      "outcome": "passed",
-     "time": 0.503
+     "time": 0.502
     },
     {
      "name": "test_join_listener_never_routes_to_plugins",
      "outcome": "passed",
-     "time": 0.0
+     "time": 0.001
     },
     {
      "name": "test_public_tree_never_imports_commercial_packages",
      "outcome": "passed",
-     "time": 0.443
+     "time": 0.473
     },
     {
      "name": "test_web_app_switches_pro_screens_on_capabilities",
@@ -2968,7 +2968,7 @@
    "skipped": 0,
    "errors": 0,
    "total": 17,
-   "time": 0.064,
+   "time": 0.07,
    "tests": [
     {
      "name": "test_shipped_network_is_isolated",
@@ -2978,12 +2978,12 @@
     {
      "name": "test_bridged_network_rejected",
      "outcome": "passed",
-     "time": 0.0
+     "time": 0.001
     },
     {
      "name": "test_physical_device_rejected",
      "outcome": "passed",
-     "time": 0.0
+     "time": 0.001
     },
     {
      "name": "test_home_subnet_rejected",
@@ -3043,7 +3043,7 @@
     {
      "name": "test_cli_exit_codes",
      "outcome": "passed",
-     "time": 0.05
+     "time": 0.054
     },
     {
      "name": "test_nopasswd_sudo_only_in_lab_seeds",
@@ -3064,7 +3064,7 @@
    "skipped": 0,
    "errors": 0,
    "total": 23,
-   "time": 1.627,
+   "time": 1.558,
    "tests": [
     {
      "name": "test_parse_junit_counts_pass_fail_skip_error",
@@ -3089,7 +3089,7 @@
     {
      "name": "test_parse_coverage_missing_is_none",
      "outcome": "passed",
-     "time": 0.001
+     "time": 0.002
     },
     {
      "name": "test_leak_findings_from_scanner_output",
@@ -3109,12 +3109,12 @@
     {
      "name": "test_build_summary_leak_findings_and_pass",
      "outcome": "passed",
-     "time": 0.001
+     "time": 0.002
     },
     {
      "name": "test_history_append_and_read_last_n",
      "outcome": "passed",
-     "time": 0.01
+     "time": 0.011
     },
     {
      "name": "test_read_history_skips_corrupt_lines",
@@ -3134,7 +3134,7 @@
     {
      "name": "test_load_proof",
      "outcome": "passed",
-     "time": 0.002
+     "time": 0.003
     },
     {
      "name": "test_safe_path_refuses_traversal",
@@ -3149,27 +3149,27 @@
     {
      "name": "test_api_proof_populated",
      "outcome": "passed",
-     "time": 0.506
+     "time": 0.503
     },
     {
      "name": "test_proof_static_serves_read_only_and_refuses_traversal",
      "outcome": "passed",
-     "time": 0.555
+     "time": 0.511
     },
     {
      "name": "test_panel_has_proof_screen",
      "outcome": "passed",
-     "time": 0.004
+     "time": 0.001
     },
     {
      "name": "test_demo_build_embeds_proof",
      "outcome": "passed",
-     "time": 0.021
+     "time": 0.004
     },
     {
      "name": "test_demo_build_without_proof",
      "outcome": "passed",
-     "time": 0.007
+     "time": 0.002
     },
     {
      "name": "test_tree_clean_ignores_proof_outputs",
@@ -3178,6 +3178,227 @@
     },
     {
      "name": "test_tree_clean_survives_stripped_first_line",
+     "outcome": "passed",
+     "time": 0.0
+    }
+   ]
+  },
+  {
+   "file": "tests/unit/test_sixw.py",
+   "passed": 42,
+   "failed": 0,
+   "skipped": 0,
+   "errors": 0,
+   "total": 42,
+   "time": 0.325,
+   "tests": [
+    {
+     "name": "test_which_accepts_repo_workspace_and_path_forms[acme/payments-api]",
+     "outcome": "passed",
+     "time": 0.001
+    },
+    {
+     "name": "test_which_accepts_repo_workspace_and_path_forms[ws-01:~/projects/app]",
+     "outcome": "passed",
+     "time": 0.001
+    },
+    {
+     "name": "test_which_accepts_repo_workspace_and_path_forms[/srv/repos/clinic-bot]",
+     "outcome": "passed",
+     "time": 0.001
+    },
+    {
+     "name": "test_which_accepts_repo_workspace_and_path_forms[C:\\\\code\\\\infra]",
+     "outcome": "passed",
+     "time": 0.001
+    },
+    {
+     "name": "test_which_accepts_repo_workspace_and_path_forms[payments-api]",
+     "outcome": "passed",
+     "time": 0.001
+    },
+    {
+     "name": "test_which_accepts_repo_workspace_and_path_forms[gitlab group/sub/repo]",
+     "outcome": "passed",
+     "time": 0.001
+    },
+    {
+     "name": "test_which_rejects_identifier_values[2345 6789 0124]",
+     "outcome": "passed",
+     "time": 0.001
+    },
+    {
+     "name": "test_which_rejects_identifier_values[GB82 WEST 1234 5698 7654 32]",
+     "outcome": "passed",
+     "time": 0.001
+    },
+    {
+     "name": "test_which_rejects_identifier_values[someone@example.com]",
+     "outcome": "passed",
+     "time": 0.001
+    },
+    {
+     "name": "test_which_rejects_identifier_values[+91 98450 12345]",
+     "outcome": "passed",
+     "time": 0.001
+    },
+    {
+     "name": "test_which_rejects_identifier_values[4111 1111 1111 1111]",
+     "outcome": "passed",
+     "time": 0.001
+    },
+    {
+     "name": "test_which_follows_label_rules[acme/repo-123456789012]",
+     "outcome": "passed",
+     "time": 0.001
+    },
+    {
+     "name": "test_which_follows_label_rules[xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx]",
+     "outcome": "passed",
+     "time": 0.001
+    },
+    {
+     "name": "test_which_follows_label_rules[a b c d e f g h i]",
+     "outcome": "passed",
+     "time": 0.001
+    },
+    {
+     "name": "test_which_follows_label_rules[line\\nbreak]",
+     "outcome": "passed",
+     "time": 0.001
+    },
+    {
+     "name": "test_which_follows_label_rules[acme/repo; rm -rf /]",
+     "outcome": "passed",
+     "time": 0.001
+    },
+    {
+     "name": "test_which_follows_label_rules[$(whoami)/repo]",
+     "outcome": "passed",
+     "time": 0.001
+    },
+    {
+     "name": "test_which_follows_label_rules[~/no-host-prefix]",
+     "outcome": "passed",
+     "time": 0.001
+    },
+    {
+     "name": "test_5w_events_are_still_accepted_and_which_is_null",
+     "outcome": "passed",
+     "time": 0.001
+    },
+    {
+     "name": "test_which_is_a_column",
+     "outcome": "passed",
+     "time": 0.0
+    },
+    {
+     "name": "test_old_5w_segments_read_with_which_null_and_verify_and_compact_unaffected",
+     "outcome": "passed",
+     "time": 0.057
+    },
+    {
+     "name": "test_view_built_before_6w_is_rebuilt",
+     "outcome": "passed",
+     "time": 0.013
+    },
+    {
+     "name": "test_activity_filter_by_which_breakdown_and_sankey",
+     "outcome": "passed",
+     "time": 0.092
+    },
+    {
+     "name": "test_pseudonymise_which_setting",
+     "outcome": "passed",
+     "time": 0.055
+    },
+    {
+     "name": "test_cli_settings",
+     "outcome": "passed",
+     "time": 0.013
+    },
+    {
+     "name": "test_otlp_which_mapping[attrs0-acme/clinic-bot]",
+     "outcome": "passed",
+     "time": 0.001
+    },
+    {
+     "name": "test_otlp_which_mapping[attrs1-acme/payments-api]",
+     "outcome": "passed",
+     "time": 0.001
+    },
+    {
+     "name": "test_otlp_which_mapping[attrs2-acme/team/repo]",
+     "outcome": "passed",
+     "time": 0.001
+    },
+    {
+     "name": "test_otlp_which_mapping[attrs3-payments-api]",
+     "outcome": "passed",
+     "time": 0.001
+    },
+    {
+     "name": "test_otlp_which_mapping[attrs4-acme.billing]",
+     "outcome": "passed",
+     "time": 0.001
+    },
+    {
+     "name": "test_otlp_which_mapping[attrs5-None]",
+     "outcome": "passed",
+     "time": 0.001
+    },
+    {
+     "name": "test_repo_label_strips_credentials_and_forms",
+     "outcome": "passed",
+     "time": 0.001
+    },
+    {
+     "name": "test_gate_which_from_git_remote_without_credentials",
+     "outcome": "passed",
+     "time": 0.002
+    },
+    {
+     "name": "test_gate_which_prefers_origin_then_any_remote_then_folder",
+     "outcome": "passed",
+     "time": 0.002
+    },
+    {
+     "name": "test_gate_which_worktree_gitfile",
+     "outcome": "passed",
+     "time": 0.002
+    },
+    {
+     "name": "test_gate_which_never_records_home_root_or_identifiers",
+     "outcome": "passed",
+     "time": 0.002
+    },
+    {
+     "name": "test_gate_event_carries_which_from_hook_cwd",
+     "outcome": "passed",
+     "time": 0.003
+    },
+    {
+     "name": "test_project_questions",
+     "outcome": "passed",
+     "time": 0.053
+    },
+    {
+     "name": "test_existing_questions_still_match_their_templates",
+     "outcome": "passed",
+     "time": 0.002
+    },
+    {
+     "name": "test_renamed_docs_keep_a_stub_at_the_old_name[5W.md-6W.md]",
+     "outcome": "passed",
+     "time": 0.001
+    },
+    {
+     "name": "test_renamed_docs_keep_a_stub_at_the_old_name[QUERYING_5W.md-QUERYING_6W.md]",
+     "outcome": "passed",
+     "time": 0.001
+    },
+    {
+     "name": "test_six_w_wording_in_readme_and_panel",
      "outcome": "passed",
      "time": 0.001
     }
@@ -3190,32 +3411,32 @@
    "skipped": 0,
    "errors": 0,
    "total": 5,
-   "time": 2.209,
+   "time": 2.188,
    "tests": [
     {
      "name": "test_activity_empty_store",
      "outcome": "passed",
-     "time": 0.506
+     "time": 0.503
     },
     {
      "name": "test_activity_without_telemetry_extra",
      "outcome": "passed",
-     "time": 0.511
+     "time": 0.503
     },
     {
      "name": "test_activity_populated_and_filtered",
      "outcome": "passed",
-     "time": 0.673
+     "time": 0.671
     },
     {
      "name": "test_activity_tampered_store_reports_integrity",
      "outcome": "passed",
-     "time": 0.508
+     "time": 0.506
     },
     {
      "name": "test_demo_build_keeps_sample_activity",
      "outcome": "passed",
-     "time": 0.011
+     "time": 0.005
     }
    ]
   },
@@ -3226,12 +3447,12 @@
    "skipped": 0,
    "errors": 0,
    "total": 1,
-   "time": 0.654,
+   "time": 0.666,
    "tests": [
     {
      "name": "test_pii_never_stored",
      "outcome": "passed",
-     "time": 0.654
+     "time": 0.666
     }
    ]
   },
@@ -3242,7 +3463,7 @@
    "skipped": 0,
    "errors": 0,
    "total": 12,
-   "time": 0.458,
+   "time": 0.51,
    "tests": [
     {
      "name": "test_every_documented_question_matches_its_own_template",
@@ -3267,22 +3488,22 @@
     {
      "name": "test_personal_data_map_and_decisions_table",
      "outcome": "passed",
-     "time": 0.058
+     "time": 0.062
     },
     {
      "name": "test_sql_is_read_only",
      "outcome": "passed",
-     "time": 0.034
+     "time": 0.037
     },
     {
      "name": "test_row_limit",
      "outcome": "passed",
-     "time": 0.03
+     "time": 0.035
     },
     {
      "name": "test_empty_store_still_has_both_tables",
      "outcome": "passed",
-     "time": 0.021
+     "time": 0.03
     },
     {
      "name": "test_formats_round_trip",
@@ -3292,7 +3513,7 @@
     {
      "name": "test_parquet_output",
      "outcome": "passed",
-     "time": 0.033
+     "time": 0.035
     },
     {
      "name": "test_cli_ask_prints_sql_and_answer",
@@ -3302,7 +3523,7 @@
     {
      "name": "test_cli_sql_formats_and_refusal",
      "outcome": "passed",
-     "time": 0.129
+     "time": 0.158
     }
    ]
   },
@@ -3583,7 +3804,7 @@
     {
      "name": "test_outcome_enum_rule_ids_and_counts",
      "outcome": "passed",
-     "time": 0.002
+     "time": 0.001
     },
     {
      "name": "test_session_must_be_pseudonym",
@@ -3593,7 +3814,7 @@
     {
      "name": "test_pseudonym_is_stable_salted_and_irreversible",
      "outcome": "passed",
-     "time": 0.0
+     "time": 0.001
     },
     {
      "name": "test_non_dict_rejected",
@@ -3934,7 +4155,7 @@
    "skipped": 0,
    "errors": 0,
    "total": 9,
-   "time": 1.037,
+   "time": 1.014,
    "tests": [
     {
      "name": "test_otlp_maps_gen_ai_and_ids_to_5w",
@@ -3974,12 +4195,12 @@
     {
      "name": "test_http_otlp_logs",
      "outcome": "passed",
-     "time": 0.503
+     "time": 0.502
     },
     {
      "name": "test_http_events_and_errors",
      "outcome": "passed",
-     "time": 0.528
+     "time": 0.506
     }
    ]
   },
@@ -3990,22 +4211,22 @@
    "skipped": 0,
    "errors": 0,
    "total": 13,
-   "time": 0.53,
+   "time": 0.488,
    "tests": [
     {
      "name": "test_append_writes_segment_and_manifest",
      "outcome": "passed",
-     "time": 0.023
+     "time": 0.006
     },
     {
      "name": "test_append_splits_by_month_and_rejects_invalid",
      "outcome": "passed",
-     "time": 0.024
+     "time": 0.006
     },
     {
      "name": "test_writers_have_separate_manifests",
      "outcome": "passed",
-     "time": 0.011
+     "time": 0.007
     },
     {
      "name": "test_tampered_segment_detected",
@@ -4015,17 +4236,17 @@
     {
      "name": "test_missing_unlisted_and_manifest_edits_detected",
      "outcome": "passed",
-     "time": 0.009
+     "time": 0.008
     },
     {
      "name": "test_materialize_and_staleness",
      "outcome": "passed",
-     "time": 0.053
+     "time": 0.05
     },
     {
      "name": "test_compact_previous_months_only",
      "outcome": "passed",
-     "time": 0.096
+     "time": 0.075
     },
     {
      "name": "test_compact_refuses_tampered_store",
@@ -4035,27 +4256,27 @@
     {
      "name": "test_activity_shapes",
      "outcome": "passed",
-     "time": 0.06
+     "time": 0.055
     },
     {
      "name": "test_activity_filter_and_empty",
      "outcome": "passed",
-     "time": 0.056
+     "time": 0.054
     },
     {
      "name": "test_sankey_names_shared_between_columns_stay_acyclic",
      "outcome": "passed",
-     "time": 0.044
+     "time": 0.048
     },
     {
      "name": "test_cli_ingest_verify_compact_activity",
      "outcome": "passed",
-     "time": 0.095
+     "time": 0.108
     },
     {
      "name": "test_cached_view_is_not_used_after_a_segment_is_changed",
      "outcome": "passed",
-     "time": 0.046
+     "time": 0.058
     }
    ]
   },
@@ -4066,22 +4287,22 @@
    "skipped": 0,
    "errors": 0,
    "total": 7,
-   "time": 0.094,
+   "time": 0.098,
    "tests": [
     {
      "name": "test_good_hash_runs_with_args",
      "outcome": "passed",
-     "time": 0.021
+     "time": 0.022
     },
     {
      "name": "test_uppercase_hash_accepted",
      "outcome": "passed",
-     "time": 0.021
+     "time": 0.022
     },
     {
      "name": "test_tampered_script_refused_and_not_run",
      "outcome": "passed",
-     "time": 0.014
+     "time": 0.016
     },
     {
      "name": "test_malformed_hash_refused",
@@ -4091,7 +4312,7 @@
     {
      "name": "test_http_refused",
      "outcome": "passed",
-     "time": 0.008
+     "time": 0.009
     },
     {
      "name": "test_file_url_refused_outside_tests",
@@ -4101,7 +4322,7 @@
     {
      "name": "test_missing_file_is_download_failure",
      "outcome": "passed",
-     "time": 0.012
+     "time": 0.011
     }
    ]
   },
@@ -4143,7 +4364,7 @@
     {
      "name": "test_every_change_goes_through_the_apply_gate",
      "outcome": "passed",
-     "time": 0.053
+     "time": 0.05
     },
     {
      "name": "test_apply_needs_administrator_and_a_supported_windows",
@@ -4153,7 +4374,7 @@
     {
      "name": "test_token_is_never_a_parameter_and_never_written",
      "outcome": "passed",
-     "time": 0.006
+     "time": 0.005
     },
     {
      "name": "test_tls_pin_checked_before_the_token_is_sent",
@@ -4208,17 +4429,17 @@
     {
      "name": "test_pwsh_node_id_matches_python",
      "outcome": "passed",
-     "time": 0.321
+     "time": 0.326
     },
     {
      "name": "test_pwsh_canonical_json_equals_card_bytes",
      "outcome": "passed",
-     "time": 0.577
+     "time": 0.567
     },
     {
      "name": "test_pwsh_dry_run_step_does_not_run_action",
      "outcome": "passed",
-     "time": 0.427
+     "time": 0.435
     },
     {
      "name": "test_published_sha256_matches_script",
@@ -4228,7 +4449,7 @@
     {
      "name": "test_script_is_ascii_for_windows_powershell_51",
      "outcome": "passed",
-     "time": 0.007
+     "time": 0.008
     }
    ]
   }
@@ -4236,7 +4457,7 @@
  "coverage_files": {
   "niyantrak/__init__.py": 100.0,
   "niyantrak/card.py": 86.1,
-  "niyantrak/cli.py": 75.0,
+  "niyantrak/cli.py": 75.7,
   "niyantrak/decisions/__init__.py": 100.0,
   "niyantrak/decisions/__main__.py": 83.8,
   "niyantrak/decisions/ask.py": 88.7,
@@ -4248,7 +4469,7 @@
   "niyantrak/gate/__init__.py": 100.0,
   "niyantrak/gate/adapters.py": 97.4,
   "niyantrak/gate/engine.py": 90.1,
-  "niyantrak/gate/events.py": 91.7,
+  "niyantrak/gate/events.py": 88.5,
   "niyantrak/gate/installers.py": 95.6,
   "niyantrak/gate/mode.py": 100.0,
   "niyantrak/gate/shell.py": 82.8,
@@ -4261,9 +4482,9 @@
   "niyantrak/recognizers.py": 96.0,
   "niyantrak/telemetry/__init__.py": 100.0,
   "niyantrak/telemetry/query.py": 97.1,
-  "niyantrak/telemetry/schema.py": 92.3,
-  "niyantrak/telemetry/sink.py": 89.8,
-  "niyantrak/telemetry/store.py": 96.1,
+  "niyantrak/telemetry/schema.py": 93.4,
+  "niyantrak/telemetry/sink.py": 90.2,
+  "niyantrak/telemetry/store.py": 96.5,
   "niyantrak/tls.py": 97.9
  },
  "screens": [

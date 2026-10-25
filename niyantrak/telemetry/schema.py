@@ -1,11 +1,12 @@
-"""The 5W event: what an activity record may contain — and, by omission, everything it may not.
+"""The 6W event: what an activity record may contain — and, by omission, everything it may not.
 
 An event says who acted, on whose behalf (whom), what kind of action, where the data went, why it was allowed or
-stopped, and how it ended. It never holds message text, prompts, replies or identifier values: personal data shows
+stopped, which project / repository / workspace it touched (which), when (ts), and how it ended. It never holds message text, prompts, replies or identifier values: personal data shows
 up only as per-type counts (entity_counts = {"EMAIL": 2}). validate() enforces that:
   * any field outside FIELDS is rejected (message, text, body, prompt, customer_id, ...)
   * labels are short (64 chars, 8 words; why: 96 chars, 12 words), one line; a label may be a real path
-    (/var/log, C:\\Users\\Public, \\\\server\\share) and is checked like any other label
+    (/var/log, C:\\Users\\Public, \\\\server\\share) and is checked like any other label; `which` may also be
+    owner/repo (acme/payments-api) or a workspace on a machine (ws-01:~/projects/app)
   * every string is run through the identifier recognizers (Aadhaar, PAN, IBAN, card, email, phone, ...) and
     rejected on a hit; long digit runs are rejected as identifier-like
   * session ids must already be pseudonyms (pseudonym()); the sink pseudonymises user and session ids
@@ -15,20 +16,22 @@ import hashlib
 import hmac
 import re
 import uuid
+from urllib.parse import urlsplit
 from datetime import datetime, timezone
 
 from .. import identity as _identity
 from ..cli import detect
 from ..recognizers import PACKS
 
-SCHEMA = "niyantrak.5w/1"
+SCHEMA = "niyantrak.6w/1"
+ACCEPTED_SCHEMAS = (SCHEMA, "niyantrak.5w/1")      # 5w/1 = the same event without `which` (read as null)
 OUTCOMES = ("allowed", "masked", "local", "blocked", "needs_approval", "approved", "rejected", "error")
 SOURCES = ("json", "otlp")
 REQUIRED = ("ts", "who", "what", "where", "why", "outcome")
-LABELS = ("who", "whom", "what", "where", "why", "agent", "route", "machine")
+LABELS = ("who", "whom", "what", "where", "why", "which", "agent", "route", "machine")
 FIELDS = frozenset(LABELS + ("ts", "outcome", "rule_ids", "entity_counts", "session", "source", "event_id", "schema",
                              "who_id"))
-COLUMNS = ("event_id", "ts", "who", "who_id", "whom", "what", "where", "why", "agent", "route", "machine", "session",
+COLUMNS = ("event_id", "ts", "who", "who_id", "whom", "what", "where", "why", "which", "agent", "route", "machine", "session",
            "rule_ids", "outcome", "entity_counts", "source", "schema")
 
 MAX_LABEL, MAX_WORDS = 64, 8
@@ -40,6 +43,8 @@ LABEL_RX = re.compile(r"^[\w][\w .:/()+#&,'·-]*$")
 # and the length, word, one-line, recognizer and digit-run guards below apply to paths exactly as to any label.
 _PATH_CHARS = r"[\w .:/\\()+#&,'·@=~-]*"
 PATH_RX = re.compile(r"^(?:/|[A-Za-z]:[\\/]|\\\\\w)" + _PATH_CHARS + "$")
+# `which` only: a workspace on a machine, <machine>:<path> where the path may start with ~ (ws-01:~/projects/app).
+WORKSPACE_RX = re.compile(r"^\w[\w.-]{0,62}:~?/" + _PATH_CHARS + "$")
 RULE_RX = re.compile(r"^[A-Za-z0-9][A-Za-z0-9._:-]{0,63}$")
 ENTITY_RX = re.compile(r"^[A-Z][A-Z0-9_]{1,31}$")
 PSEUDONYM_RX = re.compile(r"^p-[0-9a-f]{12}$")
@@ -55,6 +60,29 @@ class EventError(ValueError):
 def pseudonym(value, salt):
     """Stable, salted, one-way stand-in for a user or session id: p-<12 hex>."""
     return "p-" + hmac.new(str(salt).encode(), str(value).encode(), hashlib.sha256).hexdigest()[:12]
+
+
+def repo_label(url):
+    """A repository URL or path -> a `which` label without credentials, host, query or .git: owner/repo for remote
+    URLs (https://user:token@github.com/acme/infra.git, git@github.com:acme/infra.git, ssh://host:22/acme/infra), the
+    folder name for a local path (/srv/git/infra.git -> infra). None when nothing is left."""
+    if not isinstance(url, str) or not url.strip():
+        return None
+    u = url.strip()
+    if "://" in u:
+        parts = urlsplit(u)
+        path, remote = parts.path, parts.scheme.lower() != "file"
+    elif ":" in u.split("/", 1)[0] and not re.match(r"^[A-Za-z]:[\\/]", u):     # scp form: [user@]host:path
+        path, remote = u.split(":", 1)[1], True
+    else:
+        path, remote = u, False
+    parts = [p for p in re.split(r"[\\/]+", path.split("?", 1)[0].split("#", 1)[0]) if p]
+    if parts and parts[-1].endswith(".git"):
+        parts[-1] = parts[-1][:-4]
+    parts = [p for p in parts if p]
+    if not parts:
+        return None
+    return "/".join(parts) if remote else parts[-1]
 
 
 def _no_identifiers(field, s):
@@ -77,7 +105,7 @@ def _label(field, v, required=False):
     limit, words = (MAX_WHY, MAX_WHY_WORDS) if field == "why" else (MAX_LABEL, MAX_WORDS)
     if len(v) > limit or len(v.split()) > words or "\n" in v or "\r" in v:
         raise EventError(f"{field}: free text is not allowed (at most {limit} characters, {words} words, one line)")
-    if not (LABEL_RX.match(v) or PATH_RX.match(v)):
+    if not (LABEL_RX.match(v) or PATH_RX.match(v) or (field == "which" and WORKSPACE_RX.match(v))):
         raise EventError(f"{field}: unexpected characters")
     _no_identifiers(field, v)
     return v
@@ -104,17 +132,17 @@ def parse_ts(s):
 
 
 def validate(event):
-    """Return a normalised copy of a 5W event, or raise EventError."""
+    """Return a normalised copy of a 6W event (a 5w/1 event is read as 6W with which = null), or raise EventError."""
     if not isinstance(event, dict):
         raise EventError("event: must be an object")
     extra = sorted(str(k) for k in event if k not in FIELDS)
     if extra:
-        raise EventError(f"field not allowed: {', '.join(k[:40] for k in extra[:5])} (5W events carry no values or text)")
+        raise EventError(f"field not allowed: {', '.join(k[:40] for k in extra[:5])} (6W events carry no values or text)")
     for f in REQUIRED:
         if event.get(f) in (None, ""):
             raise EventError(f"{f}: required")
     out = {"schema": SCHEMA, "ts": _ts(event["ts"])}
-    if event.get("schema") not in (None, SCHEMA):
+    if event.get("schema") not in (None,) + ACCEPTED_SCHEMAS:
         raise EventError("schema: unsupported version")
     eid = event.get("event_id")
     if eid is not None and not (isinstance(eid, str) and EVENT_ID_RX.match(eid)):

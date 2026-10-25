@@ -13,7 +13,7 @@ Thank you for helping. Niyantrak is **alpha**: small, focused pull requests with
 ```bash
 git clone <your fork> niyantrak && cd niyantrak
 python3 -m venv .venv && . .venv/bin/activate
-pip install -e ".[dev]"            # add ,telemetry to run the 5W store tests
+pip install -e ".[dev]"            # add ,telemetry to run the 6W store tests
 python3 -m pytest tests/unit -q    # must stay green
 python3 tools/leak-scan.py         # must say clean
 ```

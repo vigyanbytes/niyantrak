@@ -1,9 +1,9 @@
 {
- "total": 89.1,
+ "total": 89.2,
  "files": {
   "niyantrak/__init__.py": 100.0,
   "niyantrak/card.py": 86.1,
-  "niyantrak/cli.py": 75.0,
+  "niyantrak/cli.py": 75.7,
   "niyantrak/decisions/__init__.py": 100.0,
   "niyantrak/decisions/__main__.py": 83.8,
   "niyantrak/decisions/ask.py": 88.7,
@@ -15,7 +15,7 @@
   "niyantrak/gate/__init__.py": 100.0,
   "niyantrak/gate/adapters.py": 97.4,
   "niyantrak/gate/engine.py": 90.1,
-  "niyantrak/gate/events.py": 91.7,
+  "niyantrak/gate/events.py": 88.5,
   "niyantrak/gate/installers.py": 95.6,
   "niyantrak/gate/mode.py": 100.0,
   "niyantrak/gate/shell.py": 82.8,
@@ -28,9 +28,9 @@
   "niyantrak/recognizers.py": 96.0,
   "niyantrak/telemetry/__init__.py": 100.0,
   "niyantrak/telemetry/query.py": 97.1,
-  "niyantrak/telemetry/schema.py": 92.3,
-  "niyantrak/telemetry/sink.py": 89.8,
-  "niyantrak/telemetry/store.py": 96.1,
+  "niyantrak/telemetry/schema.py": 93.4,
+  "niyantrak/telemetry/sink.py": 90.2,
+  "niyantrak/telemetry/store.py": 96.5,
   "niyantrak/tls.py": 97.9
  }
 }

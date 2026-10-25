@@ -15,6 +15,6 @@ Also planned, across stages:
 
 | Item | What | Status |
 |---|---|---|
-| Configurable log retention | keep 5W activity, gate logs and the decision log for a set period per law, then compact or delete on schedule: at least 6 months for EU AI Act deployer logs, 1 year under India's DPDP Rules, 180 days for CERT-In (minimums; your lawyer sets the actual period). Today the free stores grow until you remove them — see [compliance/README.md](compliance/README.md) | planned |
+| Configurable log retention | keep 6W activity, gate logs and the decision log for a set period per law, then compact or delete on schedule: at least 6 months for EU AI Act deployer logs, 1 year under India's DPDP Rules, 180 days for CERT-In (minimums; your lawyer sets the actual period). Today the free stores grow until you remove them — see [compliance/README.md](compliance/README.md) | planned |
 
 Design rule for every stage: personal data never needs to leave your premises, and every change is approved and recorded.

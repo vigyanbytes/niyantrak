@@ -19,7 +19,7 @@ No other packages are downloaded: the free tools use the Python standard library
 git clone <repository URL> niyantrak && cd niyantrak
 python3 -m venv .venv && . .venv/bin/activate
 pip install .
-niyantrak --version                     # niyantrak 0.1.0
+niyantrak --version                     # niyantrak 0.1.1
 ```
 **Windows (PowerShell)**
 ```powershell
@@ -46,7 +46,7 @@ niyantrak panel                                  # http://127.0.0.1:8770 — loo
 - **Try it** — paste a customer message, see what the model would receive.
 - **Overview** — this machine's governance checks (Linux nodes after bootstrap; elsewhere they show as not set up).
 - **Fleet / Add machine** — invite and approve machines (step 5).
-- **Activity (5W)**, **Decisions**, **Docs**, **Proof** — see [ARCHITECTURE.md](ARCHITECTURE.md).
+- **Activity (6W)**, **Decisions**, **Docs**, **Proof** — see [ARCHITECTURE.md](ARCHITECTURE.md).
 
 Screens marked *Sample data* show examples until your own data exists. State is kept in `/var/lib/niyantrak` (root),
 else `~/.local/share/niyantrak`, on Windows `%LOCALAPPDATA%\Niyantrak`; `NIYANTRAK_STATE_ROOT` overrides.
@@ -58,7 +58,7 @@ niyantrak gate status                            # mode (enforce / audit / off),
 niyantrak gate uninstall --cli all --home ~      # removes only what it added
 ```
 Hard stops: destructive commands on system/data roots or home folders, reading credential files, and production
-changes (services, firewalls, deployments, power). Everything else is allowed. Each decision is logged as a 5W event
+changes (services, firewalls, deployments, power). Everything else is allowed. Each decision is logged as a 6W event
 with the command's sha256, not its text.
 
 Codex runs a newly added hook only after you review and trust it in Codex ("hooks need review before they can run");
@@ -82,7 +82,7 @@ refused; a known machine arriving with a different host key raises an impersonat
 ## 6. Optional extras
 ```bash
 pip install ".[discovery]"     # find machines on the LAN over mDNS (zeroconf)
-pip install ".[telemetry]"     # 5W activity store (pyarrow + duckdb); without it Activity shows sample data
+pip install ".[telemetry]"     # 6W activity store (pyarrow + duckdb); without it Activity shows sample data
 pip install ".[decisions]"     # Parquet/DuckDB views for the decision log
 pip install ".[dev]"           # pytest, pytest-cov, build — to run the tests and tools/prove.py
 ```
@@ -97,7 +97,7 @@ niyantrak node                                         # after a real run: node 
 ```bash
 python3 -m pytest tests/unit -q                 # the unit suite
 python3 tools/leak-scan.py --history            # secrets / private infrastructure in any commit
-bash tools/fresh-machine-check.sh dist/niyantrak-0.1.0-py3-none-any.whl   # this quickstart in a clean Ubuntu 24.04 container
+bash tools/fresh-machine-check.sh dist/niyantrak-0.1.1-py3-none-any.whl   # this quickstart in a clean Ubuntu 24.04 container
 ```
 
 ## Trouble?

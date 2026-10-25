@@ -8,7 +8,7 @@
     niyantrak gate install --cli all --home ~                              # hard-stop gate for AI coding agents
     niyantrak gate check --cli claude < payload.json                       # what a CLI hook runs
     niyantrak gate status
-    niyantrak telemetry ask "who ran destructive commands this week"     # question -> SQL -> answer (5W store)
+    niyantrak telemetry ask "who ran destructive commands this week"     # question -> SQL -> answer (6W store)
 
 `scan` shows detection only (checksum-validated: an invalid Aadhaar or card number is left alone). Reversible
 masking with reclaim, routing and evidence are in the commercial gateway.
@@ -91,11 +91,11 @@ def cmd_node(a):
 
 
 def cmd_telemetry(a):
-    """niyantrak telemetry [--dir D] [--writer W] sink|ingest|verify|materialize|compact|activity"""
+    """niyantrak telemetry [--dir D] [--writer W] sink|ingest|verify|materialize|compact|settings|activity|sql|ask"""
     from .telemetry import sink as telsink
     from .telemetry import store as telstore
     if not telstore.available():
-        print("The 5W store needs the optional extra: pip install niyantrak[telemetry] (pyarrow + duckdb)", file=sys.stderr)
+        print("The 6W store needs the optional extra: pip install niyantrak[telemetry] (pyarrow + duckdb)", file=sys.stderr)
         return 2
     st = telstore.Store(a.dir or os.environ.get("NIYANTRAK_TELEMETRY") or os.path.join(state_root(), "telemetry"), a.writer)
     try:
@@ -119,6 +119,11 @@ def cmd_telemetry(a):
         if a.tcmd == "compact":
             print(json.dumps({"compacted": st.compact(month=a.month)}))
             return 0
+        if a.tcmd == "settings":
+            if a.pseudonymise_which is not None:
+                st.set_setting("pseudonymise_which", a.pseudonymise_which == "on")
+            print(json.dumps(st.settings(), indent=1, sort_keys=True))
+            return 0
         if a.tcmd == "activity":
             print(json.dumps(st.activity(days=a.days), indent=2, default=str))
             return 0
@@ -130,7 +135,7 @@ def cmd_telemetry(a):
     return 2
 
 def _telemetry_query(a, st):
-    """niyantrak telemetry sql|ask — read-only SQL over the 5W store and the decision log (niyantrak.telemetry.query)."""
+    """niyantrak telemetry sql|ask — read-only SQL over the 6W store and the decision log (niyantrak.telemetry.query)."""
     from .decisions.store import Store as DecisionStore
     from .telemetry import query as Q
     if a.tcmd == "ask" and (a.list or not a.question):
@@ -259,23 +264,26 @@ def main(argv=None):
     w.add_argument("--join-bind", help="LAN or tailnet address (or ::) for the TLS join-only listener; off by default")
     w.add_argument("--join-port", type=int, default=8771)
     w.set_defaults(f=lambda a: __import__("niyantrak.panel", fromlist=["serve"]).serve(a.bind, a.port, a.join_bind, a.join_port))
-    t = sp.add_parser("telemetry", help="5W activity store: sink, ingest, verify, materialize, compact, activity, sql, ask")
+    t = sp.add_parser("telemetry", help="6W activity store: sink, ingest, verify, materialize, compact, settings, activity, sql, ask")
     t.add_argument("--dir", help="store folder (default: $NIYANTRAK_TELEMETRY or <state>/telemetry)")
     t.add_argument("--writer", default="local", help="this writer's name (one manifest per writer)")
     t.add_argument("--decisions", help="decision log folder for the decisions table (default: $NIYANTRAK_DECISIONS or <state>/decisions)")
     tsp = t.add_subparsers(dest="tcmd", required=True)
-    ts = tsp.add_parser("sink", help="OTLP/HTTP JSON (POST /v1/logs) and 5W JSON (POST /v1/events) receiver")
+    ts = tsp.add_parser("sink", help="OTLP/HTTP JSON (POST /v1/logs) and 6W JSON (POST /v1/events) receiver")
     ts.add_argument("--bind", default="127.0.0.1")
     ts.add_argument("--port", type=int, default=4318)
-    ti = tsp.add_parser("ingest", help="append 5W events from a JSON file (- for stdin)")
+    ti = tsp.add_parser("ingest", help="append 6W (or 5W) events from a JSON file (- for stdin)")
     ti.add_argument("file")
     tsp.add_parser("verify", help="check every segment against the manifest")
     tsp.add_parser("materialize", help="rebuild the query view")
     tc = tsp.add_parser("compact", help="merge this writer's segments per month (default: months before this one)")
     tc.add_argument("--month", help="YYYY-MM")
-    tq = tsp.add_parser("activity", help="print what the panel's Activity (5W) screen shows")
+    tset = tsp.add_parser("settings", help="show or change store settings (pseudonymise project names)")
+    tset.add_argument("--pseudonymise-which", choices=["on", "off"],
+                      help="on: store `which` (project / repo) as a salted pseudonym from now on; off: as given")
+    tq = tsp.add_parser("activity", help="print what the panel's Activity (6W) screen shows")
     tq.add_argument("--days", type=int, default=7)
-    for name, hlp in (("sql", "run one read-only SELECT over tables ev (5W events) and decisions"),
+    for name, hlp in (("sql", "run one read-only SELECT over tables ev (6W events) and decisions"),
                       ("ask", "a question in plain words -> the SQL it becomes -> the answer (no model; see --list)")):
         tq = tsp.add_parser(name, help=hlp)
         if name == "sql":

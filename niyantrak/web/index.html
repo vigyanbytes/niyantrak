@@ -22,7 +22,7 @@
     <button data-p="try">Try it</button>
     <button data-p="compliance">Compliance <span class="lock">Pro</span></button>
     <div class="navgroup">Govern AI</div>
-    <button data-p="activity">Activity (5W)</button>
+    <button data-p="activity">Activity (6W)</button>
     <button data-p="decisions">Decisions</button>
     <button data-p="access">AI access <span class="lock">Pro</span></button>
     <button data-p="approvals">Approvals <span class="lock">Pro</span></button>
@@ -190,16 +190,17 @@
       </div>
     </section>
 
-    <!-- ACTIVITY 5W -->
+    <!-- ACTIVITY 6W -->
     <section id="activity" hidden>
-      <div class="row between"><p class="lead">Who did what, through which AI agent, where the data went, and why it was allowed. Click any part of a chart to filter the others.</p>
+      <div class="row between"><p class="lead">Who did what, through which AI agent, in which project, where the data went, and why it was allowed. Click any part of a chart to filter the others.</p>
         <button class="btn ghost small" id="act-reset">Clear filter</button></div>
       <p class="muted" id="act-note"></p>
-      <div class="card"><div class="card-h"><h2>Who → agent → action → where</h2><span class="muted" id="act-filter">all activity</span></div><div class="chart tall" id="c-flow"></div></div>
+      <div class="card"><div class="card-h"><h2>Who → agent → project → action → where</h2><span class="muted" id="act-filter">all activity</span></div><div class="chart tall" id="c-flow"></div></div>
       <div class="two">
         <div class="card"><div class="card-h"><h2>Activity over the week</h2><span class="muted">by outcome</span></div><div class="chart" id="c-time"></div></div>
         <div class="card"><div class="card-h"><h2>Why it was allowed or stopped</h2><span class="muted">by rule</span></div><div class="chart" id="c-why"></div></div>
       </div>
+      <div class="card"><div class="card-h"><h2>By project</h2><span class="muted">which repository or workspace · click to filter</span></div><div class="chart" id="c-which"></div></div>
       <div class="card"><div class="card-h"><h2>Infrastructure governance</h2><span class="muted">changes, drift and approvals per machine</span></div><div class="chart" id="c-infra"></div></div>
     </section>
 
@@ -286,7 +287,7 @@
           <li>Operators add machines — <button class="link" data-go="add">Add machine</button>; developers register their laptops.</li></ol></div>
         <div class="card"><div class="label">Every week (30 minutes)</div><ol>
           <li>Clear the approvals queue; reject anything without a reason — <button class="link" data-go="approvals">Approvals</button>.</li>
-          <li>Look at what was blocked and why; a rule that blocks good work gets a proposed change — <button class="link" data-go="activity">Activity (5W)</button>.</li>
+          <li>Look at what was blocked and why; a rule that blocks good work gets a proposed change — <button class="link" data-go="activity">Activity (6W)</button>.</li>
           <li>Check drift caught on machines and that each was reverted or approved.</li></ol></div>
         <div class="card"><div class="label">Every month</div><ol>
           <li>Export the evidence pack (masked identifiers, routes, approvals, blocks, chain check) for leadership or your auditor — <button class="link" data-go="audit">Audit &amp; evidence</button>.</li>
@@ -294,7 +295,7 @@
           <li>Review rule hits: rules never used, rules hit too often.</li></ol></div>
         <div class="card"><div class="label">When something goes wrong</div><ol>
           <li>Switch the affected bot or agent to <b>block</b> in one click; personal data stops flowing.</li>
-          <li>Use Activity (5W) to see who, which agent, what, where and why — the chain shows nothing was edited afterwards.</li>
+          <li>Use Activity (6W) to see who, which agent, what, where, why and which project — the chain shows nothing was edited afterwards.</li>
           <li>Export the incident evidence and follow your breach-notification duty (timelines differ by law — your legal adviser sets them).</li>
           <li>Fix the rule, test it, have it approved, re-enable.</li></ol></div>
       </div>

@@ -1,6 +1,6 @@
 [project]
 name = "niyantrak"
-version = "0.1.0"
+version = "0.1.1"
 description = "Governance-first AI for business bots and agents — free edition: web panel, identifier scan with checksums, agent gate, signed node cards, join flow, node bootstrap."
 readme = "README.md"
 license = "Apache-2.0"

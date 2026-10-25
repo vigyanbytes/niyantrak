@@ -5,13 +5,15 @@
 
 A small software team — asha, ravi, meera and tomas — works with three AI coding agents (Claude Code, Codex,
 Antigravity) on six machines (control-01, build-01, gpu-01, laptop-asha, laptop-ravi, laptop-meera), plus a support
-bot whose model calls go through the gateway. Every name, machine, path and address here is made up; machine
+bot whose model calls go through the gateway. They work on fictional projects (the 6W `which`): acme/payments-api,
+acme/clinic-portal, acme/infra and acme/data-pipeline, and the support bot serves acme/support-bot and acme/clinic-bot.
+Every name, machine, path and address here is made up; machine
 addresses are from the documentation ranges (192.0.2.0/24, 198.51.100.0/24, 2001:db8::/32).
 
 It writes, under --out:
-    events.json       the 5W events (niyantrak.5w/1), as `niyantrak telemetry ingest` takes them
+    events.json       the 6W events (niyantrak.6w/1), as `niyantrak telemetry ingest` takes them
     decisions.jsonl   decision-log events, as `niyantrak decisions write` takes them
-    telemetry/        a 5W store holding events.json (written through the real Store, so every event is validated)
+    telemetry/        a 6W store holding events.json (written through the real Store, so every event is validated)
     decisions/        a decision log holding decisions.jsonl (privacy-checked like any other write)
     bundle.json       what the panel's screens show for this data (activity, also per clicked filter; decisions;
                       fleet), for tools/build-demo.py --bundle
@@ -40,6 +42,10 @@ PEOPLE = {   # login → (directory id, home machine, favourite agents, role)
 }
 APPROVERS = ("asha", "tomas")
 REPOS = ("/srv/repos/payments-api", "/srv/repos/clinic-portal", "/srv/repos/infra", "/srv/repos/data-pipeline")
+PROJECT = {r: "acme/" + r.rsplit("/", 1)[1] for r in REPOS}            # the 6W `which` of work in each repository
+HOME_PROJECT = {"asha": "acme/infra", "ravi": "acme/payments-api", "meera": "acme/data-pipeline", "tomas": "acme/infra"}
+PROD_PROJECT = {"prod.deploy": "acme/payments-api", "prod.service": "acme/infra", "prod.firewall": "acme/infra"}
+BOT_PROJECT = {"patient": "acme/clinic-bot"}                           # every other support-bot call: acme/support-bot
 SHARED_MACHINES = ("build-01", "gpu-01", "control-01")
 ROUTINE = [("Run shell command", 6), ("Edit file", 5), ("Read file", 4), ("Run tests", 2)]
 DESTRUCTIVE = [("git.force_push", "Force-push to shared branch"), ("git.reset_hard", "Discard local work"),
@@ -83,9 +89,14 @@ def stamp(day, rng, start=8, end=20):
     return t.strftime("%Y-%m-%dT%H:%M:%SZ")
 
 
-def gate_event(rng, day, who, agent, machine, what, where, rule=None, outcome="allowed", why=None, ts=None):
+def project(where, who):
+    """The project a gate event belongs to: the repository its path is in, else the person's main project."""
+    return next((p for r, p in PROJECT.items() if where.startswith(r)), HOME_PROJECT[who])
+
+
+def gate_event(rng, day, who, agent, machine, what, where, rule=None, outcome="allowed", why=None, ts=None, which=None):
     return {"event_id": eid(rng), "ts": ts or stamp(day, rng), "who": who, "who_id": PEOPLE[who][0], "agent": agent,
-            "what": what, "where": where, "why": why or (f"{rule} hard stop" if rule else "No hard stop"),
+            "what": what, "where": where, "which": which or project(where, who), "why": why or (f"{rule} hard stop" if rule else "No hard stop"),
             "outcome": outcome, "rule_ids": [rule] if rule else [], "machine": machine, "entity_counts": {}}
 
 
@@ -116,19 +127,19 @@ def events(end, days, seed):
                 agent, machine = rng.choice(agents), rng.choice(SHARED_MACHINES)
                 t0 = stamp(day, rng, 9, 16)
                 out.append(gate_event(rng, day, who, agent, machine, what, "production", rule, "needs_approval",
-                                      f"{rule} needs a second person", ts=t0))
+                                      f"{rule} needs a second person", ts=t0, which=PROD_PROJECT[rule]))
                 approver = rng.choice([a for a in APPROVERS if a != who])
                 verdict = "approved" if rng.random() < 0.8 else "rejected"
                 t1 = (datetime.strptime(t0, "%Y-%m-%dT%H:%M:%SZ") + timedelta(minutes=rng.randint(4, 50))).strftime("%Y-%m-%dT%H:%M:%SZ")
                 out.append(gate_event(rng, day, approver, agent, machine, what, "production", rule, verdict,
-                                      f"{rule} {verdict} by second person", ts=t1))
+                                      f"{rule} {verdict} by second person", ts=t1, which=PROD_PROJECT[rule]))
             if not weekend and rng.random() < 0.5:                                   # the agent asks a cloud model
                 found = {t: rng.randint(1, 4) for t in rng.sample(["EMAIL", "PHONE", "IBAN"], k=rng.randint(1, 2))}
                 out.append({"event_id": eid(rng), "ts": stamp(day, rng), "who": who, "who_id": PEOPLE[who][0],
                             "whom": "internal", "agent": rng.choice(agents), "what": "Ask a model",
                             "where": "Cloud model", "why": "RB-ROUTE-001 mask personal data before cloud",
                             "outcome": "masked", "rule_ids": ["RB-ROUTE-001"], "route": "cloud: frontier model",
-                            "machine": home, "entity_counts": found})
+                            "machine": home, "which": HOME_PROJECT[who], "entity_counts": found})
         for _ in range(rng.randint(4, 8) if weekend else rng.randint(14, 26)):         # the support bot's model calls
             whom, where, outcome, route, why, rule, types = rng.choices(MODEL_CALLS, [6, 3, 1, 1])[0]
             counts = {}
@@ -139,7 +150,7 @@ def events(end, days, seed):
             out.append({"event_id": eid(rng), "ts": stamp(day, rng, 6, 23), "who": "support-bot", "whom": whom,
                         "agent": "Support gateway", "what": "Ask a model", "where": where, "why": why,
                         "outcome": outcome, "rule_ids": [rule], "route": route, "machine": "gpu-01",
-                        "entity_counts": counts})
+                        "which": BOT_PROJECT.get(whom, "acme/support-bot"), "entity_counts": counts})
     return sorted(out, key=lambda e: (e["ts"], e["event_id"]))
 
 
@@ -172,7 +183,7 @@ def decisions(end):
     add("DECISION", "DEC-204", "Health questions go only to the local model on gpu-01", d(10), "meera", "Antigravity",
         "Patient data never leaves our machines")
     add("DECISION", "DEC-205", "Production deploys need a second person to approve", d(9), "tomas", "Claude Code")
-    add("DECISION", "DEC-206", "Keep 5W activity for 400 days, then compact monthly", d(6), "asha", "Codex")
+    add("DECISION", "DEC-206", "Keep 6W activity for 400 days, then compact monthly", d(6), "asha", "Codex")
     status("DEC-206", "proposed", d(6, 11), "asha")
     add("DECISION", "DEC-207", "Contractor laptops join only after a signed card check", d(4), "tomas", "Codex")
     status("DEC-207", "proposed", d(4, 11), "tomas", "Codex")
@@ -268,7 +279,7 @@ def main(argv=None):
     ap.add_argument("--seed", type=int, default=7)
     a = ap.parse_args(argv)
     b = build(a.out, date.fromisoformat(a.end), a.days, a.seed)
-    print(f"{LABEL}\n{b['events']} 5W events and {len(b['decisions']['nodes'])} decision-log items, "
+    print(f"{LABEL}\n{b['events']} 6W events and {len(b['decisions']['nodes'])} decision-log items, "
           f"{a.days} days ending {a.end} -> {a.out}")
     return 0
 

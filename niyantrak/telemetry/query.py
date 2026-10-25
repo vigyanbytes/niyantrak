@@ -1,11 +1,11 @@
-"""Ask the 5W store (and the decision log) questions in SQL, and get the answer as a table, CSV, JSON, Markdown or Parquet.
+"""Ask the 6W store (and the decision log) questions in SQL, and get the answer as a table, CSV, JSON, Markdown or Parquet.
 
     niyantrak telemetry sql "SELECT who, count(*) AS n FROM ev GROUP BY 1 ORDER BY n DESC" [--format md]
     niyantrak telemetry ask "who ran destructive commands this week" [--as-of 2026-10-23] [--format csv]
     niyantrak telemetry ask --list                       # the questions ask understands, with their SQL
 
 Tables
-    ev         one row per 5W event (see docs/5W.md); rule_ids is a LIST, entity_counts a MAP(type -> count)
+    ev         one row per 6W event (see docs/6W.md); which is null for events recorded before 6W; rule_ids is a LIST, entity_counts a MAP(type -> count)
     decisions  one row per decision or work item derived from the decision log (id, kind, status, ts, title, user,
                agent, product); empty when there is no decision log
 
@@ -101,6 +101,28 @@ GROUP BY day ORDER BY day"""},
 FROM ev, unnest(rule_ids) AS t(r)
 WHERE outcome IN ('needs_approval', 'approved', 'rejected') AND ts >= {start} AND ts < {end}
 ORDER BY ts, who"""},
+    {"id": "blocked-by-project", "question": "Which projects (repos) had blocked actions this week?",
+     "keywords": [("blocked", "stopped", "denied"), ("project", "projects", "repo", "repos", "repository", "repositories")],
+     "sql": """SELECT which, count(*) AS blocked,
+       count(DISTINCT who) AS people, count(DISTINCT agent) AS agents,
+       string_agg(DISTINCT r, ', ' ORDER BY r) AS rules
+FROM ev LEFT JOIN unnest(rule_ids) AS t(r) ON true
+WHERE outcome = 'blocked' AND which IS NOT NULL AND ts >= {start} AND ts < {end}
+GROUP BY which ORDER BY blocked DESC, which"""},
+    {"id": "personal-data-by-project", "question": "Top projects by masked personal data?",
+     "keywords": [("personal data", "identifiers", "pii", "masked"), ("project", "projects", "repo", "repos")],
+     "sql": """SELECT which, sum(entity_total) AS identifiers_found, count(*) AS events,
+       count(*) FILTER (WHERE outcome IN ('masked', 'local')) AS protected
+FROM ev
+WHERE which IS NOT NULL AND entity_total > 0 AND ts >= {start} AND ts < {end}
+GROUP BY which ORDER BY identifiers_found DESC, which LIMIT 10"""},
+    {"id": "agents-per-project", "question": "Which agents worked in each project?",
+     "keywords": [("agent", "agents"), ("each project", "per project", "each repo", "per repo", "which project")],
+     "sql": """SELECT which, agent, count(*) AS events, count(DISTINCT who) AS people,
+       count(*) FILTER (WHERE outcome = 'blocked') AS blocked
+FROM ev
+WHERE which IS NOT NULL AND ts >= {start} AND ts < {end}
+GROUP BY ALL ORDER BY which, events DESC, agent"""},
     {"id": "decisions-by-status", "question": "How many decisions and work items are in each status?",
      "keywords": [("decision", "decisions", "work items", "status")],
      "sql": """SELECT kind, status, count(*) AS items, left(max(ts), 10) AS latest

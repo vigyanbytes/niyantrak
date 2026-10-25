@@ -9,6 +9,7 @@
     antigravity  Antigravity hooks {toolCall: {name, args}}. Both answer {"decision": "allow"|"deny", "reason"}.
     opencode     The installed plugin sends {tool, args}; answers {"decision": "allow"|"deny", "reason"}.
 
+The event's `which` comes from the payload's `cwd` when present (events.which).
 A payload that cannot be read is denied (rule gate.bad_payload) unless the machine switch is off.
 """
 import json
@@ -57,9 +58,10 @@ def handle(cli, raw):
         if not isinstance(payload, dict):
             raise ValueError("payload is not a JSON object")
     except ValueError:
-        call, decision = ToolCall(tool=""), bad_payload()
+        call, decision, payload = ToolCall(tool=""), bad_payload(), {}
     else:
         call = parse_payload(cli, payload)
         decision = decide(call)
-    events.record(call, decision, agent=cli)
+    cwd = payload.get("cwd")                  # Claude Code, Codex and Gemini CLI send the session's folder
+    events.record(call, decision, agent=cli, cwd=cwd if isinstance(cwd, str) else None)
     return render(cli, decision)

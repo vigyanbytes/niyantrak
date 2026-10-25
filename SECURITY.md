@@ -36,7 +36,7 @@ In scope — the code in this repository:
   `/proof/` or `/docs/`, XSS, request smuggling, anything reachable from the network listeners
 - the join flow and TLS pinning: token reuse, card/host-key forgery, impersonation not detected
 - the agent gate: a hard-stop command or credential read that is allowed (a bypass)
-- 5W events or the decision log storing message text or identifier values; tamper-evidence bypass
+- 6W events or the decision log storing message text or identifier values; tamper-evidence bypass
 - node bootstrap leaving a machine less secure than it found it
 - secrets or private infrastructure details committed to this repository
 

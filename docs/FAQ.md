@@ -5,7 +5,7 @@ A governance layer that keeps personal data away from AI models, stops dangerous
 decision as evidence — on machines you own.
 
 **Is it production-ready?**
-No. v0.1.0 is **alpha**. The free tools are tested on every commit (see `proof/`), but interfaces may change before
+No. v0.1.1 is **alpha**. The free tools are tested on every commit (see `proof/`), but interfaces may change before
 1.0 and there has been no external security audit yet. Use it alongside your existing controls, not instead of them.
 
 **Does it send my data anywhere?**
@@ -28,7 +28,7 @@ Run `niyantrak scan --help` and see `niyantrak/recognizers.py` for the full list
 
 **Does it work on Windows?**
 The panel and the scan are built to, without WSL (standard-library Python; state in `%LOCALAPPDATA%\Niyantrak`).
-For v0.1.0 this is covered by unit tests, not yet by a run on a real Windows machine — see the launch checklist. Node bootstrap, the agent gate installer and joining
+For v0.1.x this is covered by unit tests, not yet by a run on a real Windows machine — see the launch checklist. Node bootstrap, the agent gate installer and joining
 a machine *as* a node are Linux features today. A signed Windows installer is on the roadmap.
 
 **Does it work on macOS?**
@@ -47,7 +47,7 @@ No tool does that on its own. Niyantrak helps you meet specific obligations (dat
 compliance is about your organisation's processes too.
 
 **The Activity / Fleet screen shows machines and events I don't have.**
-Screens marked *Sample data* show built-in examples until your own data exists. Install `.[telemetry]` and send 5W
+Screens marked *Sample data* show built-in examples until your own data exists. Install `.[telemetry]` and send 6W
 events to fill Activity; join machines to fill Fleet.
 
 **Where is state stored? How do I reset it?**

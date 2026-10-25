@@ -17,8 +17,8 @@ Published as **github.com/vigyanbytes/niyantrak** on 23 Oct 2026. The public rep
 | Item | Status | Evidence / next step |
 |---|---|---|
 | README: what/why, alpha status, quickstart (Ubuntu + Windows), walkthrough GIF + video, screenshots, editions, proof | ✅ | `README.md`, `docs/media/` |
-| Quickstart, architecture, FAQ, 5W format | ✅ | `docs/QUICKSTART.md`, `docs/ARCHITECTURE.md`, `docs/FAQ.md`, `docs/5W.md` |
-| Querying 5W activity and decisions (ten questions → SQL → real output; CSV/JSON/Markdown/Parquet) | ✅ | `docs/QUERYING_5W.md`, `niyantrak telemetry ask|sql` |
+| Quickstart, architecture, FAQ, 6W format | ✅ | `docs/QUICKSTART.md`, `docs/ARCHITECTURE.md`, `docs/FAQ.md`, `docs/6W.md` |
+| Querying 6W activity and decisions (thirteen questions → SQL → real output; CSV/JSON/Markdown/Parquet) | ✅ | `docs/QUERYING_6W.md`, `niyantrak telemetry ask|sql` |
 | OWASP mapping (LLM Top 10 2025, Agentic AI threats T1–T15) with honest status and reading list | ✅ | `docs/OWASP.md` |
 | Security policy (private disclosure, supported versions, scope) | ✅ | `SECURITY.md` — GitHub private vulnerability reporting + info@vigyanbytes.com |
 | Contributing guide | ✅ | `CONTRIBUTING.md` — DCO sign-off, no CLA (founder decision 2026-10-23); README "Editions & licensing" |

@@ -29,7 +29,7 @@ Status: **Helps** (free edition) · **Partial** · **Commercial** · **Yours**.
 |---|---|---|---|
 | GOVERN 1.1 | Legal and regulatory requirements are understood and documented | These compliance pages; commercial rule book links each rule to the law it serves. | Partial / Commercial |
 | GOVERN 1.4 | Risk management runs through transparent policies and controls | Gate rules are named and listed (`RULES` in `niyantrak/gate/engine.py`); every deny names its rule. | Partial |
-| GOVERN 1.6 | AI systems are inventoried | 5W `agent` and `route` fields, gate logs per CLI, as-built docs show which agents and models run where. | Partial |
+| GOVERN 1.6 | AI systems are inventoried | 6W `agent` and `route` fields, gate logs per CLI, as-built docs show which agents and models run where. | Partial |
 | GOVERN 2.1 | Roles and lines of communication are documented | Identity from OS login on every decision. Roles and separation of duties: Commercial (in build). | Partial |
 | GOVERN 4.3 | Practices enable testing, incident identification and information sharing | `proof/` folder per test run; tamper-evident records. | Partial |
 | GOVERN 6.1 | Policies address third-party AI risks | Destinations of each request recorded (`where`, `route`). | Partial |
@@ -38,7 +38,7 @@ Status: **Helps** (free edition) · **Partial** · **Commercial** · **Yours**.
 
 | Subcategory | Outcome (short) | Niyantrak | Status |
 |---|---|---|---|
-| MAP 1.1 | Intended purpose and context are documented | `why` field on every 5W event; decision log. | Partial |
+| MAP 1.1 | Intended purpose and context are documented | `why` field on every 6W event; decision log. | Partial |
 | MAP 3.5 | Human oversight processes are defined | Gate modes `enforce` / `audit` / `off` per machine; approvals: Commercial. | Partial |
 | MAP 4.1, 4.2 | Legal and technology risks of components, including third-party AI, are mapped; internal controls documented | `niyantrak scan` shows what personal data would reach a third-party model; gate rule list documents controls. | Partial |
 
@@ -46,7 +46,7 @@ Status: **Helps** (free edition) · **Partial** · **Commercial** · **Yours**.
 
 | Subcategory | Outcome (short) | Niyantrak | Status |
 |---|---|---|---|
-| MEASURE 2.4 | Behaviour is monitored in production | Activity (5W) screen; `telemetry ask "who ran destructive commands this week"`. | Partial |
+| MEASURE 2.4 | Behaviour is monitored in production | Activity (6W) screen; `telemetry ask "who ran destructive commands this week"`. | Partial |
 | MEASURE 2.7 | Security and resilience are evaluated and documented | Gate hard stops, hardened nodes, pinned-TLS join; `proof/` evidence. No adversarial testing of models. | Partial |
 | MEASURE 2.8 | Transparency and accountability risks are examined | Tamper-evident records answer "who, whose data, what, where, why" with the SQL shown. | Partial |
 | MEASURE 2.10 | Privacy risk is examined and documented | Counts of identifier types per flow; placeholders instead of values. | Partial |

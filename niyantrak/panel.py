@@ -7,8 +7,8 @@ Screens: Overview · Fleet · Add machine · Try it · (Pro previews) Compliance
 API: GET /api/node · GET /api/peers · POST /api/discover · POST /api/scan
      Proof: GET /api/proof (latest summary + last 30 runs; 404 until tools/prove.py has run) and GET /proof/<file>,
      read-only files from proof/latest (coverage HTML, junit.xml) — paths are confined to that folder.
-     Activity: GET /api/activity?days=7[&k=who|agent|what|where|why|outcome|machine&v=<label>] — the Activity (5W)
-     charts from the 5W store (niyantrak/telemetry); {"empty": true, "reason": ...} when the store has no events or
+     Activity: GET /api/activity?days=7[&k=who|agent|what|where|why|which|outcome|machine&v=<label>] — the Activity (6W)
+     charts from the 6W store (niyantrak/telemetry); {"empty": true, "reason": ...} when the store has no events or
      the optional [telemetry] extra (pyarrow + duckdb) is not installed, so the screen shows sample activity.
      Join: POST /api/join/token · POST /api/join (machine side) · GET /api/nodes · POST /api/nodes/<id>/approve|reject
      Decisions: GET /api/decisions (graph JSON for the Decisions screen; empty state when no store).
@@ -134,13 +134,13 @@ def activity(tel_dir, query):
     if k is not None and (k not in telstore.FILTER_KEYS or v is None):
         return 400, {"error": f"k must be one of {', '.join(sorted(telstore.FILTER_KEYS))}, with v"}
     if not telstore.available():
-        return 200, {"empty": True, "days": days, "reason": "The 5W telemetry store needs the optional extra: "
+        return 200, {"empty": True, "days": days, "reason": "The 6W telemetry store needs the optional extra: "
                                                             "pip install niyantrak[telemetry] (pyarrow + duckdb)."}
     try:
         return 200, telstore.Store(tel_dir).activity(days=days, filter=(k, v) if k else None)
     except telstore.IntegrityError as e:
         return 200, {"empty": True, "days": days, "integrity": "failed", "problems": e.problems[:20],
-                     "reason": "The 5W store failed its integrity check (a segment or the manifest was changed). "
+                     "reason": "The 6W store failed its integrity check (a segment or the manifest was changed). "
                                "Run: niyantrak telemetry verify"}
 
 

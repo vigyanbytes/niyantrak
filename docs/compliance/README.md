@@ -25,13 +25,13 @@ control what systems may do, and keep records you can show.** Only the details c
 | Know what personal data is in a message | `niyantrak scan` finds identifiers (India, EU, UK, US, global, health) with checksums and shows placeholders, never values | `niyantrak/recognizers.py` | Free |
 | Keep personal data away from cloud models | Redact-and-reclaim gateway: mask before the model, put real values back after; local-only routing for sensitive data | not in this repository | Commercial (in pilots) |
 | Stop dangerous agent actions | Agent gate: hard stops for destructive commands, credential files and production changes, for Claude Code, Codex, Gemini CLI, Antigravity and OpenCode | `niyantrak/gate/` | Free |
-| Keep a record without creating a new privacy risk | 5W events (who, whom, what, where, why) with labels and counts only; tamper-evident store | `niyantrak/telemetry/` | Free |
+| Keep a record without creating a new privacy risk | 6W events (who, whom, what, where, why, which) with labels and counts only; tamper-evident store | `niyantrak/telemetry/` | Free |
 | Record decisions and who made them | Append-only decision log; person taken from the OS login, not typed in | `niyantrak/decisions/`, `niyantrak/identity.py` | Free |
 | Know your machines | Signed node cards, approved join over pinned TLS, as-built docs | `niyantrak/card.py`, `join.py`, `docs/` | Free |
 | Harden a server | Stock Ubuntu to hardened, audited node (auditd rules, SSH, firewall) | `bootstrap/` | Free (Linux) |
 | Rules per law, roles, approvals, evidence packs | Rule book with citations, jurisdiction profiles, roles and separation of duties, evidence packs | not in this repository | Commercial (in build) |
 
-Details of the free edition: [ARCHITECTURE.md](../ARCHITECTURE.md), [5W.md](../5W.md), [OWASP.md](../OWASP.md).
+Details of the free edition: [ARCHITECTURE.md](../ARCHITECTURE.md), [6W.md](../6W.md), [OWASP.md](../OWASP.md).
 
 ## Coverage grid
 
@@ -43,7 +43,7 @@ this repository. **Roadmap** = planned. **Yours** = an organisational duty no to
 |---|---|---|---|---|---|---|---|
 | Data minimisation before a model | Art. 10 (providers) | Art. 5(1)(c), 25 | A.7 | A 8.11, 8.12 | MEASURE 2.10 | s. 8, Rule 6(1)(a) | Detection: **Helps**. Masking in the live path: **Commercial** |
 | Security safeguards | Art. 15 | Art. 32 | A.6 | A 8.2, 8.9, 8.15 | MEASURE 2.7 | s. 8(5), Rule 6 | **Partial** (gate, bootstrap, join) |
-| Logs and record-keeping | Art. 12, 19, 26(6) | Art. 5(2), 30 | A.6.2.8 | A 8.15, 5.28, 5.33 | GOVERN 1.6, MEASURE 2.8 | Rule 6(1)(c),(e), Rule 8(3); CERT-In 180 days | **Partial** (5W store, decision log, gate log; no retention policy) |
+| Logs and record-keeping | Art. 12, 19, 26(6) | Art. 5(2), 30 | A.6.2.8 | A 8.15, 5.28, 5.33 | GOVERN 1.6, MEASURE 2.8 | Rule 6(1)(c),(e), Rule 8(3); CERT-In 180 days | **Partial** (6W store, decision log, gate log; no retention policy) |
 | Human oversight / control of agents | Art. 14, 26(2) | Art. 22 | A.9 | A 8.2, 8.18 | MANAGE 2.4 | — | **Partial** (hard stops). Approvals: **Commercial** |
 | Third parties and model providers | Art. 25, 26 | Art. 28, 44–49 | A.10 | A 5.19–5.23 | GOVERN 6.1, MANAGE 3.1 | s. 16, Rule 15 | Evidence of where data went: **Partial**. Routing: **Commercial** |
 | Risk and impact assessment | Art. 9, 27 | Art. 35 | Cl. 6.1, A.5 | Cl. 6.1 | MAP | s. 10, Rule 13 | Inputs only (**Partial**); the assessment is **Yours** |
@@ -67,7 +67,7 @@ Every row is explained, with sources, on its own page:
 
 ## Honest limits
 
-- **Alpha software.** v0.1.0; no external security audit yet. Use it alongside your existing controls.
+- **Alpha software.** v0.1.1; no external security audit yet. Use it alongside your existing controls.
 - **The free edition does not sit in the path of live model calls.** It shows what a model *would* receive; the gateway
   that masks and reclaims on real traffic is commercial.
 - **Regex and checksums only** in the free edition. Names, addresses and free-text health details are not detected.

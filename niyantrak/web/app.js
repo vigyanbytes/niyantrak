@@ -2,7 +2,7 @@
 const $ = (s) => document.querySelector(s), $$ = (s) => [...document.querySelectorAll(s)];
 const esc = (s) => String(s ?? "").replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
 const css = (n) => getComputedStyle(document.documentElement).getPropertyValue("--" + n).trim();
-const TITLES = { decisions: "Decisions", docs: "Docs", proof: "Proof", rules: "Rule book", people: "People & roles", playbook: "Officer playbook", activity: "Activity (5W)", overview: "Overview", fleet: "Fleet", add: "Add machine", try: "Try it", compliance: "Compliance",
+const TITLES = { decisions: "Decisions", docs: "Docs", proof: "Proof", rules: "Rule book", people: "People & roles", playbook: "Officer playbook", activity: "Activity (6W)", overview: "Overview", fleet: "Fleet", add: "Add machine", try: "Try it", compliance: "Compliance",
   access: "AI access", approvals: "Approvals", audit: "Audit & evidence" };
 const state = { counts: {}, peers: {}, node: null, charts: {}, joins: {} };
 const DEMO = /[?&]demo=1/.test(location.search);
@@ -173,17 +173,18 @@ function drawCharts() {
     force: { repulsion: 260, edgeLength: 110 }, label: { position: "right", fontSize: 12 }, lineStyle: { color: css("line2"), width: 1.5 } }] }, true);
 }
 
-/* ── Activity (5W): who · agent · what · where · why ─────────────────────────────────────────────────── */
-// Real data: GET api/activity (the 5W store, niyantrak/telemetry). Sample data when the store is empty, the optional
+/* ── Activity (6W): who · agent · which · what · where · why ─────────────────────────────────────────── */
+// Real data: GET api/activity (the 6W store, niyantrak/telemetry). Sample data when the store is empty, the optional
 // [telemetry] extra is missing, or this is the demo. Both paths produce the same shapes and share one renderer.
 const OUTCOME_LABEL = { allowed: "Allowed", masked: "Cloud · masked", local: "Local GPU", blocked: "Blocked", needs_approval: "Needs approval",
   approved: "Approved", rejected: "Rejected", error: "Error" };
 const OUTCOME_KEY_COLOR = () => ({ allowed: css("info"), masked: css("cloud"), local: css("local"), blocked: css("block"), needs_approval: css("warn"),
   approved: css("ok"), rejected: css("crit"), error: css("crit") });
 const SAMPLE_OUTCOME = { "Cloud · masked": "masked", "Local GPU": "local", "Blocked": "blocked", "Needs approval": "needs_approval", "Approved": "approved" };
-function sampleEvents() {           // shape of a 5W event; real ones come from the 5W store when installed
+function sampleEvents() {           // shape of a 6W event; real ones come from the 6W store when installed
   const who = ["Priya (DevOps)", "Arjun (Developer)", "Clinic bot", "Support bot", "Meera (Officer)"];
   const agent = { "Priya (DevOps)": "Claude Code", "Arjun (Developer)": "Codex", "Clinic bot": "WhatsApp gateway", "Support bot": "Voice gateway", "Meera (Officer)": "Panel" };
+  const which = { "Priya (DevOps)": "acme/infra", "Arjun (Developer)": "acme/payments-api", "Clinic bot": "acme/clinic-bot", "Support bot": "acme/support-bot", "Meera (Officer)": null };
   const plan = [
     ["Clinic bot", "Answer patient query", "Cloud · masked", "RB-ROUTE-001 mask personal data", 220],
     ["Clinic bot", "Answer patient query", "Local GPU", "RB-PII-HEALTH-LOCAL keep health data local", 90],
@@ -195,7 +196,7 @@ function sampleEvents() {           // shape of a 5W event; real ones come from 
     ["Arjun (Developer)", "Delete data folder", "Blocked", "Hard stop: destructive command", 1],
     ["Meera (Officer)", "Approve plan", "Approved", "Approver is not the requester", 5]];
   const ev = [];
-  plan.forEach(([w, what, where, why, n]) => { for (let i = 0; i < n; i++) ev.push({ who: w, agent: agent[w], what, where, why, outcome: SAMPLE_OUTCOME[where], day: (i * 3 + n) % 7 }); });
+  plan.forEach(([w, what, where, why, n]) => { for (let i = 0; i < n; i++) ev.push({ who: w, agent: agent[w], which: which[w], what, where, why, outcome: SAMPLE_OUTCOME[where], day: (i * 3 + n) % 7 }); });
   return ev;
 }
 function sampleShapes(ev) {          // same shapes as GET api/activity
@@ -203,20 +204,21 @@ function sampleShapes(ev) {          // same shapes as GET api/activity
   const node = (col, v) => { const key = col + "\u0000" + v;
     if (!names.has(key)) { const d = nodes.some((n) => n.name === v) ? `${v} (${col})` : v; names.set(key, d); nodes.push({ name: d, col, value: v }); }
     return names.get(key); };
-  ev.forEach((e) => { const p = ["who", "agent", "what", "where"].map((c) => node(c, e[c]));
-    for (let i = 0; i < 3; i++) { const k = p[i] + "\u0000" + p[i + 1]; links.set(k, (links.get(k) || 0) + 1); } });
+  ev.forEach((e) => { const p = ["who", "agent", "which", "what", "where"].filter((c) => c !== "which" || e.which != null).map((c) => node(c, e[c]));
+    for (let i = 0; i < p.length - 1; i++) { const k = p[i] + "\u0000" + p[i + 1]; links.set(k, (links.get(k) || 0) + 1); } });
   const days = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"], outcomes = Object.keys(OUTCOME_LABEL).filter((o) => ev.some((e) => e.outcome === o));
-  const whys = {}; ev.forEach((e) => (whys[e.why] = (whys[e.why] || 0) + 1));
+  const whys = {}, projects = {}; ev.forEach((e) => { whys[e.why] = (whys[e.why] || 0) + 1; if (e.which != null) projects[e.which] = (projects[e.which] || 0) + 1; });
+  const ranked = (o) => Object.entries(o).map(([name, value]) => ({ name, value })).sort((a, b) => b.value - a.value || (a.name < b.name ? -1 : 1));
   return { total: ev.length,
     sankey: { nodes, links: [...links].map(([k, v]) => { const [source, target] = k.split("\u0000"); return { source, target, value: v }; }) },
     week: { days, outcomes, series: outcomes.map((o) => ({ name: o, data: days.map((_, d) => ev.filter((e) => e.outcome === o && e.day === d).length) })) },
-    why: Object.entries(whys).map(([name, value]) => ({ name, value })).sort((a, b) => b.value - a.value),
+    why: ranked(whys), by: { which: ranked(projects) },
     infra: { hosts: ["control-01", "ai-node-01", "edge-01", "laptop-07"],
       series: [["Approved changes", "ok", [4, 2, 3, 1]], ["Drift caught and reverted", "warn", [1, 0, 2, 1]], ["Blocked by gate", "crit", [2, 1, 0, 1]]].map(([name, color, data]) => ({ name, color, data })) } };
 }
 const ACT = { events: null, filter: null, shapes: null, seq: 0 };
 const OUTCOME_COLOR = () => ({ "Cloud · masked": css("cloud"), "Local GPU": css("local"), "Blocked": css("block"), "Needs approval": css("warn"), "Approved": css("ok") });
-const SAMPLE_NOTE = "Sample activity until the 5W store is connected. Personal values are never part of an event — only who, which agent, what, where and why.";
+const SAMPLE_NOTE = "Sample activity until the 6W store is connected. Personal values are never part of an event — only who, which agent, which project, what, where and why.";
 const dayLabel = (d) => /^\d{4}-\d{2}-\d{2}$/.test(d) ? new Date(d + "T00:00:00Z").toLocaleDateString(undefined, { weekday: "short", day: "numeric", timeZone: "UTC" }) : d;
 async function drawActivity() {
   if (!window.echarts) { $("#act-note").textContent = "Charts need an internet connection to load the chart library."; return; }
@@ -229,14 +231,14 @@ async function drawActivity() {
   }
   if (a && a.integrity === "failed") {
     $("#act-note").textContent = a.reason;
-    return renderActivity({ total: 0, sankey: { nodes: [], links: [] }, week: { days: [], outcomes: [], series: [] }, why: [], infra: { hosts: [], series: [] } });
+    return renderActivity({ total: 0, sankey: { nodes: [], links: [] }, week: { days: [], outcomes: [], series: [] }, why: [], by: { which: [] }, infra: { hosts: [], series: [] } });
   }
   if (a && !a.empty && a.sample) {
-    $("#act-note").textContent = `${a.sample}: ${a.total.toLocaleString()} event(s), ${a.from} to ${a.to}, computed by the real 5W store. Events hold labels and counts only — never message text or identifier values.`;
+    $("#act-note").textContent = `${a.sample}: ${a.total.toLocaleString()} event(s), ${a.from} to ${a.to}, computed by the real 6W store. Events hold labels and counts only — never message text or identifier values.`;
     return renderActivity(a);
   }
   if (a && !a.empty) {
-    $("#act-note").textContent = `Live activity from the 5W store: ${a.total.toLocaleString()} event(s), ${a.from} to ${a.to}. Events hold labels and counts only — never message text or identifier values.`;
+    $("#act-note").textContent = `Live activity from the 6W store: ${a.total.toLocaleString()} event(s), ${a.from} to ${a.to}. Events hold labels and counts only — never message text or identifier values.`;
     return renderActivity(a);
   }
   if (!ACT.events) ACT.events = sampleEvents();
@@ -258,17 +260,26 @@ function renderActivity(a) {
   why.setOption({ ...theme(), tooltip: { trigger: "item" }, series: [{ type: "treemap", roam: false, nodeClick: false, breadcrumb: { show: false },
     label: { color: "#fff", fontSize: 11.5, fontFamily: "JetBrains Mono", formatter: (p) => p.name.split(" ")[0].replace(/^Hard$/, "Hard stop") },
     tooltip: { formatter: (p) => `${esc(p.name)}<br>${p.value} events` }, data: a.why }] }, true);
+  const proj = ACT.c5 || (ACT.c5 = echarts.init($("#c-which"))), projects = ((a.by && a.by.which) || []).slice().reverse();
+  if (!projects.length) {                         // events without `which` (recorded before 6W, or not in a project)
+    proj.setOption({ title: { text: "No project recorded for this activity.", left: "center", top: "middle",
+      textStyle: { color: css("muted"), fontSize: 13, fontWeight: 400 } }, series: [] }, true);
+  } else proj.setOption({ ...theme(), tooltip: { trigger: "axis", axisPointer: { type: "shadow" } }, grid: { left: 150, right: 24, top: 8, bottom: 24 },
+    yAxis: { type: "category", data: projects.map((p) => p.name), axisLabel: { color: css("axis"), fontFamily: "JetBrains Mono" } },
+    xAxis: { type: "value", axisLabel: { color: css("axis") }, splitLine: { lineStyle: { color: css("grid") } } },
+    series: [{ name: "events", type: "bar", itemStyle: { color: css("info") }, data: projects.map((p) => p.value) }] }, true);
   const infra = ACT.c4 || (ACT.c4 = echarts.init($("#c-infra")));
   if (!a.infra.hosts.length) {                    // no machine-tagged events in this period: say so, no empty axis
     infra.setOption({ title: { text: "No machine changes, drift or approvals recorded in this period.", left: "center", top: "middle",
       textStyle: { color: css("muted"), fontSize: 13, fontWeight: 400 } }, series: [] }, true);
-  } else infra.setOption({ ...theme(), tooltip: { trigger: "axis" }, legend: { top: 0, textStyle: { color: css("body") } }, grid: { left: 80, right: 10, top: 36, bottom: 24 },
+  } else infra.setOption({ ...theme(), tooltip: { trigger: "axis" }, legend: { top: 0, textStyle: { color: css("body") } }, grid: { left: 104, right: 10, top: 36, bottom: 24 },
     yAxis: { type: "category", data: a.infra.hosts, axisLabel: { color: css("axis"), fontFamily: "JetBrains Mono" } }, xAxis: { type: "value", axisLabel: { color: css("axis") }, splitLine: { lineStyle: { color: css("grid") } } },
     series: a.infra.series.map((s) => ({ name: lbl(s.name), type: "bar", stack: "i", itemStyle: { color: s.color ? css(s.color) : kc[s.name] }, data: s.data })) }, true);
   flow.off("click"); flow.on("click", (p) => { if (p.dataType !== "node") return;
     const n = a.sankey.nodes.find((x) => x.name === p.name); if (!n) return;
     ACT.filter = { k: n.col, v: n.value ?? n.name }; drawActivity(); });
   why.off("click"); why.on("click", (p) => { if (p.name) { ACT.filter = { k: "why", v: p.name }; drawActivity(); } });
+  proj.off("click"); proj.on("click", (p) => { if (p.name) { ACT.filter = { k: "which", v: p.name }; drawActivity(); } });
 }
 
 /* ── Proof: test evidence kept in the repository (tools/prove.py → proof/latest + proof/history.jsonl) ─────── */

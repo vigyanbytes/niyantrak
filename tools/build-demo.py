@@ -6,8 +6,8 @@
 Inlines app.css, standalone-shim.js and app.js into index.html and forces sample-data mode. Charts load ECharts from
 jsDelivr when online; everything else works offline. The Proof screen shows real numbers: proof/latest/summary.json and
 the last 30 lines of proof/history.jsonl are embedded as they are at build time. With --bundle (written by
-tools/demo-data.py) the Overview, Fleet, Activity (5W) and Decisions screens show that fictional team's data, computed
-by the real 5W store and decision log, labelled "Sample data".
+tools/demo-data.py) the Overview, Fleet, Activity (6W) and Decisions screens show that fictional team's data, computed
+by the real 6W store and decision log, labelled "Sample data".
 """
 import json
 import os

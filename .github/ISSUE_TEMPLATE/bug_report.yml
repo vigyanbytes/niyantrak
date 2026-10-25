@@ -9,7 +9,7 @@ body:
         **Never paste real personal data** (Aadhaar, PAN, card, phone numbers of real people). Use the test values from the README.
   - type: input
     id: version
-    attributes: {label: Version, description: "`niyantrak --version` or the commit", placeholder: niyantrak 0.1.0}
+    attributes: {label: Version, description: "`niyantrak --version` or the commit", placeholder: niyantrak 0.1.1}
     validations: {required: true}
   - type: dropdown
     id: os

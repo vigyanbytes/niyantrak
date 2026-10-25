@@ -140,7 +140,7 @@ def test_activity_shapes(st):
     infra = a["infra"]
     assert infra["hosts"] == ["edge-01", "control-01"]
     assert {s["name"]: s["data"] for s in infra["series"]}["masked"] == [3, 0]
-    assert a["by"]["who"][0] == {"name": "Clinic bot", "value": 3} and set(a["by"]) == {"who", "agent", "what", "where", "why"}
+    assert a["by"]["who"][0] == {"name": "Clinic bot", "value": 3} and set(a["by"]) == {"who", "agent", "what", "where", "why", "which"}
 
 
 def test_activity_filter_and_empty(st):

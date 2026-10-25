@@ -1,4 +1,4 @@
-"""5W store: append-only Parquet segments per writer, a hash-chained manifest per writer, a materialized view.
+"""6W store: append-only Parquet segments per writer, a hash-chained manifest per writer, a materialized view.
 
     <root>/segments/<writer>/<YYYY-MM>/seg-<ns>-<rand>.parquet      never edited; one month per segment
     <root>/manifest/<writer>.jsonl                                  one line per add / compact, each line carries
@@ -6,6 +6,10 @@
                                                                     the previous manifest line (edits break the chain)
     <root>/view/events.parquet + view/state.json                    materialize(): every live segment, by time
     <root>/salt                                                     per-store pseudonym salt (0600), made on first use
+    <root>/settings.json                                            store settings (settings() / set_setting()):
+                                                                    pseudonymise_which (default off) — `which` is
+                                                                    stored as p-<12 hex> (HMAC with the salt) from
+                                                                    then on, for teams that keep project names out
 
 Each writer (a sink process, an importer) appends only to its own manifest, so writers never contend.
 verify() reports: broken manifest chain, missing segment, sha256 or row-count mismatch, parquet files the manifest
@@ -13,7 +17,8 @@ does not list. materialize() (so every query) and compact() refuse to run on a s
 (IntegrityError) — checked on every call, also when a cached view could be reused.
 compact() merges one writer's segments per month (by default every month before the current one) into a single
 segment, records it with the files it replaces, then deletes those files.
-Queries run in DuckDB over the view; activity() returns exactly what the panel's Activity (5W) screen draws.
+Queries run in DuckDB over the view; activity() returns exactly what the panel's Activity (6W) screen draws.
+Segments written before 6W (schema niyantrak.5w/1) have no `which` column; they are read with which = null.
 Needs the optional extra: pip install niyantrak[telemetry]  (pyarrow + duckdb).
 """
 import hashlib
@@ -30,9 +35,11 @@ from .schema import EventError  # noqa: F401  (re-exported for callers)
 WRITER_RX = re.compile(r"^[A-Za-z0-9][A-Za-z0-9._-]{0,63}$")
 MONTH_RX = re.compile(r"^\d{4}-\d{2}$")
 GENESIS = "0" * 64
-DIMENSIONS = ("who", "agent", "what", "where", "why")
-FLOW = ("who", "agent", "what", "where")
-FILTER_KEYS = frozenset(("who", "whom", "agent", "what", "where", "why", "outcome", "machine", "route"))
+DIMENSIONS = ("who", "agent", "what", "where", "why", "which")
+FLOW = ("who", "agent", "which", "what", "where")                 # a null `which` is skipped: agent -> what
+FILTER_KEYS = frozenset(("who", "whom", "agent", "what", "where", "why", "which", "outcome", "machine", "route"))
+SETTINGS = {"pseudonymise_which": False}
+VIEW_VERSION = "6w/1"                                              # part of the view digest: a 5W view is rebuilt
 MAX_DAYS = 90
 TOP = 20
 
@@ -40,7 +47,7 @@ TOP = 20
 class IntegrityError(RuntimeError):
     def __init__(self, problems):
         self.problems = problems
-        super().__init__(f"5W store failed its integrity check ({len(problems)} problem(s))")
+        super().__init__(f"6W store failed its integrity check ({len(problems)} problem(s))")
 
 
 def available():
@@ -65,7 +72,7 @@ def _arrow_schema():
     import pyarrow as pa
     s = pa.string()
     return pa.schema([("event_id", s), ("ts", pa.timestamp("us")), ("who", s), ("who_id", s), ("whom", s), ("what", s), ("where", s),
-                      ("why", s), ("agent", s), ("route", s), ("machine", s), ("session", s),
+                      ("why", s), ("which", s), ("agent", s), ("route", s), ("machine", s), ("session", s),
                       ("rule_ids", pa.list_(s)), ("outcome", s), ("entity_counts", pa.map_(s, pa.int64())),
                       ("entity_total", pa.int64()), ("source", s), ("schema", s)])
 
@@ -100,6 +107,31 @@ class Store:
             except FileExistsError:
                 pass
         return open(p).read().strip()
+
+    def settings(self):
+        """The store's settings: SETTINGS with what settings.json overrides (unknown keys are ignored)."""
+        out = dict(SETTINGS)
+        try:
+            with open(self._p("settings.json"), encoding="utf-8") as f:
+                saved = json.load(f)
+            out.update({k: v for k, v in saved.items() if k in SETTINGS and isinstance(v, type(SETTINGS[k]))})
+        except (OSError, ValueError, AttributeError):
+            pass
+        return out
+
+    def set_setting(self, key, value):
+        if key not in SETTINGS:
+            raise ValueError(f"setting: one of {', '.join(sorted(SETTINGS))}")
+        if not isinstance(value, type(SETTINGS[key])):
+            raise ValueError(f"{key}: {type(SETTINGS[key]).__name__}")
+        cur = self.settings()
+        cur[key] = value
+        os.makedirs(self.root, exist_ok=True)
+        tmp = self._p("settings.json.tmp")
+        with open(tmp, "w", encoding="utf-8") as f:
+            json.dump(cur, f, indent=1, sort_keys=True)
+        os.replace(tmp, self._p("settings.json"))
+        return cur
 
     def _manifests(self):
         d = self._p("manifest")
@@ -154,6 +186,11 @@ class Store:
         valid = [S.validate(e) for e in events]
         if not valid:
             return []
+        if self.settings()["pseudonymise_which"]:
+            salt = self.salt()
+            for e in valid:
+                if e.get("which") and not S.PSEUDONYM_RX.match(e["which"]):
+                    e["which"] = S.pseudonym(e["which"], salt)
         by_month = {}
         for e in valid:
             by_month.setdefault(e["ts"][:7], []).append(_row(e))
@@ -209,7 +246,7 @@ class Store:
         import pyarrow.parquet as pq
         live = self.segments()
         view, state = self._p("view", "events.parquet"), self._p("view", "state.json")
-        digest = hashlib.sha256("".join(e["file"] + e["sha256"] for e in live).encode()).hexdigest()
+        digest = hashlib.sha256((VIEW_VERSION + "".join(e["file"] + e["sha256"] for e in live)).encode()).hexdigest()
         self._check()                    # every time, also before reusing the view: a segment edited after the view
         try:                             # was built must not go unnoticed (the digest covers the manifest only)
             st = json.load(open(state))
@@ -272,7 +309,7 @@ class Store:
         return 0 if con is None else con.execute("SELECT count(*) FROM ev").fetchone()[0]
 
     def activity(self, days=7, now=None, filter=None):
-        """The Activity (5W) screen's data: Sankey links, week by outcome, why by rule, infra by machine."""
+        """The Activity (6W) screen's data: Sankey links, week by outcome, why by rule, infra by machine."""
         if filter is not None and (filter[0] not in FILTER_KEYS or not isinstance(filter[1], str)):
             raise ValueError(f"filter: one of {', '.join(sorted(FILTER_KEYS))}")
         days = max(1, min(int(days), MAX_DAYS))
@@ -283,7 +320,7 @@ class Store:
         con = self._con()
         if con is None:
             return {"empty": True, "days": days, "total": 0,
-                    "reason": "No activity recorded yet: send 5W events to the sink (niyantrak telemetry sink)."}
+                    "reason": "No activity recorded yet: send 6W events to the sink (niyantrak telemetry sink)."}
         where, params = 'ts >= ? AND ts < ?', [start, end]
         if filter:
             where += f' AND "{filter[0]}" = ?'
@@ -301,8 +338,9 @@ class Store:
                 names[key] = disp
                 nodes.append({"name": disp, "col": col, "value": val})
             return names[key]
-        for who, agent, what, wh, n in q('SELECT who, agent, what, "where", count(*) FROM w GROUP BY ALL ORDER BY 5 DESC, 1, 2, 3, 4'):
-            path = [node(c, v) for c, v in zip(FLOW, (who, agent, what, wh))]
+        for row in q('SELECT who, agent, which, what, "where", count(*) FROM w GROUP BY ALL ORDER BY 6 DESC, 1, 2, 3, 4, 5'):
+            path = [node(c, v) for c, v in zip(FLOW, row[:5]) if not (c == "which" and v is None)]
+            n = row[5]
             for a, b in zip(path, path[1:]):
                 links[(a, b)] = links.get((a, b), 0) + n
 
