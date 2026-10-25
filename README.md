@@ -7,26 +7,32 @@
 
 **Use any AI. Expose no one. Prove everything.**
 
-Niyantrak is a governance layer for AI agents and business bots. Teams want to use any model and any coding agent,
-but every prompt can carry a customer's national ID, card or phone number, and every agent can run a command nobody
-approved. Niyantrak sits in between, on machines you own (no cloud account needed): it takes personal data out
-before a model sees it, stops dangerous agent actions, and records every decision as evidence you can query.
+Niyantrak is **enterprise AI governance**, for security, platform, compliance and IT-admin teams. Your organisation
+wants to use any model and any coding agent, but every prompt can carry a customer's national ID, card or phone
+number, and every agent can run a command nobody approved. Niyantrak sits in between, on infrastructure you own: it
+takes personal data out before a model sees it, stops dangerous agent actions, and records every decision as
+evidence you can query.
+
+**This repository is the open evaluation edition (Apache-2.0)**: inspect the code, run a trial without a purchase
+order, and use it as the reference implementation of the 6W record. The governance features an organisation runs
+in production come in the [Pro / Enterprise / Government editions](#pro--enterprise--government-commercial)
+(commercial, in build and lab validation). There is no consumer or home edition.
 
 - **Expose no one**: checksum-validated detection of identifiers from India, the EU, the UK, the US and global
   formats; a model receives placeholders, never the values.
 - **Stop what should not run**: one agent gate with hard stops for Claude Code, Codex, Gemini CLI, OpenCode and
-  Antigravity (destructive commands, credential files, production changes). In the free edition it installs into
-  the user's own agent settings: for individual developers and self-managed machines, a seatbelt, not a sandbox.
+  Antigravity (destructive commands, credential files, production changes). In this evaluation edition it installs
+  at user level, for evaluation only: a seatbelt, not a sandbox.
 - **Prove everything**: every action becomes a **6W (who, whom, what, where, why, which) + when** event in a
   tamper-evident store, answerable in plain words with the exact SQL shown. This release: 801 tests passed,
   89.2% line coverage, leak scan clean ([proof/latest](proof/latest/index.html)).
 
-> **Who this edition is for.** The free edition is for individual developers and self-managed machines. Its agent
-> gate installs at user level — a seatbelt, not a sandbox: on a machine you don't administer, a user could remove it.
-> Organisation-wide enforcement uses admin-managed settings deployed by IT (Intune, Jamf, Group Policy, Fleet) and is
-> part of the commercial editions, currently in lab validation.
+> **What this edition is.** The open evaluation edition for enterprise security and platform teams. Its agent gate
+> installs at user level, for evaluation only — a seatbelt, not a sandbox: a user could remove it. Organisation-wide
+> enforcement uses admin-managed settings deployed by IT (Intune, Jamf, Group Policy, Fleet) and is part of the
+> commercial editions, in build with lab validation next. No consumer or home edition.
 
-> **Status: alpha (v0.1.1).** The free tools in this repository work and are tested on every commit, but interfaces
+> **Status: alpha (v0.1.1).** The evaluation tools in this repository work and are tested on every commit, but interfaces
 > may change before 1.0. Lab-tested and ready for a first pilot; there is no pilot customer yet. Do not rely on it as
 > your only control for regulated data yet. See [CHANGELOG.md](CHANGELOG.md).
 
@@ -40,7 +46,7 @@ working name pending trademark clearance. Licence: Apache-2.0.
 
 ## 60-second quickstart
 
-You need Python 3.10 or newer. The free tools use the standard library only — nothing else is downloaded.
+You need Python 3.10 or newer. The evaluation tools use the standard library only — nothing else is downloaded.
 Not on PyPI yet: install from a clone of this repository.
 
 **Ubuntu / Debian**
@@ -73,21 +79,19 @@ Checksums, not guesses: an Aadhaar must pass Verhoeff, a card Luhn, an IBAN mod-
 so order numbers and invoice ids are left alone. More detail: [docs/QUICKSTART.md](docs/QUICKSTART.md).
 
 ## Works with
-What the **free edition in this repository** works with today:
+What the **evaluation edition in this repository** works with today:
 
 | | |
 |---|---|
-| **AI coding agents** (agent gate) | Claude Code, Codex, Gemini CLI, OpenCode, Antigravity — `niyantrak gate install --cli all`. Installs into user-level settings and hooks, which that user can remove: for individual developers and self-managed machines, not organisation-wide enforcement |
+| **AI coding agents** (agent gate) | Claude Code, Codex, Gemini CLI, OpenCode, Antigravity — `niyantrak gate install --cli all`. Installs into user-level settings and hooks, which that user can remove: for evaluation only, not organisation-wide enforcement |
 | **Activity ingest** (6W sink) | OpenTelemetry: OTLP/HTTP logs in **JSON** encoding (`POST /v1/logs`); plain JSON 6W events (`POST /v1/events`, or a file with `niyantrak telemetry ingest`) — see [docs/6W.md](docs/6W.md) |
 | **Operating systems** | Linux: everything. Windows 10/11: scan, panel, 6W questions and decisions, without WSL (the gate installer, node bootstrap and joining as a node are Linux today; see [FAQ](docs/FAQ.md)). macOS: not tested |
 | **Python** | 3.10 – 3.13; the core uses the standard library only |
 | **Storage** | local files only: Parquet + DuckDB for 6W (`[telemetry]` extra); append-only JSONL segments with a manifest for decisions |
 
-Commercial editions add: a redact-and-reclaim gateway, a rule book that compiles to policy engines (for example the
-Microsoft Agent Governance Toolkit), approvals, evidence packs and a fleet console. Organisation-wide enforcement,
-where the agent controls are admin-managed settings deployed by IT (Intune, Jamf, Group Policy, Fleet) that a user
-cannot remove, is part of the commercial editions and is in lab validation, not yet shipped. They are not in this repository;
-see [Editions & licensing](#editions--licensing).
+What organisations run in production (IT-managed enforcement, the redact-and-reclaim gateway, the rule book,
+evidence packs, approvals, the fleet console) is in the commercial editions, which are in build and lab validation
+and not in this repository: see [Pro / Enterprise / Government](#pro--enterprise--government-commercial).
 
 ## Screenshots
 The panel (`niyantrak panel`) showing a **fictional sample team** — asha, ravi, meera and tomas using Claude Code,
@@ -108,7 +112,7 @@ written through the real 6W store and decision log, and every screen is labelled
 Build the same demo page yourself (needs the `[telemetry]` extra): `python3 tools/demo-data.py --out demo && python3
 tools/build-demo.py demo/demo.html --bundle demo/bundle.json`, then open `demo/demo.html` in a browser.
 
-## What is in the free edition
+## What is in the evaluation edition
 | Tool | Command | What it does |
 |---|---|---|
 | Identifier scan | `niyantrak scan` | India, EU, UK, US and global identifiers, checksum-validated; prints placeholders, never values |
@@ -147,7 +151,7 @@ involved, and queries are read-only. Thirteen questions with their SQL and real 
 ## Security: OWASP mapping
 [docs/OWASP.md](docs/OWASP.md) maps Niyantrak to the **OWASP Top 10 for LLM Applications (2025)** and the **OWASP
 Agentic AI threats (T1–T15)** with an honest *covered / partial / not yet* for each, plus a reading list. The short
-version: no item is fully covered by the free edition; it gives hard limits and evidence for part of sensitive-data
+version: no item is fully covered by the evaluation edition; it gives hard limits and evidence for part of sensitive-data
 disclosure (LLM02), excessive agency (LLM06), tool misuse, privilege compromise, repudiation, identity spoofing and
 unexpected code execution (T2, T3, T8, T9, T11). Prompt-injection detection and resource limits are not there yet.
 
@@ -155,23 +159,37 @@ Laws and standards: [docs/compliance/](docs/compliance/README.md) maps the same 
 ISO/IEC 42001 and 27001, the NIST AI RMF, India's DPDP Act and Rules with CERT-In, and the UK, US, Singapore and
 Brazil, with *helps / partial / commercial / roadmap / yours* for each duty. It is our own reading, not legal advice.
 
-## Editions & licensing
-| | **Free** (this repo, Apache-2.0) | **Pro** | **Enterprise** | **Government / on-prem** |
-|---|---|---|---|---|
-| `niyantrak scan` — identifier detection with checksums (India, EU, UK, US, global) | ✅ | ✅ | ✅ | ✅ |
-| Panel: try-it, machine checks, fleet join + approval, activity, decisions, docs, proof | ✅ (single operator, local) | hosted | self-hosted | air-gapped |
-| Agent gate: hard stops for AI coding agents | ✅ (user-level install: a seatbelt, not a sandbox) | ✅ | ✅ | ✅ |
-| Organisation-wide enforcement: admin-managed agent settings deployed by IT (Intune, Jamf, Group Policy, Fleet) | — | — | in lab validation | in lab validation |
-| Node bootstrap: stock Ubuntu → hardened, audited node | ✅ | ✅ | ✅ | ✅ |
-| Redact-and-reclaim gateway (multi-turn, encrypted map with expiry and erasure) | — | ✅ | ✅ | ✅ |
-| Jurisdiction profiles (DPDP, GDPR, more) and local-only routing | — | DPDP | all | all |
-| Rule book compiled to gateway + AI agent policies, approvals | — | starter | full | full |
-| Governance-officer roles, tamper-evident evidence packs | — | basic | ✅ | ✅ |
-| Support | community | email | SLA | SLA + source escrow |
+## Pro / Enterprise / Government (commercial)
+The paid editions are what an organisation runs in production. **None of the items below ships yet**; each is marked
+honestly as *in build* or *in lab validation*. They are not in this repository. For a pilot, write to
+**info@vigyanbytes.com**.
 
-"DPDP-ready" means the product helps you meet your obligations; it does not by itself make an organisation compliant.
-- **Free edition** — everything in this repository — is open source under **Apache-2.0**: use it, change it and
-  redistribute it, including commercially, under the terms of `LICENSE` and `NOTICE`.
+| Will be available in the paid editions | Status |
+|---|---|
+| **IT-managed enforcement**: the agent gate and policy delivered as admin-managed settings by IT (Intune, Jamf, Group Policy, Fleet), which a governed user cannot change or remove | in build; lab validation next |
+| **Redact-and-reclaim gateway**: personal data masked before any model call and restored in the reply (multi-turn, encrypted map with expiry and erasure), with local-only routing for sensitive data | in lab validation (ready for a first pilot; no pilot customer yet) |
+| **Rule book** in plain words, compiled to policy engines (for example the Microsoft Agent Governance Toolkit, OPA, Cedar) and to the gateway | in build |
+| **Evidence packs** that map to the OWASP Top 10 for LLM Applications and agentic threats, India's DPDP Act, the EU AI Act, GDPR, ISO/IEC 42001 and 27001, and the NIST AI RMF ("maps to", never "compliant") | in build |
+| **Approvals with separation of duties**: governance-officer roles, no self-approval, signed approvals | in build |
+| **Fleet console**: every machine, agent and decision in one read-only governance view | in build |
+| **Per-connection SSH key governance** across the fleet (built on the open-source [niyantrak-keys](https://github.com/vigyanbytes/niyantrak-keys)) | in build |
+
+## Editions & licensing
+| | **Evaluation** (this repo, Apache-2.0) | **Pro / Enterprise / Government** (commercial) |
+|---|---|---|
+| `niyantrak scan`: identifier detection with checksums (India, EU, UK, US, global) | ✅ | ✅ |
+| Panel: try-it, machine checks, fleet join + approval, activity, decisions, docs, proof | ✅ single operator, local | in build: multi-user, self-hosted or air-gapped |
+| Agent gate: hard stops for AI coding agents | ✅ user-level install, for evaluation (a seatbelt, not a sandbox) | in build: IT-managed enforcement |
+| 6W activity record and plain-word questions | ✅ reference implementation | ✅ |
+| Node bootstrap: stock Ubuntu → hardened, audited node | ✅ | ✅ |
+| Redact-and-reclaim gateway, jurisdiction profiles, local-only routing | — | in lab validation |
+| Rule book, approvals with separation of duties, evidence packs, fleet console, SSH key governance | — | in build |
+| Support | community (issues) | pilot support; SLA planned |
+
+There is **no consumer or home edition**. The evidence packs help you show how you meet your obligations; they do
+not by themselves make an organisation compliant.
+- **Evaluation edition**: everything in this repository is open source under **Apache-2.0**. You can use it, change
+  it and redistribute it, including commercially, under the terms of `LICENSE` and `NOTICE`.
 - **Pro, Enterprise and Government / on-prem** are separate commercial products under a proprietary licence. They are
   not in this repository. Contact **info@vigyanbytes.com**.
 - **Contributions** are accepted under Apache-2.0 with a DCO sign-off (`git commit -s`); there is no CLA. Because
