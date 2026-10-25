@@ -3,7 +3,7 @@
 | Stage | What | Status |
 |---|---|---|
 | 1. Nodes | stock Ubuntu → hardened, audited node in one script; isolated install lab | **available (free)** |
-| 2. Data | identifier detection with checksums; redact-and-reclaim gateway | detection **available (free)**; gateway in pilots |
+| 2. Data | identifier detection with checksums; redact-and-reclaim gateway | detection **available (free)**; gateway lab-tested, ready for a first pilot |
 | 3. Panel | fleet, bots, approvals, audit chain, decisions; brand kit per client | in build |
 | 4. Agents | one rule book compiled into Claude Code / Codex / Gemini / OpenCode policies; governance-officer approvals | in build |
 | 5. Provisioning | panel provisions nodes automatically: bootstrap → join → reconciler (Python + shell today) | in build |

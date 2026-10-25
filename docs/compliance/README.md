@@ -23,7 +23,7 @@ control what systems may do, and keep records you can show.** Only the details c
 | Need | What Niyantrak does | Where | Edition |
 |---|---|---|---|
 | Know what personal data is in a message | `niyantrak scan` finds identifiers (India, EU, UK, US, global, health) with checksums and shows placeholders, never values | `niyantrak/recognizers.py` | Free |
-| Keep personal data away from cloud models | Redact-and-reclaim gateway: mask before the model, put real values back after; local-only routing for sensitive data | not in this repository | Commercial (in pilots) |
+| Keep personal data away from cloud models | Redact-and-reclaim gateway: mask before the model, put real values back after; local-only routing for sensitive data | not in this repository | Commercial (lab-tested, ready for a first pilot) |
 | Stop dangerous agent actions | Agent gate: hard stops for destructive commands, credential files and production changes, for Claude Code, Codex, Gemini CLI, Antigravity and OpenCode | `niyantrak/gate/` | Free |
 | Keep a record without creating a new privacy risk | 6W events (who, whom, what, where, why, which) with labels and counts only; tamper-evident store | `niyantrak/telemetry/` | Free |
 | Record decisions and who made them | Append-only decision log; person taken from the OS login, not typed in | `niyantrak/decisions/`, `niyantrak/identity.py` | Free |

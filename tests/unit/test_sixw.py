@@ -289,3 +289,17 @@ def test_six_w_wording_in_readme_and_panel():
     assert "6W" in readme and "who, whom, what, where, why, which" in readme
     html = open(os.path.join(ROOT, "niyantrak", "web", "index.html"), encoding="utf-8").read()
     assert "Activity (6W)" in html and "5W" not in html and 'id="c-which"' in html
+
+
+def test_docs_do_not_claim_pilots_that_do_not_exist():
+    """There is no pilot yet: the gateway is lab-tested, ready for a first pilot."""
+    hits = []
+    for d, _, files in os.walk(ROOT):
+        if any(p in d for p in (".git", ".venv", "proof", "node_modules", "dist")):
+            continue
+        for f in files:
+            if f.endswith((".md", ".html")):
+                text = open(os.path.join(d, f), encoding="utf-8").read().lower()
+                if "in pilots" in text:
+                    hits.append(os.path.relpath(os.path.join(d, f), ROOT))
+    assert hits == []
