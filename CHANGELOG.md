@@ -8,8 +8,8 @@ versions follow [Semantic Versioning](https://semver.org/) — before 1.0, minor
 ### Changed
 - Positioning: Niyantrak is enterprise AI governance; this repository is the **open evaluation edition**
   (Apache-2.0). README, docs and the panel's edition label and access cards say so; paid-edition features are
-  marked in build or in lab validation. No consumer or home edition. The recorded screens in `docs/media/` still show
-  the old "Free edition" label until they are re-recorded.
+  marked in build or in lab validation. No consumer or home edition. The screens, GIF and walkthrough video in
+  `docs/media/` are re-recorded with the new label (`tools/record-demo.py`, fictional sample team).
 
 ## [0.1.1] — 2026-10-25 — alpha
 
