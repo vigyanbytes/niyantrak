@@ -1,11 +1,28 @@
 # Niyantrak
 
-**What:** a governance layer for business bots and AI agents — it finds personal data before a model sees it, stops
-dangerous agent actions, and records every decision as evidence. **Why:** so you can use any AI model without handing
-it your customers' Aadhaar, PAN, card or phone numbers. **Where:** on machines you own; no cloud account needed.
+[![CI](https://github.com/vigyanbytes/niyantrak/actions/workflows/ci.yml/badge.svg)](https://github.com/vigyanbytes/niyantrak/actions/workflows/ci.yml)
+[![License: Apache-2.0](https://img.shields.io/badge/license-Apache--2.0-blue.svg)](LICENSE)
+[![Python 3.10+](https://img.shields.io/badge/python-3.10%2B-3776AB.svg?logo=python&logoColor=white)](pyproject.toml)
+[![Status: alpha](https://img.shields.io/badge/status-alpha%20v0.1.1-E8821A.svg)](CHANGELOG.md)
+
+**Use any AI. Expose no one. Prove everything.**
+
+Niyantrak is a governance layer for AI agents and business bots. Teams want to use any model and any coding agent,
+but every prompt can carry a customer's national ID, card or phone number, and every agent can run a command nobody
+approved. Niyantrak sits in between, on machines you own (no cloud account needed): it takes personal data out
+before a model sees it, stops dangerous agent actions, and records every decision as evidence you can query.
+
+- **Expose no one**: checksum-validated detection of identifiers from India, the EU, the UK, the US and global
+  formats; a model receives placeholders, never the values.
+- **Stop what should not run**: one agent gate with hard stops for Claude Code, Codex, Gemini CLI, OpenCode and
+  Antigravity (destructive commands, credential files, production changes).
+- **Prove everything**: every action becomes a **6W (who, whom, what, where, why, which) + when** event in a
+  tamper-evident store, answerable in plain words with the exact SQL shown. This release: 801 tests passed,
+  89.2% line coverage, leak scan clean ([proof/latest](proof/latest/index.html)).
 
 > **Status: alpha (v0.1.1).** The free tools in this repository work and are tested on every commit, but interfaces
-> may change before 1.0. Do not rely on it as your only control for regulated data yet. See [CHANGELOG.md](CHANGELOG.md).
+> may change before 1.0. Lab-tested and ready for a first pilot; there is no pilot customer yet. Do not rely on it as
+> your only control for regulated data yet. See [CHANGELOG.md](CHANGELOG.md).
 
 ![Niyantrak panel walkthrough: Try it, Overview, Fleet, Activity (6W), Decisions, Rules, Proof — sample data](docs/media/niyantrak-walkthrough.gif)
 
@@ -48,6 +65,21 @@ Found: AADHAAR 1, PAN 1, CARD 1, UPI_ID 1, IN_PHONE 1
 ```
 Checksums, not guesses: an Aadhaar must pass Verhoeff, a card Luhn, an IBAN mod-97, a GSTIN its check character —
 so order numbers and invoice ids are left alone. More detail: [docs/QUICKSTART.md](docs/QUICKSTART.md).
+
+## Works with
+What the **free edition in this repository** works with today:
+
+| | |
+|---|---|
+| **AI coding agents** (agent gate) | Claude Code, Codex, Gemini CLI, OpenCode, Antigravity — `niyantrak gate install --cli all` |
+| **Activity ingest** (6W sink) | OpenTelemetry: OTLP/HTTP logs in **JSON** encoding (`POST /v1/logs`); plain JSON 6W events (`POST /v1/events`, or a file with `niyantrak telemetry ingest`) — see [docs/6W.md](docs/6W.md) |
+| **Operating systems** | Linux: everything. Windows 10/11: scan, panel, 6W questions and decisions, without WSL (the gate installer, node bootstrap and joining as a node are Linux today; see [FAQ](docs/FAQ.md)). macOS: not tested |
+| **Python** | 3.10 – 3.13; the core uses the standard library only |
+| **Storage** | local files only: Parquet + DuckDB for 6W (`[telemetry]` extra); append-only JSONL segments with a manifest for decisions |
+
+Commercial editions add: a redact-and-reclaim gateway, a rule book that compiles to policy engines (for example the
+Microsoft Agent Governance Toolkit), approvals, evidence packs and a fleet console. They are not in this repository;
+see [Editions & licensing](#editions--licensing).
 
 ## Screenshots
 The panel (`niyantrak panel`) showing a **fictional sample team** — asha, ravi, meera and tomas using Claude Code,
@@ -149,6 +181,13 @@ python3 tools/leak-scan.py --history                           # every blob of e
 ```
 CI runs the unit suite, coverage and the leak scanner on every push and uploads `proof/latest` as an artifact.
 The panel shows the same numbers under **Operate → Proof**.
+
+## Related
+- **[niyantrak-keys](https://github.com/vigyanbytes/niyantrak-keys)**: open-source SSH key rotation, one key per
+  connection, in a 7-step plan-first flow that never locks you out (Rust; Linux, Windows and macOS). Its audit log
+  writes the same 6W events that `niyantrak telemetry ingest` accepts.
+- **[niyantrak-demo](https://github.com/vigyanbytes/niyantrak-demo)**: the read-only demo of the panel with
+  fictional sample data, built from this repository; run it locally with Docker.
 
 ## Security, contributing, conduct
 - Report vulnerabilities privately: [SECURITY.md](SECURITY.md). Please do not open a public issue for them.
