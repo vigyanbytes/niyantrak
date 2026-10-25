@@ -1,9 +1,15 @@
 # Changelog
 
-All notable changes to the free edition. Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/);
+All notable changes to the open evaluation edition (called the free edition up to v0.1.1). Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/);
 versions follow [Semantic Versioning](https://semver.org/) — before 1.0, minor versions may break interfaces.
 
 ## [Unreleased]
+
+### Changed
+- Positioning: Niyantrak is enterprise AI governance; this repository is the **open evaluation edition**
+  (Apache-2.0). README, docs and the panel's edition label and access cards say so; paid-edition features are
+  marked in build or in lab validation. No consumer or home edition. The recorded screens in `docs/media/` still show
+  the old "Free edition" label until they are re-recorded.
 
 ## [0.1.1] — 2026-10-25 — alpha
 

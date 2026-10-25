@@ -49,7 +49,7 @@ for updates.
 
 ## Obligations and how Niyantrak maps
 
-Status: **Helps** = free edition, code in this repository. **Partial** = helps with part; gap stated. **Commercial** =
+Status: **Helps** = evaluation edition, code in this repository. **Partial** = helps with part; gap stated. **Commercial** =
 Pro/Enterprise/Government editions, not in this repository. **Roadmap** = planned ([ROADMAP.md](../ROADMAP.md)).
 **Yours** = organisational duty.
 
@@ -61,7 +61,7 @@ Pro/Enterprise/Government editions, not in this repository. **Roadmap** = planne
 | Art. 10 Data and data governance | Training, validation and test data must be governed: relevance, bias, gaps, personal data | `niyantrak scan` can check data sets for identifiers before use. Niyantrak does not train models or assess bias. | Partial |
 | Art. 12 Record-keeping | The system must automatically log events over its lifetime, to spot risks and support monitoring | 6W events (`niyantrak/telemetry/`): who, whom, what, where, why, which, outcome, rule ids, counts of personal data — never content. Store is append-only with a hash-chained manifest; `niyantrak telemetry verify` detects edits. Gate logs every allow/deny (`niyantrak/gate/events.py`). | Partial — covers the governance layer around the AI system, not the model's own internals; gate log is not hash-chained (see [OWASP.md](../OWASP.md) T8) |
 | Art. 13 Transparency to deployers | Instructions for use, capabilities, limits | Not addressed (provider documentation). | Yours |
-| Art. 14 Human oversight | Design so people can understand, monitor, override and stop the system | Agent gate hard stops (`niyantrak/gate/engine.py`) with modes `enforce` / `audit` / `off`; the gate blocks an agent from changing its own mode (`gate.tamper`). No approval step in the free edition. | Partial. Approvals ("needs a human"): Commercial (in build) |
+| Art. 14 Human oversight | Design so people can understand, monitor, override and stop the system | Agent gate hard stops (`niyantrak/gate/engine.py`) with modes `enforce` / `audit` / `off`; the gate blocks an agent from changing its own mode (`gate.tamper`). No approval step in the evaluation edition. | Partial. Approvals ("needs a human"): Commercial (in build) |
 | Art. 15 Accuracy, robustness, cybersecurity | Resilience to errors and attacks | Gate parses what a shell would actually run (`niyantrak/gate/shell.py`); hardened nodes (`bootstrap/`); signed node cards and pinned TLS for joins (`niyantrak/card.py`, `join.py`, `tls.py`). No prompt-injection detection. | Partial |
 | Art. 19 Keeping logs (providers) | Keep automatically generated logs at least six months | Logs are kept on your machines until you delete them; no retention setting. | Partial — set retention yourself |
 
@@ -101,7 +101,7 @@ Pro/Enterprise/Government editions, not in this repository. **Roadmap** = planne
 - No risk classification of your AI system; no conformity assessment, CE marking or EU database registration.
 - No transparency notices, content marking or deepfake labels (Art. 50).
 - No bias, accuracy or robustness testing of models.
-- No human-approval workflow in the free edition.
+- No human-approval workflow in the evaluation edition.
 - No retention or deletion schedule; you set it.
 
 ## Related

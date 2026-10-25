@@ -1,11 +1,22 @@
 # FAQ
 
 **What is Niyantrak, in one sentence?**
-A governance layer that keeps personal data away from AI models, stops dangerous AI-agent actions, and records every
-decision as evidence — on machines you own.
+Enterprise AI governance: it keeps personal data away from AI models, stops dangerous AI-agent actions, and records
+every decision as evidence, on infrastructure you own.
+
+**Who is it for?**
+Enterprise security, platform, compliance and IT-admin teams. This repository is the **open evaluation edition**
+(Apache-2.0): inspect the code, run a trial without a purchase order, and use it as the reference implementation of
+the 6W record. Production governance comes in the Pro / Enterprise / Government editions (commercial). There is no
+consumer or home edition.
+
+**Is the agent gate in this repository an enforcement control?**
+No. It installs at user level, for evaluation only: a seatbelt, not a sandbox, because a user could remove it.
+Organisation-wide enforcement uses admin-managed settings deployed by IT (Intune, Jamf, Group Policy, Fleet); it is
+part of the commercial editions and in build.
 
 **Is it production-ready?**
-No. v0.1.1 is **alpha**. The free tools are tested on every commit (see `proof/`), but interfaces may change before
+No. v0.1.1 is **alpha**. The evaluation tools are tested on every commit (see `proof/`), but interfaces may change before
 1.0 and there has been no external security audit yet. Use it alongside your existing controls, not instead of them.
 
 **Does it send my data anywhere?**
@@ -38,9 +49,13 @@ Not tested. The scan and panel are standard-library Python and are expected to w
 Not for anything in this repository. Local-only routing of personal data to your own GPU is part of the commercial
 gateway.
 
-**What does the free edition not include?**
-The gateway that masks, routes and reclaims values on live model calls; jurisdiction profiles; the rule-book compiler;
-roles, approvals and evidence packs. See the editions table in the [README](../README.md).
+**What does the evaluation edition not include?**
+Everything an organisation runs in production. These will be available in the commercial editions and none ships
+yet: IT-managed enforcement (in build); the redact-and-reclaim gateway that masks, routes and reclaims values on live
+model calls, with jurisdiction profiles (in lab validation); the rule-book compiler (in build); roles, approvals with
+separation of duties and evidence packs (in build); the fleet console (in build); per-connection SSH key governance
+(in build). See [Pro / Enterprise / Government](../README.md#pro--enterprise--government-commercial) in the README.
+For a pilot, write to info@vigyanbytes.com.
 
 **Does using it make me DPDP / GDPR compliant?**
 No tool does that on its own. Niyantrak helps you meet specific obligations (data minimisation, purpose, records);
@@ -55,7 +70,7 @@ events to fill Activity; join machines to fill Fleet.
 Windows `%LOCALAPPDATA%\Niyantrak`. Stop the panel and delete that folder to reset.
 
 **Can I put the panel behind a reverse proxy?**
-Not on the same machine in the free edition: approvals are accepted only from loopback, and a local proxy would make
+Not on the same machine in the evaluation edition: approvals are accepted only from loopback, and a local proxy would make
 every caller look local. Bind it to a LAN/tailnet address you control instead.
 
 **The agent gate blocked something I wanted to run.**

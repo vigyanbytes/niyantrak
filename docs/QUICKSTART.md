@@ -1,7 +1,8 @@
 # Quickstart
 
 Ten minutes from nothing to a panel, a scan, and (optionally) a second machine joined and an AI coding agent gated.
-Everything here is the free edition (Apache-2.0) and runs on your own machine.
+Everything here is the open evaluation edition (Apache-2.0) of Niyantrak, enterprise AI governance, and runs on your
+own machine for evaluation. The agent gate installs at user level, for evaluation only: a seatbelt, not a sandbox.
 
 ## 0. What you need
 | | Ubuntu / Debian | Windows 10/11 |
@@ -11,7 +12,7 @@ Everything here is the free edition (Apache-2.0) and runs on your own machine.
 | Admin rights | only for the node bootstrap and for joining a machine | not needed for the panel or the scan |
 | WSL | — | **not needed** for the panel or the scan |
 
-No other packages are downloaded: the free tools use the Python standard library. Optional extras are listed in step 6.
+No other packages are downloaded: the evaluation tools use the Python standard library. Optional extras are listed in step 6.
 
 ## 1. Install (from source; not on PyPI yet)
 **Ubuntu**

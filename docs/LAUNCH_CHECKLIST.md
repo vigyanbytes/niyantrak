@@ -1,4 +1,4 @@
-# Launch checklist — free edition v0.1.0
+# Launch checklist — evaluation edition v0.1.0
 
 Published as **github.com/vigyanbytes/niyantrak** on 23 Oct 2026. The public repository starts from one fresh commit
 (no private working history). Legend: ✅ done · ⚠️ done with a caveat · ⏳ pending · 🔒 needs the founder.

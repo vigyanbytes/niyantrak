@@ -1,4 +1,4 @@
-/* Niyantrak panel (free edition). No framework; ECharts is optional (charts hide if it cannot load). */
+/* Niyantrak panel (open evaluation edition). No framework; ECharts is optional (charts hide if it cannot load). */
 const $ = (s) => document.querySelector(s), $$ = (s) => [...document.querySelectorAll(s)];
 const esc = (s) => String(s ?? "").replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
 const css = (n) => getComputedStyle(document.documentElement).getPropertyValue("--" + n).trim();

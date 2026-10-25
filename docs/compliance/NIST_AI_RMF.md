@@ -21,7 +21,7 @@ Subcategory wording below was checked against the AI 100-1 PDF (downloaded 23 Oc
 
 ## Mapping to the four functions
 
-Status: **Helps** (free edition) · **Partial** · **Commercial** · **Yours**.
+Status: **Helps** (evaluation edition) · **Partial** · **Commercial** · **Yours**.
 
 ### GOVERN
 
@@ -68,7 +68,7 @@ Status: **Helps** (free edition) · **Partial** · **Commercial** · **Yours**.
 | 1 CBRN information or capabilities | Not addressed |
 | 2 Confabulation | Not addressed |
 | 3 Dangerous, violent or hateful content | Not addressed |
-| **4 Data privacy** | **Main focus.** Detection (free) and masking / local routing (commercial) reduce leakage of personal data to models; records hold counts only. |
+| **4 Data privacy** | **Main focus.** Detection (evaluation edition) and masking / local routing (commercial) reduce leakage of personal data to models; records hold counts only. |
 | 5 Environmental impacts | Not addressed |
 | 6 Harmful bias or homogenisation | Not addressed |
 | **7 Human-AI configuration** | Partial: hard stops limit what agents may do unsupervised; approvals commercial. |

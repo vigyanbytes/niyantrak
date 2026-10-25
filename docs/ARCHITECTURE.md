@@ -26,11 +26,11 @@ flowchart LR
   end
   RC --> B
 ```
-Free edition (this repository): identifier detection, panel, agent gate, 6W events and store, decision log, as-built
+Evaluation edition (this repository): identifier detection, panel, agent gate, 6W events and store, decision log, as-built
 docs, signed node cards, join flow, discovery, bootstrap. Commercial: the gateway (mask → route → reclaim), the rule
 book compiler, roles and approvals, evidence packs.
 
-## Components (free edition)
+## Components (evaluation edition)
 | Component | Code | What it does | Trust boundary |
 |---|---|---|---|
 | Identifier scan | `niyantrak/recognizers.py`, `cli.py` | regex + checksum (Verhoeff, Luhn, mod-97, GSTIN, NHS mod-11, NPI, KVNR) per pack, region tag per recognizer; placeholders `<TYPE_n>` | never prints or stores values |
@@ -76,11 +76,11 @@ sequenceDiagram
   M->>JL: POST /api/join {token, card, signature, host public key}
   JL->>CN: verify signature, token unused + unexpired, host key not changed
   CN-->>Op: machine listed as pending
-  Op->>CN: Approve (loopback only in the free edition)
+  Op->>CN: Approve (loopback only in the evaluation edition)
 ```
 
 ## Data that is never kept
-Message text, prompts, replies and identifier values are never written by the free tools. The scan returns
+Message text, prompts, replies and identifier values are never written by the evaluation tools. The scan returns
 placeholders and counts; 6W events hold labels and counts; the gate logs a command's sha256; the join store holds token
 hashes and public keys. See [6W.md](6W.md) for the exact event schema.
 

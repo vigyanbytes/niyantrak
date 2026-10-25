@@ -4,6 +4,11 @@
 > assessment as of v0.1.0 (23 October 2026). Using Niyantrak does not make you compliant or certified; compliance
 > depends on your organisation's processes, contracts and decisions. Talk to your own lawyer or auditor.
 
+Niyantrak is enterprise AI governance for security, platform, compliance and IT-admin teams. This repository is the
+**open evaluation edition** (Apache-2.0). Rows marked **Commercial** belong to the Pro / Enterprise / Government
+editions, which are in build or in lab validation and not yet shipped. Their evidence packs will *map to* these
+laws and standards; they will not make anyone compliant. There is no consumer or home edition.
+
 ## The problem, everywhere
 
 Businesses now send customer messages to AI models and let AI agents run commands on real machines. Three things go
@@ -22,20 +27,20 @@ control what systems may do, and keep records you can show.** Only the details c
 
 | Need | What Niyantrak does | Where | Edition |
 |---|---|---|---|
-| Know what personal data is in a message | `niyantrak scan` finds identifiers (India, EU, UK, US, global, health) with checksums and shows placeholders, never values | `niyantrak/recognizers.py` | Free |
-| Keep personal data away from cloud models | Redact-and-reclaim gateway: mask before the model, put real values back after; local-only routing for sensitive data | not in this repository | Commercial (lab-tested, ready for a first pilot) |
-| Stop dangerous agent actions | Agent gate: hard stops for destructive commands, credential files and production changes, for Claude Code, Codex, Gemini CLI, Antigravity and OpenCode | `niyantrak/gate/` | Free |
-| Keep a record without creating a new privacy risk | 6W events (who, whom, what, where, why, which) with labels and counts only; tamper-evident store | `niyantrak/telemetry/` | Free |
-| Record decisions and who made them | Append-only decision log; person taken from the OS login, not typed in | `niyantrak/decisions/`, `niyantrak/identity.py` | Free |
-| Know your machines | Signed node cards, approved join over pinned TLS, as-built docs | `niyantrak/card.py`, `join.py`, `docs/` | Free |
-| Harden a server | Stock Ubuntu to hardened, audited node (auditd rules, SSH, firewall) | `bootstrap/` | Free (Linux) |
+| Know what personal data is in a message | `niyantrak scan` finds identifiers (India, EU, UK, US, global, health) with checksums and shows placeholders, never values | `niyantrak/recognizers.py` | Evaluation edition |
+| Keep personal data away from cloud models | Redact-and-reclaim gateway: mask before the model, put real values back after; local-only routing for sensitive data | not in this repository | Commercial (in lab validation; ready for a first pilot) |
+| Stop dangerous agent actions | Agent gate: hard stops for destructive commands, credential files and production changes, for Claude Code, Codex, Gemini CLI, Antigravity and OpenCode | `niyantrak/gate/` | Evaluation edition |
+| Keep a record without creating a new privacy risk | 6W events (who, whom, what, where, why, which) with labels and counts only; tamper-evident store | `niyantrak/telemetry/` | Evaluation edition |
+| Record decisions and who made them | Append-only decision log; person taken from the OS login, not typed in | `niyantrak/decisions/`, `niyantrak/identity.py` | Evaluation edition |
+| Know your machines | Signed node cards, approved join over pinned TLS, as-built docs | `niyantrak/card.py`, `join.py`, `docs/` | Evaluation edition |
+| Harden a server | Stock Ubuntu to hardened, audited node (auditd rules, SSH, firewall) | `bootstrap/` | Evaluation edition (Linux) |
 | Rules per law, roles, approvals, evidence packs | Rule book with citations, jurisdiction profiles, roles and separation of duties, evidence packs | not in this repository | Commercial (in build) |
 
-Details of the free edition: [ARCHITECTURE.md](../ARCHITECTURE.md), [6W.md](../6W.md), [OWASP.md](../OWASP.md).
+Details of the evaluation edition: [ARCHITECTURE.md](../ARCHITECTURE.md), [6W.md](../6W.md), [OWASP.md](../OWASP.md).
 
 ## Coverage grid
 
-Legend: **Helps** = the free edition does something concrete today, with code you can check. **Partial** = helps with
+Legend: **Helps** = the evaluation edition does something concrete today, with code you can check. **Partial** = helps with
 part of the duty; the page says what is missing. **Commercial** = in the Pro / Enterprise / Government editions, not in
 this repository. **Roadmap** = planned. **Yours** = an organisational duty no tool can do for you.
 
@@ -48,7 +53,7 @@ this repository. **Roadmap** = planned. **Yours** = an organisational duty no to
 | Third parties and model providers | Art. 25, 26 | Art. 28, 44–49 | A.10 | A 5.19–5.23 | GOVERN 6.1, MANAGE 3.1 | s. 16, Rule 15 | Evidence of where data went: **Partial**. Routing: **Commercial** |
 | Risk and impact assessment | Art. 9, 27 | Art. 35 | Cl. 6.1, A.5 | Cl. 6.1 | MAP | s. 10, Rule 13 | Inputs only (**Partial**); the assessment is **Yours** |
 | Incident detection and reporting | Art. 26(5), 73 | Art. 33, 34 | Cl. 10 | A 5.24–5.28 | MANAGE 4.3 | Rule 7; CERT-In 6 hours | Evidence for the report: **Partial**. Reporting itself: **Yours** |
-| Rights requests (access, erasure) | — | Art. 15–22 | A.8 | A 5.34 | — | s. 11–14, Rule 14 | Free edition stores no values (nothing to erase). Erasure of reclaim map: **Commercial** |
+| Rights requests (access, erasure) | — | Art. 15–22 | A.8 | A 5.34 | — | s. 11–14, Rule 14 | Evaluation edition stores no values (nothing to erase). Erasure of reclaim map: **Commercial** |
 | Transparency to people | Art. 50 | Art. 13, 14 | A.8 | — | GOVERN 4.2, GOVERN 5.1 | s. 5, Rule 3 | **Yours** (not addressed) |
 | AI literacy / training | Art. 4 | — | Cl. 7.2, 7.3 | A 6.3 | GOVERN 2.2 | — | **Yours** |
 
@@ -68,12 +73,12 @@ Every row is explained, with sources, on its own page:
 ## Honest limits
 
 - **Alpha software.** v0.1.1; no external security audit yet. Use it alongside your existing controls.
-- **The free edition does not sit in the path of live model calls.** It shows what a model *would* receive; the gateway
+- **The evaluation edition does not sit in the path of live model calls.** It shows what a model *would* receive; the gateway
   that masks and reclaims on real traffic is commercial.
-- **Regex and checksums only** in the free edition. Names, addresses and free-text health details are not detected.
+- **Regex and checksums only** in the evaluation edition. Names, addresses and free-text health details are not detected.
 - **Hard stops only.** The gate denies listed dangerous actions; everything else is allowed. No approval workflow in
-  the free edition.
-- **No retention or deletion schedule.** The free stores grow until you remove them; you must set retention to match
+  the evaluation edition.
+- **No retention or deletion schedule.** The evaluation edition's stores grow until you remove them; you must set retention to match
   your law (for example one year under India's DPDP Rules, 180 days under CERT-In, "at least six months" for EU AI Act
   deployer logs).
 - **Masked data is still personal data** under GDPR and DPDP when the business can reverse the mask. Masking lowers

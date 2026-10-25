@@ -51,23 +51,23 @@ The exact day count from "publication" (13 or 14 November) is a legal question; 
 
 ## DPDP mapping
 
-Status: **Helps** (free edition, code here) · **Partial** · **Commercial** (not in this repository) · **Yours**.
+Status: **Helps** (evaluation edition, code here) · **Partial** · **Commercial** (not in this repository) · **Yours**.
 
 | Provision | What it asks (short) | Niyantrak | Status |
 |---|---|---|---|
 | s. 4–7 Lawful processing, notice, consent | Process only for a lawful purpose with notice and consent or a legitimate use | `why` on every 6W event records the purpose of each flow. Notice and consent are yours. | Partial |
 | s. 8(4) Technical and organisational measures | Measures to ensure effective observance | Agent gate, node hardening, records. | Partial |
-| **s. 8(5) + Rule 6(1)(a)** | Reasonable security safeguards, "at the minimum" including **"encryption, obfuscation, masking or the use of virtual tokens mapped to that personal data"** | Free: `niyantrak scan` finds identifiers and shows placeholders. Commercial: the redact-and-reclaim gateway replaces identifiers with placeholders mapped to the real values (virtual tokens) before a model call. | Detection: Helps. Masking in the live path: Commercial (lab-tested, ready for a first pilot) |
+| **s. 8(5) + Rule 6(1)(a)** | Reasonable security safeguards, "at the minimum" including **"encryption, obfuscation, masking or the use of virtual tokens mapped to that personal data"** | Evaluation edition: `niyantrak scan` finds identifiers and shows placeholders. Commercial: the redact-and-reclaim gateway replaces identifiers with placeholders mapped to the real values (virtual tokens) before a model call. | Detection: Helps. Masking in the live path: Commercial (lab-tested, ready for a first pilot) |
 | Rule 6(1)(b) | Control access to computer resources | Agent gate denies credential-file reads and production changes by AI agents; panel on loopback; signed join. | Partial |
 | **Rule 6(1)(c)** | **"Visibility on the accessing of such personal data, through appropriate logs, monitoring and review"** | 6W events (who, whom, what, where, why, which, counts of identifier types) and the Activity view; tamper-evident store. | Partial — covers flows that send events to Niyantrak |
 | Rule 6(1)(e) | Keep such logs and personal data for **one year** for detection and investigation, unless another law requires otherwise | Logs stay on your machines; no retention setting. | Partial — set one-year retention yourself |
 | Rule 6(1)(f) | Security clauses in contracts with Data Processors | `where` / `route` record which processor (model provider) got each request. Contracts are yours. | Partial |
 | **s. 8(6) + Rule 7** | Intimate each affected person and the Board without delay; detailed report to the Board **within 72 hours** | Records to reconstruct what data went where. Intimation is yours. | Partial |
-| s. 8(7), 8(8) + Rule 8 | Erase data when the purpose is served; notify 48 hours before erasure for listed classes; keep processing logs at least one year (Rule 8(3)) | Free edition never stores values. Reclaim map expiry and erasure: Commercial. | Partial / Commercial |
+| s. 8(7), 8(8) + Rule 8 | Erase data when the purpose is served; notify 48 hours before erasure for listed classes; keep processing logs at least one year (Rule 8(3)) | Evaluation edition never stores values. Reclaim map expiry and erasure: Commercial. | Partial / Commercial |
 | s. 8(9), 8(10) | Publish a contact; grievance redressal | Not addressed. | Yours |
 | s. 9 Children's data | Verifiable parental consent; no tracking or targeted ads | Not addressed. | Yours |
 | s. 10 + Rule 13 SDFs | DPO, independent data auditor, annual DPIA and audit; due diligence on algorithmic software; localisation for notified data | Data-flow facts for the DPIA and audit; local-only routing (commercial) can keep notified data in India. | Partial / Commercial |
-| s. 11–14 + Rule 14 Rights | Access, correction, erasure, grievance, nomination | No values stored by free tools; nothing to return or erase there. | Partial |
+| s. 11–14 + Rule 14 Rights | Access, correction, erasure, grievance, nomination | No values stored by evaluation tools; nothing to return or erase there. | Partial |
 | s. 16 + Rule 15 Transfers outside India | Allowed unless restricted by notification; Government may set requirements | Commercial local-only routing keeps chosen data on your machines in India. | Commercial |
 
 **Penalties (Schedule to the Act):** up to ₹250 crore for failing to take reasonable security safeguards (s. 8(5));
@@ -97,9 +97,9 @@ up to ₹200 crore for failing to give breach notice (s. 8(6)); up to ₹200 cro
 ## Limits
 
 - Masked data you can re-identify is still personal data under the DPDP Act.
-- The free edition does not sit in the path of live model calls.
+- The evaluation edition does not sit in the path of live model calls.
 - No consent manager, notices, grievance or children's-data features.
-- Names and addresses in free text are not detected by the free edition.
+- Names and addresses in free text are not detected by the evaluation edition.
 
 ## Related
 
