@@ -7,6 +7,8 @@
 
 **Use any AI. Expose no one. Prove everything.**
 
+*Governance for autonomous AI agents — built for the agentic era.*
+
 Niyantrak is **enterprise AI governance**, for security, platform, compliance and IT-admin teams. Your organisation
 wants to use any model and any coding agent, but every prompt can carry a customer's national ID, card or phone
 number, and every agent can run a command nobody approved. Niyantrak sits in between, on infrastructure you own: it
@@ -43,6 +45,33 @@ in production come in the [Pro / Enterprise / Government editions](#pro--enterpr
 
 Built in India, for the world, by VigyanBytes Solutions Private Limited. "Niyantrak" (नियंत्रक, *controller*) is a
 working name pending trademark clearance. Licence: Apache-2.0.
+
+## Why enterprises choose Niyantrak
+- **Use any model without exposing anyone.** Identifiers are swapped for typed placeholders before a prompt leaves
+  your network, and the commercial gateway puts the real values back in the reply on your own hardware (in lab
+  validation).
+- **Agents with hard limits.** One gate for Claude Code, Codex, Gemini CLI, OpenCode and Antigravity stops
+  destructive commands, credential reads and production changes. IT-managed enforcement that users cannot remove is
+  in build.
+- **Evidence an auditor can check.** Every action is a value-free 6W record in a tamper-evident store, answerable in
+  SQL without an AI model; tests, coverage and leak scans are kept in the repository.
+- **Your infrastructure, your keys.** Runs on machines you own, with no SaaS dependency; an air-gapped Government
+  edition is in build.
+- **Inspect before you buy.** The open evaluation edition (Apache-2.0) lets your security team read the code and
+  run a trial without a purchase order.
+
+## What sets Niyantrak apart
+From our review of open-source and commercial AI-guardrail and governance tools (October 2026), we did not find
+these together in one product:
+
+| | Status |
+|---|---|
+| **Checksum-proven typed placeholders with reclaim on owned hardware**: `<AADHAAR_1>`, `<CARD_1>` only after Verhoeff, Luhn, mod-97 or check-character validation; values restored from an encrypted, expiring, erasable map that stays on your machines | detection: evaluation edition · reclaim: in lab validation |
+| **A value-free, tamper-evident 6W record**: who, whom, what, where, why, which + when, with labels and counts only, never message text or identifier values | evaluation edition |
+| **IT-managed enforcement across five AI coding CLIs**: the same hard stops for Claude Code, Codex, Gemini CLI, OpenCode and Antigravity, delivered as admin-managed settings | gate: evaluation edition (user-level) · IT-managed: in build |
+| **Signed device identity**: machines join with a card signed by their SSH host key over TLS pinned by fingerprint, and an operator approves | evaluation edition |
+| **One rule book compiled to many engines**: rules in plain words with legal citations, compiled to the gateway, agent settings and policy engines | in build |
+| **Offline-verifiable evidence**: integrity checks that run on your own machine, with no call to us or to any cloud | 6W store verify: evaluation edition · evidence packs: in build |
 
 ## 60-second quickstart
 
@@ -158,6 +187,31 @@ unexpected code execution (T2, T3, T8, T9, T11). Prompt-injection detection and 
 Laws and standards: [docs/compliance/](docs/compliance/README.md) maps the same features to the EU AI Act, GDPR,
 ISO/IEC 42001 and 27001, the NIST AI RMF, India's DPDP Act and Rules with CERT-In, and the UK, US, Singapore and
 Brazil, with *helps / partial / commercial / roadmap / yours* for each duty. It is our own reading, not legal advice.
+
+## Niyantrak Pro — built on proven foundations
+Niyantrak Pro (commercial, in build) builds on established open-source projects rather than reinventing them:
+- **[Presidio](https://github.com/data-privacy-stack/presidio)** (originally from Microsoft, now maintained under the
+  Data Privacy Stack; MIT) for names, places and other free-text personal data, alongside our own checksum-validated
+  recognizers for structured identifiers.
+- **[Microsoft Agent Governance Toolkit](https://microsoft.github.io/agent-governance-toolkit/)** (MIT) as a policy
+  engine: the Niyantrak rule book compiles to Agent Governance Toolkit policy. The evidence chain is Niyantrak's own.
+
+Using these projects does not imply any endorsement by, or partnership with, their maintainers.
+
+## Standards wall
+Niyantrak's features **map to** these frameworks; using Niyantrak does not make an organisation compliant or
+certified. The mappings are published today in [docs/compliance/](docs/compliance/README.md) and
+[docs/OWASP.md](docs/OWASP.md); ready-made evidence packs for each are part of the commercial editions.
+
+| Framework | Mapping | Evidence pack |
+|---|---|---|
+| OWASP Top 10 for LLM Applications (2025) and OWASP Agentic AI threats | published | in build |
+| ISO/IEC 42001 (AI management) and ISO/IEC 27001 (information security) | published | in build |
+| NIST AI RMF, including the Generative AI profile (NIST AI 600-1) | published | in build |
+| EU AI Act | published | in build |
+| GDPR | published | in build |
+| India: DPDP Act and Rules, CERT-In directions | published | in build |
+| US: state privacy and AI laws (e.g. CCPA/CPRA; Colorado AI Act, whose enforcement status is in flux), sector rules (HIPAA, GLBA) | published | in build |
 
 ## Pro / Enterprise / Government (commercial)
 The paid editions are what an organisation runs in production. **None of the items below ships yet**; each is marked
